@@ -39,9 +39,7 @@ Mettre le fichier
 
 ## Suivi du projet
 
-```
-Suivi : [Carnet de bord] (https://docs.google.com/spreadsheets/d/1624796koU7YWj593UP73e4uDMPmXC7ZdKhuX9dDsz7I/edit?usp=sharing)
-```
+Suivi : [Carnet de bord](https://docs.google.com/spreadsheets/d/1624796koU7YWj593UP73e4uDMPmXC7ZdKhuX9dDsz7I/edit?usp=sharing)
 
 ## Descriptif des fonctionnalités réalisées
 A détailler
