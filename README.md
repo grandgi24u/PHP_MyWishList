@@ -40,7 +40,7 @@ Mettre le fichier
 ## Suivi du projet
 
 ```
-Mettre le fichier
+Suivi : [Carnet de bord] (https://docs.google.com/spreadsheets/d/1624796koU7YWj593UP73e4uDMPmXC7ZdKhuX9dDsz7I/edit?usp=sharing)
 ```
 
 ## Descriptif des fonctionnalités réalisées
