@@ -11,7 +11,7 @@ use \mywishlist\models\Liste;
 use \mywishlist\models\Item;
 
 
-class MonControleur{
+class ControleurPrincipal{
 
     private $container;
 

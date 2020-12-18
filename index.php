@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 session_start ();
 
-use mywishlist\controls\MonControleur;
+use mywishlist\controls\ControleurPrincipal;
 
 require 'vendor/autoload.php';
 
@@ -20,19 +20,19 @@ $db->bootEloquent ();
 $container = new \Slim\Container($config);
 $app = new \Slim\App($container);
 
-$app->get('/', MonControleur::class.':accueil')->setName ('racine');
-$app->get('/listes', MonControleur::class.':afficherListes')->setName ('aff_listes');
-$app->get('/liste/{no}', MonControleur::class.':afficherListe')->setName ('aff_liste');
-$app->get('/item/{id}', MonControleur::class.':afficherItem')->setName ('aff_item');
+$app->get('/', ControleurPrincipal::class.':accueil')->setName ('racine');
+$app->get('/listes', ControleurPrincipal::class.':afficherListes')->setName ('aff_listes');
+$app->get('/liste/{no}', ControleurPrincipal::class.':afficherListe')->setName ('aff_liste');
+$app->get('/item/{id}', ControleurPrincipal::class.':afficherItem')->setName ('aff_item');
 
-$app->get('/nouvelleliste' , MonControleur::class.':formListe'  )->setName('formListe'  );
-$app->post('/nouvelleliste' , MonControleur::class.':newListe'  )->setName('newListe'  );
+$app->get('/nouvelleliste' , ControleurPrincipal::class.':formListe'  )->setName('formListe'  );
+$app->post('/nouvelleliste' , ControleurPrincipal::class.':newListe'  )->setName('newListe'  );
 
-$app->get('/formlogin'    , MonControleur::class.':formlogin'   )->setName('formlogin'  );
-$app->post('/nouveaulogin', MonControleur::class.':nouveaulogin')->setName('nouveaulogin'  );
+$app->get('/formlogin'    , ControleurPrincipal::class.':formlogin'   )->setName('formlogin'  );
+$app->post('/nouveaulogin', ControleurPrincipal::class.':nouveaulogin')->setName('nouveaulogin'  );
 
-$app->get('/testform' , MonControleur::class.':testform'  )->setName('testform'  );
-$app->post('/testpass', MonControleur::class.':testpass'  )->setName('testpass'  );
+$app->get('/testform' , ControleurPrincipal::class.':testform'  )->setName('testform'  );
+$app->post('/testpass', ControleurPrincipal::class.':testpass'  )->setName('testpass'  );
 
 $app->run();
 
