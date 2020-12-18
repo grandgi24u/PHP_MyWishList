@@ -37,5 +37,11 @@ Télécharger le fichier ".htaccess" et le placer dans la racine du projet :
 Mettre le fichier
 ```
 
+## Suivi du projet
+
+```
+Mettre le fichier
+```
+
 ## Descriptif des fonctionnalités réalisées
 A détailler
