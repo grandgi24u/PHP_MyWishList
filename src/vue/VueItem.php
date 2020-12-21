@@ -7,4 +7,6 @@ namespace mywishlist\vue;
 class VueItem
 {
 
+
+
 }

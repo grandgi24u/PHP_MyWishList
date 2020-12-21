@@ -5,6 +5,8 @@ declare(strict_types=1);
 session_start ();
 
 use mywishlist\controls\ControleurPrincipal;
+use mywishlist\controls\ControleurListe;
+use \mywishlist\controls\ControleurItem;
 
 require 'vendor/autoload.php';
 
@@ -21,18 +23,13 @@ $container = new \Slim\Container($config);
 $app = new \Slim\App($container);
 
 $app->get('/', ControleurPrincipal::class.':accueil')->setName ('racine');
-$app->get('/listes', ControleurPrincipal::class.':afficherListes')->setName ('aff_listes');
-$app->get('/liste/{no}', ControleurPrincipal::class.':afficherListe')->setName ('aff_liste');
-$app->get('/item/{id}', ControleurPrincipal::class.':afficherItem')->setName ('aff_item');
+$app->get('/listes', ControleurListe::class.':afficherlistes')->setName ('afficherlistes');
+$app->get('/liste/{no}', ControleurListe::class.':afficherNoliste')->setName ('afficherNolistes');
+$app->get('/item/{id}', ControleurItem::class.':afficherItem')->setName('afficherItem');
 
-$app->get('/nouvelleliste' , ControleurPrincipal::class.':formListe'  )->setName('formListe'  );
-$app->post('/nouvelleliste' , ControleurPrincipal::class.':newListe'  )->setName('newListe'  );
 
-$app->get('/formlogin'    , ControleurPrincipal::class.':formlogin'   )->setName('formlogin'  );
-$app->post('/nouveaulogin', ControleurPrincipal::class.':nouveaulogin')->setName('nouveaulogin'  );
+$app->post('/creer', ControleurPrincipal::class.':nouveaulogin')->setName('nouveaulogin'  );
 
-$app->get('/testform' , ControleurPrincipal::class.':testform'  )->setName('testform'  );
-$app->post('/testpass', ControleurPrincipal::class.':testpass'  )->setName('testpass'  );
 
 $app->run();
 

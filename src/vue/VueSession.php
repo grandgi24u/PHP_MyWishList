@@ -1,10 +1,8 @@
 <?php
 
-
 namespace mywishlist\vue;
 
-
-class VueParticipant
+class VueSession
 {
 
 
