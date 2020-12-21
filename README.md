@@ -20,7 +20,7 @@ installation/prerequis.sql
 ```
 Configurer l'accès à la base de données :
   * Creer un repertoire nommer "conf" dans le dossier "src/"
-    * réer le fichier *conf.ini* dans ce dossier
+    * créer le fichier *conf.ini* dans ce dossier
     * Modifier le pour qu'il corresponde aux informations de votre base de données :
     ```
     driver=mysql
