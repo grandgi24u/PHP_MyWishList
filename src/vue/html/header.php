@@ -1,7 +1,13 @@
 
 <head>
+    <div>
+
+        <a href="./connexion">Se connecter</a>
+        <a href="./formEnregistrement">Creer un compte</a>
+
+    </div>
     <div class="header">
-        <a href="#default" class="logo">MyWishList</a>
+        <a href="./" class="logo">MyWishList</a>
         <div class="header-right">
             <a class="active" href="./">Accueil</a>
             <a href="./listes">Mes listes</a>

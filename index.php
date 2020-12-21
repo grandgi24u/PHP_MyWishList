@@ -7,6 +7,7 @@ session_start ();
 use mywishlist\controls\ControleurPrincipal;
 use mywishlist\controls\ControleurListe;
 use \mywishlist\controls\ControleurItem;
+use \mywishlist\controls\ControleurSession;
 
 require 'vendor/autoload.php';
 
@@ -24,11 +25,21 @@ $app = new \Slim\App($container);
 
 $app->get('/', ControleurPrincipal::class.':accueil')->setName ('racine');
 $app->get('/listes', ControleurListe::class.':afficherlistes')->setName ('afficherlistes');
-$app->get('/liste/{no}', ControleurListe::class.':afficherNoliste')->setName ('afficherNolistes');
-$app->get('/item/{id}', ControleurItem::class.':afficherItem')->setName('afficherItem');
 
 
-$app->post('/creer', ControleurPrincipal::class.':nouveaulogin')->setName('nouveaulogin'  );
+
+
+/**Route pour les sessions*/
+
+//Route pour créer un nouvelle utilisateur
+$app->get('/formEnregistrement', ControleurSession::class.':formEnregistrement')->setName('formEnregistrement'  );
+$app->post('/nouvelEnregistrement', ControleurSession::class.':nouvelEnregistrement')->setName('nouvelEnregistrement'  );
+
+//Route pour se connecter
+$app->get('/connexion', ControleurSession::class.':connexion')->setName('connexion'  );
+$app->post('/testerConnexion', ControleurSession::class.':testerConnexion')->setName('testerConnexion'  );
+
+
 
 
 $app->run();
