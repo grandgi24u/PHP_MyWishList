@@ -20,7 +20,7 @@ installation/prerequis.sql
 ```
 Configurer l'accès à la base de données :
   * Creer un repertoire nommer "conf" dans le dossier "src/"
-    * réer le fichier *db.conf.ini* dans ce dossier
+    * réer le fichier *conf.ini* dans ce dossier
     * Modifier le pour qu'il corresponde aux informations de votre base de données :
     ```
     driver=mysql
@@ -33,9 +33,8 @@ Configurer l'accès à la base de données :
     prefix= 
     ```
 Télécharger le fichier ".htaccess" et le placer dans la racine du projet :
-```
-Mettre le fichier
-```
+
+Le fichier : [.htaccess](https://drive.google.com/file/d/1-vl4Fv9f-n4OHAnRzL78svyLRJxrqSwb/view?usp=sharing)
 
 ## Suivi du projet
 
