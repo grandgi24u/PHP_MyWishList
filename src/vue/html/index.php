@@ -8,7 +8,7 @@
 
 <?php
 
-require ("header.php"); // header (bare de navigation)
+require("header.php"); // header (bare de navigation)
 
 require("body.php"); // contenu de la page
 
@@ -22,6 +22,37 @@ require("footer.php"); // footer (bas de page)
 
 </html>
 <style>
+
+
+    .vertical-menu {
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        -moz-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        width: 200px;
+    }
+
+    .vertical-menu a {
+        background-color: #eee;
+        color: black;
+        display: block;
+        padding: 12px;
+        text-decoration: none;
+    }
+
+    .vertical-menu a:hover {
+        background-color: #ccc;
+    }
+
+    .vertical-menu a.active {
+        background-color: #1E90FF;
+        color: white;
+    }
+
+
+
 
     .foot {
         position: fixed;

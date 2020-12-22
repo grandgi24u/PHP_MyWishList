@@ -6,7 +6,6 @@ session_start ();
 
 use mywishlist\controls\ControleurPrincipal;
 use mywishlist\controls\ControleurListe;
-use \mywishlist\controls\ControleurItem;
 use \mywishlist\controls\ControleurSession;
 
 require 'vendor/autoload.php';
@@ -23,13 +22,12 @@ $db->bootEloquent ();
 $container = new \Slim\Container($config);
 $app = new \Slim\App($container);
 
+
+/** Route de base, racine */
 $app->get('/', ControleurPrincipal::class.':accueil')->setName ('racine');
-$app->get('/listes', ControleurListe::class.':afficherlistes')->setName ('afficherlistes');
 
 
-
-
-/**Route pour les sessions*/
+/** Route pour les sessions */
 
 //Route pour créer un nouvelle utilisateur
 $app->get('/formEnregistrement', ControleurSession::class.':formEnregistrement')->setName('formEnregistrement'  );
@@ -45,6 +43,14 @@ $app->get('/deconnexion', ControleurSession::class.':deconnexion')->setName ('de
 //Route pour le bouton "Mon Compte"
 $app->get('/compte', ControleurSession::class.':compte')->setName ('compte');
 
+
+/** Route pour les listes */
+
+//Route pour afficher les listes de la personnes connectée
+$app->get('/listes', ControleurListe::class.':afficherlistes')->setName ('afficherlistes');
+
+$app->get('/creerliste', ControleurListe::class.':creerliste')->setName ('creerliste');
+$app->post('/nouvelleliste' , ControleurListe::class.':nouvelleliste'  )->setName('nouvelleliste'  );
 
 
 $app->run();

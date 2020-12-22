@@ -15,6 +15,7 @@ class VuePrincipale
    }
 
    public function accueil() : String {
+
        $html = <<<END
 
 <center><h1>Bienvenue sur le site MyWishList</h1></center>
