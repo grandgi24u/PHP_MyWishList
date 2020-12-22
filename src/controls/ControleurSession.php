@@ -28,10 +28,10 @@ class ControleurSession
     //Controleur pour verifier l'existance du login ou pas
     public function nouvelEnregistrement(Request $rq, Response $rs, $args) : Response {
         $post = $rq->getParsedBody() ;
-        $nom = filter_var($post['nom']       , FILTER_SANITIZE_STRING) ;
-        $prenom = filter_var($post['prenom']       , FILTER_SANITIZE_STRING) ;
-        $login = filter_var($post['login']       , FILTER_SANITIZE_STRING) ;
-        $pass = filter_var($post['pass'] , FILTER_SANITIZE_STRING) ;
+        $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING) ;
+        $prenom = filter_var($post['prenom'], FILTER_SANITIZE_STRING) ;
+        $login = filter_var($post['login'], FILTER_SANITIZE_STRING) ;
+        $pass = filter_var($post['pass'], FILTER_SANITIZE_STRING) ;
 
         $nb = User::where('login','=',$login)->count();
         if ($nb == 0) {
@@ -74,6 +74,28 @@ class ControleurSession
 
         $vue = new VueSession( [ 'res' => $res ] , $this->container ) ;
         $rs->getBody()->write( $vue->render( 4 ) ) ;
+        return $rs;
+    }
+
+    //Fin de la session
+    public function deconnexion(Request $rq, Response $rs, $args) : Response {
+        session_destroy();
+        $_SESSION = [];
+        $vue = new VueSession( [] , $this->container ) ;
+        $rs->getBody()->write( $vue->render( 3 ) ) ;
+        return $rs;
+    }
+
+
+    //Affichage mon compte
+    public function compte(Request $rq, Response $rs, $args) : Response {
+        $user = User::find($_SESSION['iduser']);
+        $vue = new VueSession( [
+            'login' => $user->login,
+            'nom' => $user->nom,
+            'prenom' => $user->prenom
+        ] , $this->container ) ;
+        $rs->getBody()->write( $vue->render( 5 ) ) ;
         return $rs;
     }
 

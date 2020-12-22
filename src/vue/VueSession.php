@@ -8,20 +8,22 @@ class VueSession extends VuePrincipale
     private $tab;
     private $container;
 
-    public function __Construct($t,$c){
-        $this->tab = $t;
-        $this->container = $c;
-        parent::__construct($t,$c);
+    public function __Construct($t, $c)
+    {
+        $this -> tab = $t;
+        $this -> container = $c;
+        parent ::__construct ( $t, $c );
     }
 
-    private function formEnregistrement(): String {
-        $url_nouveaulogin = $this->container->router->pathFor( 'nouvelEnregistrement' ) ;
+    private function formEnregistrement(): string
+    {
+        $url_nouveaulogin = $this -> container -> router -> pathFor ( 'nouvelEnregistrement' );
         $html = <<<FIN
 <form method="POST" action="$url_nouveaulogin">
     <label>Nom : <br><input type="text" name="nom"/></label><br>
     <label>Prenom : <br><input type="text" name="prenom"/></label><br>
 	<label>Identifiant :<br> <input type="text" name="login"/></label><br>
-	<label>Mot de passe : <br><input type="text" name="pass"/></label><br>
+	<label>Mot de passe : <br><input type="password" name="pass"/></label><br>
 	
 	<button type="submit">Creer le compte</button>
 </form>	
@@ -29,46 +31,74 @@ FIN;
         return $html;
     }
 
-    private function connexion() : string {
-        $url_testpass = $this->container->router->pathFor( 'testerConnexion' ) ;
+    private function connexion(): string
+    {
+        $url_testpass = $this -> container -> router -> pathFor ( 'testerConnexion' );
         $html = <<<FIN
 <form method="POST" action="$url_testpass">
 	<label>Identifiant :<br> <input type="text" name="login"/></label><br>
-	<label>Mot de passe : <br><input type="text" name="pass"/></label><br>
+	<label>Mot de passe : <br><input type="password" name="pass"/></label><br>
 	<button type="submit">Se connecter</button>
 </form>	
 FIN;
         return $html;
     }
 
-    public function render(int $select): String {
+    private function compte(): string
+    {
+        $login = $this -> tab['login'];
+        $nom = $this -> tab['nom'];
+        $prenom = $this -> tab['prenom'];
 
-        switch($select){
-            case 0 : {
-                VuePrincipale::$content = $this->formEnregistrement();
+        $html = <<<FIN
+<ul>
+<li><p>Votre login : $login</p></li>
+<li><p>Votre nom : $nom</p></li>
+<li><p>Votre prenom : $prenom</p></li>
+</ul>
+
+FIN;
+        return $html;
+    }
+
+    public function render(int $select): string
+    {
+
+        switch ($select) {
+            case 0 :
+            {
+                VuePrincipale ::$content = $this -> formEnregistrement ();
                 break;
             }
-            case 1 : {
-                VuePrincipale::$content = 'Login <b>'.$this->tab['login'].'</b> enregistré';
+            case 1 :
+            {
+                VuePrincipale ::$content = 'Votre compte avec le login <b>' . $this -> tab['login'] . '</b> a été créé';
                 break;
             }
-            case 2 : {
-                $url_deconnexion    = $this->container->router->pathFor( 'deconnexion' ) ;
-                VuePrincipale::$content = "<a href='$url_deconnexion'>Deconnexion</a>";
+            case 2 :
+            {
+                $url_deconnexion = $this -> container -> router -> pathFor ( 'deconnexion' );
+                VuePrincipale ::$content = "<a href='$url_deconnexion'>Deconnexion</a>";
                 break;
             }
-            case 3 : {
-                VuePrincipale::$content = $this->connexion();
+            case 3 :
+            {
+                VuePrincipale ::$content = $this -> connexion ();
                 break;
             }
-            case 4 : {
-                $res = ($this->tab['res'])? 'OK' : 'KO';
-                VuePrincipale::$content = 'Mot de passe <b>'.$res.'</b>';
+            case 4 :
+            {
+                $res = ($this -> tab['res']) ? 'connecté' : 'pas connecté';
+                VuePrincipale ::$content = 'Vous etes <b>' . $res . '</b>';
                 break;
+            }
+            case 5 :
+            {
+                VuePrincipale ::$content = $this -> compte ();
             }
         }
 
-        return include("html/index.php");
+        return include ("html/index.php");
     }
 
 }

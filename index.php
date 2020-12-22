@@ -39,6 +39,11 @@ $app->post('/nouvelEnregistrement', ControleurSession::class.':nouvelEnregistrem
 $app->get('/connexion', ControleurSession::class.':connexion')->setName('connexion'  );
 $app->post('/testerConnexion', ControleurSession::class.':testerConnexion')->setName('testerConnexion'  );
 
+//Route pour se deconnecter
+$app->get('/deconnexion', ControleurSession::class.':deconnexion')->setName ('deconnexion');
+
+//Route pour le bouton "Mon Compte"
+$app->get('/compte', ControleurSession::class.':compte')->setName ('compte');
 
 
 

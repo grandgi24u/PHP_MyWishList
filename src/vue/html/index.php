@@ -3,7 +3,6 @@
   <head>
     <title> MyWishList </title>
     <meta charset='utf-8'>
-    <link rel='stylesheet' href='css/styles.css'>
   </head>
 <body>
 
@@ -44,7 +43,7 @@ require("footer.php"); // footer (bas de page)
     .header {
         overflow: hidden;
         background-color: #f1f1f1;
-        padding: 20px 10px;
+        padding: 10px 10px;
     }
 
     .header a {

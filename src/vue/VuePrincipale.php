@@ -17,7 +17,7 @@ class VuePrincipale
    public function accueil() : String {
        $html = <<<END
 
-<h1> Bienvenue sur le site MyWishList </h1>
+<center><h1>Bienvenue sur le site MyWishList</h1></center>
 
 END;
         return $html;
@@ -28,9 +28,6 @@ END;
        switch($select){
            case 0 : {
                VuePrincipale::$content = $this->accueil();
-           }
-           case 1 : {
-
            }
        }
 
