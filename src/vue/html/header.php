@@ -7,7 +7,7 @@
             <?php
 
             if(isset($_SESSION['iduser'])){
-                echo '<a href="./">Mes Participations</a>';
+                echo '<a href="./items">Mes Participations</a>';
                 echo '<a href="./listes">Mes listes</a>';
                 echo '<a href="./compte">Mon Compte</a>';
                 echo '<a class="active" href="./deconnexion">Deconnexion</a>';

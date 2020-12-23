@@ -7,6 +7,7 @@ session_start ();
 use mywishlist\controls\ControleurPrincipal;
 use mywishlist\controls\ControleurListe;
 use \mywishlist\controls\ControleurSession;
+use \mywishlist\controls\ControleurItem;
 
 require 'vendor/autoload.php';
 
@@ -49,9 +50,16 @@ $app->get('/compte', ControleurSession::class.':compte')->setName ('compte');
 //Route pour afficher les listes de la personnes connectée
 $app->get('/listes', ControleurListe::class.':afficherlistes')->setName ('afficherlistes');
 
+//Route pour le formulaire de création de liste
 $app->get('/creerliste', ControleurListe::class.':creerliste')->setName ('creerliste');
 $app->post('/nouvelleliste' , ControleurListe::class.':nouvelleliste'  )->setName('nouvelleliste'  );
 
+
+
+/** Route pour les items */
+
+//Route pour afficher les items de la personnes connectée
+$app->get('/items', ControleurItem::class.':afficheritems')->setName ('afficheritems');
 
 $app->run();
 

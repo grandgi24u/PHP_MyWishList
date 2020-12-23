@@ -23,6 +23,7 @@ class VueListe extends VuePrincipale
   <a class="active">Mes listes</a>
   <a href="./listes">Mes listes</a>
   <a href="./creerliste">Créer une liste</a>
+  <a href="./modifierliste">Modifier une liste</a>
 </div>
 
 END;
