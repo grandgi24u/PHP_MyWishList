@@ -47,8 +47,11 @@ $app->get('/compte', ControleurSession::class.':compte')->setName ('compte');
 
 /** Route pour les listes */
 
-//Route pour afficher les listes de la personnes connectée
+//Route pour afficher les listes en cours de la personnes connectée
 $app->get('/listes', ControleurListe::class.':afficherlistes')->setName ('afficherlistes');
+
+//Route pour afficher les listes en passées de la personnes connectée
+$app->get('/listesexpire', ControleurListe::class.':afficherlistesexpire')->setName ('afficherlistesexpire');
 
 //Route pour le formulaire de création de liste
 $app->get('/creerliste', ControleurListe::class.':creerliste')->setName ('creerliste');
@@ -60,6 +63,10 @@ $app->post('/nouvelleliste' , ControleurListe::class.':nouvelleliste'  )->setNam
 
 //Route pour afficher les items de la personnes connectée
 $app->get('/items', ControleurItem::class.':afficheritems')->setName ('afficheritems');
+
+$app->get('/itemsexpire', ControleurItem::class.':afficheritemsexpire')->setName ('afficheritemsexpire');
+
+
 
 $app->run();
 

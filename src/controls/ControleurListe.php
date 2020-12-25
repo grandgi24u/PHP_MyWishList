@@ -23,11 +23,28 @@ class ControleurListe
         $lf = array();
         foreach ($listl as $l){
             if($l->user_id == $_SESSION['iduser']){
-                $lf[] = $l;
+                if($l->expiration > date("Y-m-d")){
+                    $lf[] = $l;
+                }
             }
         }
         $vue = new VueListe( $lf , $this->container ) ;
         $rs->getBody()->write( $vue->render( 0 ) ) ;
+        return $rs;
+    }
+
+    public function afficherlistesexpire(Request $rq, Response $rs, $args) : Response {
+        $listl = Liste::all() ;
+        $lf = array();
+        foreach ($listl as $l){
+            if($l->user_id == $_SESSION['iduser']){
+                if($l->expiration < date("Y-m-d")){
+                    $lf[] = $l;
+                }
+            }
+        }
+        $vue = new VueListe( $lf , $this->container ) ;
+        $rs->getBody()->write( $vue->render( 2 ) ) ;
         return $rs;
     }
 
@@ -38,14 +55,15 @@ class ControleurListe
     }
 
     public function nouvelleListe(Request $rq, Response $rs, $args) : Response  {
-
         $post = $rq->getParsedBody() ;
         $titre       = filter_var($post['titre']       , FILTER_SANITIZE_STRING) ;
         $description = filter_var($post['description'] , FILTER_SANITIZE_STRING) ;
+        $date = filter_var($post['date'] , FILTER_SANITIZE_STRING) ;
         $user_id = $_SESSION['iduser'] ;
         $l = new Liste();
         $l->titre = $titre;
         $l->description = $description;
+        $l->expiration = $date;
         $l->user_id = $user_id;
         $l->save();
 

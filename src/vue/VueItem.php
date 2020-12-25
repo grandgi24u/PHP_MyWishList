@@ -22,7 +22,7 @@ class VueItem extends VuePrincipale
 <div class="vertical-menu">
   <a class="active">Mes Participations</a>
   <a href="./items">Mes cadeaux à achetés</a>
-  <a href="./pastitems">Mes cadeaux passées</a>
+  <a href="./itemsexpire">Mes cadeaux passées</a>
 </div>
 
 END;
@@ -30,13 +30,26 @@ END;
     }
 
     private function lesParticipations() : String {
-        $html = '<h2>Vos Items : </h2>';
+        $html = '<h2>Vos Items à achetées : </h2>';
         if(sizeof ($this->tab) > 0 ) {
             foreach($this->tab as $item){
                 $html .= "<li>{$item['nom']}, {$item['descr']}</li>";
             }
         }else{
             $html .= "Aucune participation";
+        }
+        $html = "<ul>$html</ul>";
+        return $html;
+    }
+
+    private function lesParticipationsexpire() : String {
+        $html = '<h2>Vos Items expirées: </h2>';
+        if(sizeof ($this->tab) > 0 ) {
+            foreach($this->tab as $item){
+                $html .= "<li>{$item['nom']}, {$item['descr']}</li>";
+            }
+        }else{
+            $html .= "Aucune participation expiré";
         }
         $html = "<ul>$html</ul>";
         return $html;
@@ -49,12 +62,10 @@ END;
                 break;
             }
             case 1 : {
-                VuePrincipale::$content = $this->menuParticipations () . $this->creerliste ();
+                VuePrincipale::$content = $this->menuParticipations () . $this->lesParticipationsexpire ();
                 break;
             }
         }
-
-
 
         return include("html/index.php");
     }

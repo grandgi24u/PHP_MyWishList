@@ -4,6 +4,7 @@ namespace mywishlist\controls;
 
 
 use mywishlist\models\Item;
+use mywishlist\models\Liste;
 use mywishlist\models\Participation;
 use mywishlist\vue\VueItem;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -23,11 +24,32 @@ class ControleurItem
         $lf = array();
         foreach ($particpation as $i){
             if($i->id_user == $_SESSION['iduser']){
-                $lf[] = Item::where('id','=', $i->id_item)->first();
+                $item = Item::where('id','=', $i->id_item)->first();
+                $liste = Liste::where('no','=',$item->liste_id)->first();
+                if($liste->expiration > date("Y-m-d")){
+                    $lf[] = $item;
+                }
             }
         }
         $vue = new VueItem( $lf , $this->container ) ;
         $rs->getBody()->write( $vue->render( 0 ) ) ;
+        return $rs;
+    }
+
+    public function afficherItemsexpire(Request $rq, Response $rs, $args) : Response {
+        $particpation = Participation::all() ;
+        $lf = array();
+        foreach ($particpation as $i){
+            if($i->id_user == $_SESSION['iduser']){
+                $item = Item::where('id','=', $i->id_item)->first();
+                $liste = Liste::where('no','=',$item->liste_id)->first();
+                if($liste->expiration < date("Y-m-d")){
+                    $lf[] = $item;
+                }
+            }
+        }
+        $vue = new VueItem( $lf , $this->container ) ;
+        $rs->getBody()->write( $vue->render( 1 ) ) ;
         return $rs;
     }
 
