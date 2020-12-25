@@ -17,12 +17,16 @@ class VueItem extends VuePrincipale
     }
 
     private function menuParticipations() : String {
+
+        $url_items = $this -> container -> router -> pathFor ( 'afficheritems' );
+        $url_itemsexpire = $this -> container -> router -> pathFor ( 'afficheritemsexpire' );
+
         $html = <<<END
 
 <div class="vertical-menu">
   <a class="active">Mes Participations</a>
-  <a href="./items">Mes cadeaux à achetés</a>
-  <a href="./itemsexpire">Mes cadeaux passées</a>
+  <a href="$url_items">Mes cadeaux à achetés</a>
+  <a href="$url_itemsexpire">Mes cadeaux passées</a>
 </div>
 
 END;

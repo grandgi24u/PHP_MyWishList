@@ -25,8 +25,7 @@ class ControleurItem
         foreach ($particpation as $i){
             if($i->id_user == $_SESSION['iduser']){
                 $item = Item::where('id','=', $i->id_item)->first();
-                $liste = Liste::where('no','=',$item->liste_id)->first();
-                if($liste->expiration > date("Y-m-d")){
+                if(Liste::where('no','=',$item->liste_id)->first()->expiration > date("Y-m-d")){
                     $lf[] = $item;
                 }
             }
@@ -51,6 +50,17 @@ class ControleurItem
         $vue = new VueItem( $lf , $this->container ) ;
         $rs->getBody()->write( $vue->render( 1 ) ) ;
         return $rs;
+    }
+
+    public function retournerItemsListe($no) : array {
+        $item = Item::all();
+        $array = array();
+        foreach ($item as $i){
+            if($i->liste_id == $no){
+                $array[] = $i;
+            }
+        }
+        return $array;
     }
 
 }

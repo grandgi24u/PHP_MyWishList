@@ -4,6 +4,7 @@
 namespace mywishlist\controls;
 
 
+use mywishlist\controls\ControleurItem;
 use mywishlist\models\Liste;
 use mywishlist\vue\VueListe;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -69,6 +70,22 @@ class ControleurListe
 
         $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
         return $rs->withRedirect($url_listes);
+    }
+
+    public function afficherUneListe(Request $rq, Response $rs, $args) : Response {
+        $liste = Liste::find( $args['no'] );
+
+        $array = array();
+
+        $array['titre'] = $liste->titre;
+        $array['description'] = $liste->description;
+
+        $array['item'] = ControleurItem::retournerItemsListe($args['no']);
+
+        $vue = new VueListe( $array , $this->container ) ;
+        $rs->getBody()->write( $vue->render( 3 ) ) ;
+        return $rs;
+
     }
 
 

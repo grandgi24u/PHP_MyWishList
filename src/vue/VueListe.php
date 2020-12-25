@@ -10,55 +10,63 @@ class VueListe extends VuePrincipale
     private $tab;
     private $container;
 
-    public function __Construct($t,$c){
-        $this->tab = $t;
-        $this->container = $c;
-        parent::__construct($t,$c);
+    public function __Construct($t, $c)
+    {
+        $this -> tab = $t;
+        $this -> container = $c;
+        parent ::__construct ( $t, $c );
     }
 
-    private function menulistes() : String {
+    private function menulistes(): string
+    {
+        $url_lites = $this -> container -> router -> pathFor ( 'afficherlistes' );
+        $url_listesexpire = $this -> container -> router -> pathFor ( 'afficherlistesexpire' );
+        $url_creerlistes = $this -> container -> router -> pathFor ( 'creerliste' );
+
         $html = <<<END
 
 <div class="vertical-menu">
   <a class="active">Mes listes</a>
-  <a href="./listes">Mes listes en cours</a>
-  <a href="./listesexpire">Mes listes expirées</a>
-  <a href="./creerliste">Créer une liste</a>
-  <a href="./modifierliste">Modifier une liste</a>
+  <a href="$url_lites">Mes listes en cours</a>
+  <a href="$url_listesexpire">Mes listes expirées</a>
+  <a href="$url_creerlistes">Créer une liste</a>
 </div>
 
 END;
         return $html;
     }
 
-    private function lesListes() : string {
+    private function lesListes(): string
+    {
         $html = '<h2>Vos listes en cours : </h2>';
-        if(sizeof ($this->tab) > 0 ) {
-            foreach($this->tab as $liste){
-                $html .= "<li>{$liste['titre']}, {$liste['description']}, expire le : {$liste['expiration']}</li>";
+        if (sizeof ( $this -> tab ) > 0) {
+            foreach ($this -> tab as $liste) {
+                $html .= "<li>{$liste['titre']}, {$liste['description']}, expire le : {$liste['expiration']} -- <a href='./liste/{$liste['no']}'>afficher</a></li>";
             }
-        }else{
+        } else {
             $html .= "Aucune liste";
         }
         $html = "<ul>$html</ul>";
         return $html;
     }
 
-    private function lesListesexpire() : string {
+    private function lesListesexpire(): string
+    {
         $html = '<h2>Vos listes expirées : </h2>';
-        if(sizeof ($this->tab) > 0 ) {
-            foreach($this->tab as $liste){
-                $html .= "<li>{$liste['titre']}, {$liste['description']}, expiré le : {$liste['expiration']}</li>";
+        if (sizeof ( $this -> tab ) > 0) {
+            foreach ($this -> tab as $liste) {
+                $html .= "<li>{$liste['titre']}, {$liste['description']}, expiré le : {$liste['expiration']} -- <a href='./liste/{$liste['no']}'>afficher</a></li>";
             }
-        }else{
+        } else {
             $html .= "Aucune liste";
         }
         $html = "<ul>$html</ul>";
         return $html;
     }
 
-    private function creerliste() : string {
-        $url_new_liste = $this->container->router->pathFor( 'nouvelleliste' ) ;
+    private function creerliste(): string
+    {
+        $url_new_liste = $this -> container -> router -> pathFor ( 'nouvelleliste' );
         $html = <<<FIN
 <form method="POST" action="$url_new_liste">
 	<label>Titre :<br> <input type="text" name="titre"/></label><br>
@@ -70,23 +78,44 @@ FIN;
         return $html;
     }
 
-    public function render(int $select) : String{
-        switch ($select){
-            case 0 : {
-                VuePrincipale::$content = $this->menulistes () . $this->lesListes ();
+    public function uneListe(): string
+    {
+        $html = "<h1>Liste : {$this->tab['titre']}</h1>";
+        $html .= "<h3>Description : {$this->tab['description']}</h3>";
+
+        foreach ($this -> tab['item'] as $item){
+            $html .= "<li>{$item['nom']}, {$item['descr']}, Etat : {$item['etat']}</li>";
+        }
+
+        return $html;
+    }
+
+    public function render(int $select): string
+    {
+        switch ($select) {
+            case 0 :
+            {
+                VuePrincipale ::$content = $this -> menulistes () . $this -> lesListes ();
                 break;
             }
-            case 1 : {
-                VuePrincipale::$content = $this->menulistes () . $this->creerliste ();
+            case 1 :
+            {
+                VuePrincipale ::$content = $this -> menulistes () . $this -> creerliste ();
                 break;
             }
-            case 2 : {
-                VuePrincipale::$content = $this->menulistes () . $this->lesListesexpire ();
+            case 2 :
+            {
+                VuePrincipale ::$content = $this -> menulistes () . $this -> lesListesexpire ();
+                break;
+            }
+            case 3 :
+            {
+                VuePrincipale ::$content = $this -> menulistes () . $this -> uneListe ();
                 break;
             }
         }
 
-        return include("html/index.php");
+        return include ("html/index.php");
     }
 
 }

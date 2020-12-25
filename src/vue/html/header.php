@@ -1,19 +1,30 @@
 
 <head>
     <div class="header">
-        <a href="./" class="logo">MyWishList</a>
+        <?php
+        $url_accueil = $this->container->router->pathFor('racine');
+
+        echo "<a href='$url_accueil' class='logo'>MyWishList</a>";
+        ?>
         <div class="header-right">
 
             <?php
 
             if(isset($_SESSION['iduser'])){
-                echo '<a href="./items">Mes Participations</a>';
-                echo '<a href="./listes">Mes listes</a>';
-                echo '<a href="./compte">Mon Compte</a>';
-                echo '<a class="active" href="./deconnexion">Deconnexion</a>';
+                $url_items    = $this->container->router->pathFor( 'afficheritems' );
+                $url_listes    = $this->container->router->pathFor( 'afficherlistes' );
+                $url_comptes    = $this->container->router->pathFor( 'compte' );
+                $deco    = $this->container->router->pathFor( 'deconnexion' );
+                echo "<a href='$url_items'>Mes Participations</a>";
+                echo "<a href='$url_listes'>Mes listes</a>";
+                echo "<a href='$url_comptes'>Mon Compte</a>";
+                echo "<a class='active' href='$deco'>Deconnexion</a>";
+
             }else{
-                echo '<a href="./connexion">Se connecter</a>';
-                echo '<a href="./formEnregistrement">Creer un compte</a>';
+                $url_connecter    = $this->container->router->pathFor( 'connexion' );
+                $url_enregistrement = $this->container->router->pathFor( 'formEnregistrement' );
+                echo "<a href='$url_connecter'>Se connecter</a>";
+                echo "<a href='$url_enregistrement'>Creer un compte</a>";
             }
 
             ?>

@@ -47,6 +47,9 @@ $app->get('/compte', ControleurSession::class.':compte')->setName ('compte');
 
 /** Route pour les listes */
 
+//Route pour afficher les détails d'une liste
+$app->get('/liste/{no}', ControleurListe::class.':afficherUneListe')->setName ('afficherUneListe');
+
 //Route pour afficher les listes en cours de la personnes connectée
 $app->get('/listes', ControleurListe::class.':afficherlistes')->setName ('afficherlistes');
 
@@ -64,6 +67,7 @@ $app->post('/nouvelleliste' , ControleurListe::class.':nouvelleliste'  )->setNam
 //Route pour afficher les items de la personnes connectée
 $app->get('/items', ControleurItem::class.':afficheritems')->setName ('afficheritems');
 
+//Route pour afficher les items qui sont dans une listes expirées
 $app->get('/itemsexpire', ControleurItem::class.':afficheritemsexpire')->setName ('afficheritemsexpire');
 
 
