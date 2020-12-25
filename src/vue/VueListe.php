@@ -66,12 +66,13 @@ END;
 
     private function creerliste(): string
     {
+        $today = date('Y-m-d');
         $url_new_liste = $this -> container -> router -> pathFor ( 'nouvelleliste' );
         $html = <<<FIN
-<form method="POST" action="$url_new_liste">
-	<label>Titre :<br> <input type="text" name="titre"/></label><br>
-	<label>Description : <br><input type="text" name="description"/></label><br>
-	<label>Date d'expiration : <br><input type="date" name="date"/></label><br>
+<form method="POST" action="$url_new_liste" style="margin-left: 2%">
+	<label>Titre :<br> <input type="text" name="titre" required/></label><br><br>
+	<label>Description : <br><input type="text" name="description" required/></label><br><br>
+	<label>Date d'expiration : <br><input type="date" name="date" value=$today min=$today required/></label><br><br>
 	<button type="submit">Enregistrer la liste</button>
 </form>	
 FIN;

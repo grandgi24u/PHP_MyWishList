@@ -25,6 +25,7 @@
                 $url_enregistrement = $this->container->router->pathFor( 'formEnregistrement' );
                 echo "<a href='$url_connecter'>Se connecter</a>";
                 echo "<a href='$url_enregistrement'>Creer un compte</a>";
+                echo "<a href='./creerliste'>Créer une liste</a>";
             }
 
             ?>

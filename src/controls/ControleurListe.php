@@ -23,11 +23,20 @@ class ControleurListe
         $listl = Liste::all() ;
         $lf = array();
         foreach ($listl as $l){
-            if($l->user_id == $_SESSION['iduser']){
-                if($l->expiration > date("Y-m-d")){
-                    $lf[] = $l;
+            if (isset($_SESSION['iduser'])) {
+                if($l->user_id == $_SESSION['iduser']){
+                    if($l->expiration > date("Y-m-d")){
+                        $lf[] = $l;
+                    }
+                }
+            } else {
+                if($l->user_id == NULL) {
+                    if($l->expiration > date("Y-m-d")){
+                        $lf[] = $l;
+                    }
                 }
             }
+
         }
         $vue = new VueListe( $lf , $this->container ) ;
         $rs->getBody()->write( $vue->render( 0 ) ) ;
@@ -38,11 +47,20 @@ class ControleurListe
         $listl = Liste::all() ;
         $lf = array();
         foreach ($listl as $l){
-            if($l->user_id == $_SESSION['iduser']){
-                if($l->expiration < date("Y-m-d")){
-                    $lf[] = $l;
+            if (isset($_SESSION['iduser'])) {
+                if($l->user_id == $_SESSION['iduser']){
+                    if($l->expiration < date("Y-m-d")){
+                        $lf[] = $l;
+                    }
+                }
+            } else {
+                if($l->user_id == NULL){
+                    if($l->expiration < date("Y-m-d")){
+                        $lf[] = $l;
+                    }
                 }
             }
+
         }
         $vue = new VueListe( $lf , $this->container ) ;
         $rs->getBody()->write( $vue->render( 2 ) ) ;
@@ -60,7 +78,11 @@ class ControleurListe
         $titre       = filter_var($post['titre']       , FILTER_SANITIZE_STRING) ;
         $description = filter_var($post['description'] , FILTER_SANITIZE_STRING) ;
         $date = filter_var($post['date'] , FILTER_SANITIZE_STRING) ;
-        $user_id = $_SESSION['iduser'] ;
+        if (isset($_SESSION['iduser'])) {
+            $user_id = $_SESSION['iduser'] ;
+        } else {
+            $user_id = NULL ;
+        }
         $l = new Liste();
         $l->titre = $titre;
         $l->description = $description;
