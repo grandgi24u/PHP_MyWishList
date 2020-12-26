@@ -45,6 +45,7 @@ $app->get('/deconnexion', ControleurSession::class.':deconnexion')->setName ('de
 $app->get('/compte', ControleurSession::class.':compte')->setName ('compte');
 
 
+
 /** Route pour les listes */
 
 //Route pour afficher les détails d'une liste
@@ -60,6 +61,13 @@ $app->get('/listesexpire', ControleurListe::class.':afficherlistesexpire')->setN
 $app->get('/creerliste', ControleurListe::class.':creerliste')->setName ('creerliste');
 $app->post('/nouvelleliste' , ControleurListe::class.':nouvelleliste'  )->setName('nouvelleliste'  );
 
+//Route pour modifier une liste
+$app->get('/listemodif/{no}', ControleurListe::class.':listemodif')->setName ('listemodif');
+$app->post('/modifierliste/{no}' , ControleurListe::class.':modifierliste'  )->setName('modifierliste'  );
+
+//Route pour supprimer une liste
+$app->get('/supprimerliste/{no}', ControleurListe::class.':supprimerliste')->setName ('supprimerliste');
+
 
 
 /** Route pour les items */
@@ -69,6 +77,10 @@ $app->get('/items', ControleurItem::class.':afficheritems')->setName ('afficheri
 
 //Route pour afficher les items qui sont dans une listes expirées
 $app->get('/itemsexpire', ControleurItem::class.':afficheritemsexpire')->setName ('afficheritemsexpire');
+
+//Route pour ajouter un item dans une liste
+$app->get('/additem/{no}', ControleurItem::class.':additem')->setName ('additem');
+$app->post('/ajouteritem/{no}' , ControleurItem::class.':ajouteritem'  )->setName('ajouteritem'  );
 
 
 

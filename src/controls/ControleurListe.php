@@ -99,16 +99,44 @@ class ControleurListe
 
         $array = array();
 
+        $array['no'] = $liste->no;
         $array['titre'] = $liste->titre;
         $array['description'] = $liste->description;
-
+        $array['date'] = $liste->expiration;
         $array['item'] = ControleurItem::retournerItemsListe($args['no']);
 
         $vue = new VueListe( $array , $this->container ) ;
         $rs->getBody()->write( $vue->render( 3 ) ) ;
         return $rs;
-
     }
 
+    public function supprimerliste(Request $rq, Response $rs, $args) : Response {
+        Liste::find( $args['no'] )->delete();
+        $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
+        return $rs->withRedirect($url_listes);
+    }
+
+    public function listemodif(Request $rq, Response $rs, $args) : Response {
+        $liste = Liste::find( $args['no'] );
+        $vue = new VueListe( $liste->toArray() , $this->container ) ;
+        $rs->getBody()->write( $vue->render( 4 ) ) ;
+        return $rs;
+    }
+
+    public function modifierliste(Request $rq, Response $rs, $args) : Response {
+        $post = $rq->getParsedBody() ;
+        $titre       = filter_var($post['titre']       , FILTER_SANITIZE_STRING) ;
+        $description = filter_var($post['description'] , FILTER_SANITIZE_STRING) ;
+        $date = filter_var($post['date'] , FILTER_SANITIZE_STRING) ;
+
+        $l = Liste::find($args['no']);
+        $l->titre = $titre;
+        $l->description = $description;
+        $l->expiration = $date;
+        $l->save();
+
+        $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
+        return $rs->withRedirect($url_listes);
+    }
 
 }

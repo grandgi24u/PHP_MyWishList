@@ -7,6 +7,7 @@ use mywishlist\models\Item;
 use mywishlist\models\Liste;
 use mywishlist\models\Participation;
 use mywishlist\vue\VueItem;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -61,6 +62,30 @@ class ControleurItem
             }
         }
         return $array;
+    }
+
+    public function additem(Request $rq, Response $rs, $args) : Response {
+        $liste = Liste::find( $args['no'] );
+        $vue = new VueItem( $liste->toArray() , $this->container ) ;
+        $rs->getBody()->write( $vue->render( 2 ) ) ;
+        return $rs;
+    }
+
+    public function ajouteritem(Request $rq, Response $rs, $args) : Response {
+        $post = $rq->getParsedBody() ;
+        $nom = filter_var($post['nom'] , FILTER_SANITIZE_STRING) ;
+        $descr = filter_var($post['descr'] , FILTER_SANITIZE_STRING) ;
+        $tarif = filter_var($post['tarif'] , FILTER_SANITIZE_STRING) ;
+
+        $item = new Item();
+        $item->liste_id = $args['no'];
+        $item->nom = $nom;
+        $item->descr = $descr;
+        $item->tarif = $tarif;
+        $item->save();
+
+        $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
+        return $rs->withRedirect($url_listes);
     }
 
 }

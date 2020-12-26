@@ -59,6 +59,19 @@ END;
         return $html;
     }
 
+    private function ajouteritem() : String {
+        $html = "<h1>Ajouter un item a la liste {$this->tab['titre']}</h1>";
+        $html .= <<<FIN
+<form method="POST" action="../ajouteritem/{$this->tab['no']}">
+	<label>Nom :<br> <input type="text" name="nom"/></label><br>
+	<label>Description : <br><input type="text" name="descr"/></label><br>
+	<label>Tarif : <br><input type="text" name="tarif"/></label><br>
+	<button type="submit">Ajouter l'item</button>
+</form>	
+FIN;
+        return $html;
+    }
+
     public function render(int $select) : String{
         switch ($select){
             case 0 : {
@@ -67,6 +80,10 @@ END;
             }
             case 1 : {
                 VuePrincipale::$content = $this->menuParticipations () . $this->lesParticipationsexpire ();
+                break;
+            }
+            case 2 : {
+                VuePrincipale::$content = $this->ajouteritem ();
                 break;
             }
         }

@@ -41,7 +41,9 @@ END;
         $html = '<h2>Vos listes en cours : </h2>';
         if (sizeof ( $this -> tab ) > 0) {
             foreach ($this -> tab as $liste) {
-                $html .= "<li>{$liste['titre']}, {$liste['description']}, expire le : {$liste['expiration']} -- <a href='./liste/{$liste['no']}'>afficher</a></li>";
+                $html .= "<li>{$liste['titre']}, {$liste['description']}, expire le : {$liste['expiration']} -- <a href='./liste/{$liste['no']}'>afficher</a>
+                              -- <a href='./listemodif/{$liste['no']}'>modifier</a>
+                              -- <a href='./supprimerliste/{$liste['no']}'>supprimer</a></li>";
             }
         } else {
             $html .= "Aucune liste";
@@ -55,7 +57,7 @@ END;
         $html = '<h2>Vos listes expirées : </h2>';
         if (sizeof ( $this -> tab ) > 0) {
             foreach ($this -> tab as $liste) {
-                $html .= "<li>{$liste['titre']}, {$liste['description']}, expiré le : {$liste['expiration']} -- <a href='./liste/{$liste['no']}'>afficher</a></li>";
+                $html .= "<li>{$liste['titre']}, {$liste['description']}, expiré le : {$liste['expiration']} -- <a href='./liste/{$liste['no']}'>afficher</a>";
             }
         } else {
             $html .= "Aucune liste";
@@ -79,15 +81,30 @@ FIN;
         return $html;
     }
 
-    public function uneListe(): string
+    private function uneListe(): string
     {
         $html = "<h1>Liste : {$this->tab['titre']}</h1>";
         $html .= "<h3>Description : {$this->tab['description']}</h3>";
 
-        foreach ($this -> tab['item'] as $item){
+        foreach ($this -> tab['item'] as $item) {
             $html .= "<li>{$item['nom']}, {$item['descr']}, Etat : {$item['etat']}</li>";
         }
+        if($this->tab['date'] > date("Y-m-d") ){
+            $html .= "<br><a href='../additem/{$this->tab['no']}'>Ajouter un item</a>";
+        }
 
+        return $html;
+    }
+
+    private function modifliste() : String {
+        $html = <<<FIN
+<form method="POST" action="../modifierliste/{$this->tab['no']}">
+	<label>Titre :<br> <input type="text" name="titre" value="{$this->tab['titre']}"/></label><br>
+	<label>Description : <br><input type="text" name="description" value="{$this->tab['description']}"/></label><br>
+	<label>Date d'expiration : <br><input type="date" name="date" value="{$this->tab['expiration']}"/></label><br>
+	<button type="submit">Enregistrer la modification</button>
+</form>	
+FIN;
         return $html;
     }
 
@@ -112,6 +129,11 @@ FIN;
             case 3 :
             {
                 VuePrincipale ::$content = $this -> menulistes () . $this -> uneListe ();
+                break;
+            }
+            case 4 :
+            {
+                VuePrincipale ::$content = $this -> menulistes () . $this -> modifliste ();
                 break;
             }
         }
