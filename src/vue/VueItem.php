@@ -64,12 +64,14 @@ END;
     }
 
     private function ajouteritem() : String {
+        $url = $this -> container -> router -> pathFor ( 'ajouteritem', ['no' => $this->tab['no']] );
         $html = "<h1>Ajouter un item a la liste {$this->tab['titre']}</h1>";
         $html .= <<<FIN
-<form method="POST" action="../ajouteritem/{$this->tab['no']}">
+<form method="POST" action="$url">
 	<label>Nom :<br> <input type="text" name="nom"/></label><br>
 	<label>Description : <br><input type="text" name="descr"/></label><br>
 	<label>Tarif : <br><input type="text" name="tarif"/></label><br>
+	<label>Url (site) : <br><input type="text" name="url"/></label><br>
 	<button class="button" type="submit">Ajouter l'item</button>
 </form>	
 FIN;

@@ -4,6 +4,17 @@
         $url_accueil = $this -> container -> router -> pathFor ( 'racine' );
 
         echo "<a href='$url_accueil' class='logo'>MyWishList</a>";
+
+        $url_rechercher = $this -> container -> router -> pathFor ( 'rechercher' );
+        echo <<<End
+<div class="search-container">
+    <form method="POST" action="$url_rechercher" style="margin-left: 2%">
+	    <input type="text" name="token" placeholder="Entrer une clé de partage" required/></label>
+	    <button type="submit"><i class="fa fa-search"></i></button>
+    </form>	
+</div>
+End;
+
         ?>
         <div class="header-right">
 
@@ -21,8 +32,10 @@
                 echo "<a class='active' href='$deco'>Deconnexion</a>";
 
             } else {
+                $url_creerliste = $this -> container -> router -> pathFor ( 'creerliste' );
                 $url_connecter = $this -> container -> router -> pathFor ( 'connexion' );
                 $url_enregistrement = $this -> container -> router -> pathFor ( 'formEnregistrement' );
+                echo "<a href='$url_creerliste'>Creer une liste</a>";
                 echo "<a class='active' href='$url_connecter'>Se connecter</a>";
                 echo "<a href='$url_enregistrement'>Creer un compte</a>";
 

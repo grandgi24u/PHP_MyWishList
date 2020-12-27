@@ -82,6 +82,9 @@ class ControleurItem
         $item->nom = $nom;
         $item->descr = $descr;
         $item->tarif = $tarif;
+        if(filter_var($post['url'] , FILTER_SANITIZE_STRING) !== null){
+            $item->url = filter_var($post['url'] , FILTER_SANITIZE_STRING);
+        }
         $item->save();
 
         $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;

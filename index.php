@@ -70,6 +70,8 @@ if(isset($_SESSION['iduser'])){
     $app->get('/supprimerliste/{no}', ControleurListe::class.':supprimerliste')->setName ('supprimerliste');
 }
 
+$app->post('/rechercher' , ControleurListe::class.':rechercher'  )->setName('rechercher');
+$app->get('/recherchenul', ControleurListe::class.':recherchenul'  )->setName('recherchenul');
 
 
 /** Route pour les items */

@@ -176,6 +176,32 @@ require ("footer.php"); // footer (bas de page)
         float: right;
     }
 
+    .header .search-container {
+        float: left;
+    }
+
+    .header input[type=text] {
+        padding: 6px;
+        margin-top: 8px;
+        font-size: 17px;
+        border: none;
+    }
+
+    .header .search-container button {
+        float: left;
+        padding: 6px 10px;
+        margin-top: 8px;
+        margin-right: 16px;
+        background: #ddd;
+        font-size: 17px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .header .search-container button:hover {
+        background: #ccc;
+    }
+
     @media screen and (max-width: 500px) {
         .header a {
             float: none;

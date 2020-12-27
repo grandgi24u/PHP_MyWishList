@@ -25,18 +25,17 @@ class ControleurListe
         foreach ($listl as $l){
             if (isset($_SESSION['iduser'])) {
                 if($l->user_id == $_SESSION['iduser']){
-                    if($l->expiration > date("Y-m-d")){
+                    if($l->expiration >= date("Y-m-d")){
                         $lf[] = $l;
                     }
                 }
             } else {
                 if($l->user_id == NULL) {
-                    if($l->expiration > date("Y-m-d")){
+                    if($l->expiration >= date("Y-m-d")){
                         $lf[] = $l;
                     }
                 }
             }
-
         }
         $vue = new VueListe( $lf , $this->container ) ;
         $rs->getBody()->write( $vue->render( 0 ) ) ;
@@ -60,7 +59,6 @@ class ControleurListe
                     }
                 }
             }
-
         }
         $vue = new VueListe( $lf , $this->container ) ;
         $rs->getBody()->write( $vue->render( 2 ) ) ;
@@ -143,6 +141,26 @@ class ControleurListe
 
         $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
         return $rs->withRedirect($url_listes);
+    }
+
+    public function rechercher(Request $rq, Response $rs, $args) : Response {
+        $post = $rq->getParsedBody() ;
+
+        $token = filter_var($post['token'], FILTER_SANITIZE_STRING) ;
+
+        $l = Liste::where("token", "=", $token)->first();
+
+        $no = $l->no;
+
+        $url_listes = $this->container->router->pathFor( 'afficherUneListe', ['no' => $no]);
+
+        return $rs->withRedirect($url_listes);
+    }
+
+    public function recherchenul(Request $rq, Response $rs, $args) : Response {
+        $vue = new VueListe( [] , $this->container ) ;
+        $rs->getBody()->write( $vue->render( 5 ) ) ;
+        return $rs;
     }
 
 }

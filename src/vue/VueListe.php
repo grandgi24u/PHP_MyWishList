@@ -56,9 +56,9 @@ END;
     {
         $html = '<h2>Vos listes expirées : </h2>';
         if (sizeof ( $this -> tab ) > 0) {
-            $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Action</td></tr></thead><tbody>";
+            $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Code de partage</td><td>Action</td></tr></thead><tbody>";
             foreach ($this -> tab as $liste) {
-                $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td> <td><a href='./liste/{$liste['no']}'><i class='fa fa-eye'></i></a>
+                $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td> <td>{$liste['token']}</td><td><a href='./liste/{$liste['no']}'><i class='fa fa-eye'></i></a>
                                                                                                    <a href='./supprimerliste/{$liste['no']}'><i class='fa fa-trash'></i></a></td></tr>";
             }
             $html .= "</tbody></table>";
@@ -94,16 +94,19 @@ FIN;
             $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['etat']}</td></tr>";
         }
         $html .= "</tbody></table>";
-        if($this->tab['date'] > date("Y-m-d") ){
-            $html .= "<a class='button' href='../additem/{$this->tab['no']}'>Ajouter un item</a>";
+        if(isset($_SESSION['iduser'])){
+            if($this->tab['date'] > date("Y-m-d") ){
+                $html .= "<a class='button' href='../additem/{$this->tab['no']}'>Ajouter un item</a>";
+            }
         }
 
         return $html;
     }
 
     private function modifliste() : String {
+        $url = $this -> container -> router -> pathFor ( 'modifierliste', ['no' => $this->tab['no']] );
         $html = <<<FIN
-<form method="POST" action="../modifierliste/{$this->tab['no']}">
+<form method="POST" action="$url">
 	<label>Titre :<br> <input type="text" name="titre" value="{$this->tab['titre']}"/></label><br>
 	<label>Description : <br><input type="text" name="description" value="{$this->tab['description']}"/></label><br>
 	<label>Date d'expiration : <br><input type="date" name="date" value="{$this->tab['expiration']}"/></label><br>
@@ -111,6 +114,10 @@ FIN;
 </form>	
 FIN;
         return $html;
+    }
+
+    private function recherchenul() : String {
+        return "<h1>Aucun resultat</h1>";
     }
 
     public function render(int $select): string
@@ -139,6 +146,10 @@ FIN;
             case 4 :
             {
                 VuePrincipale ::$content = $this -> modifliste ();
+                break;
+            }
+            case 5 : {
+                VuePrincipale ::$content = $this -> recherchenul ();
                 break;
             }
         }
