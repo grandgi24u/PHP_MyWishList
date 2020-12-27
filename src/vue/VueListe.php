@@ -22,6 +22,13 @@ class VueListe extends VuePrincipale
         $url_lites = $this -> container -> router -> pathFor ( 'afficherlistes' );
         $url_listesexpire = $this -> container -> router -> pathFor ( 'afficherlistesexpire' );
         $url_creerlistes = $this -> container -> router -> pathFor ( 'creerliste' );
+        $url_ajouteruneliste = $this -> container -> router -> pathFor ( 'ajouterUneListe' );
+
+        if(isset($_SESSION['iduser'])){
+            $content = "<a href='$url_ajouteruneliste'>Ajouter une liste au compte</a>";
+        }else{
+            $content = "";
+        }
 
         $html = <<<END
 <div class="vertical-menu">
@@ -29,6 +36,7 @@ class VueListe extends VuePrincipale
   <a href="$url_lites">Mes listes en cours</a>
   <a href="$url_listesexpire">Mes listes expirées</a>
   <a href="$url_creerlistes">Créer une liste</a>
+  $content
 </div>
 END;
         return $html;
@@ -40,9 +48,17 @@ END;
         if (sizeof ( $this -> tab ) > 0) {
             $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Code de partage</td><td>Action</td></tr></thead><tbody>";
             foreach ($this -> tab as $liste) {
-                $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td> <td>{$liste['token']}</td><td><a href='./liste/{$liste['no']}'><i class='fa fa-eye'></i></a>
-                              <a href='./listemodif/{$liste['no']}'><i class='fa fa-edit'></i></a>
-                              <a href='./supprimerliste/{$liste['no']}'><i class='fa fa-trash'></i></a></td></tr>";
+                $url_show = $this->container->router->pathFor('afficherUneListe',['token' => $liste['token']]);
+                $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
+                            <td>{$liste['token']}</td><td><a href='$url_show'><i class='fa fa-eye'></i></a>";
+                if(isset($_SESSION['iduser'])){
+                    $url_modif = $this->container->router->pathFor('listemodif',['tokenModif' => $liste['tokenModif']]);
+                    $url_suppr = $this->container->router->pathFor('supprimerliste',['tokenModif' => $liste['tokenModif']]);
+                    $html .= " <a href='$url_modif'><i class='fa fa-edit'></i></a>
+                              <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
+                }else{
+                    $html .= "</td></tr>";
+                }
             }
             $html .= "</tbody></table>";
         } else {
@@ -58,8 +74,10 @@ END;
         if (sizeof ( $this -> tab ) > 0) {
             $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Code de partage</td><td>Action</td></tr></thead><tbody>";
             foreach ($this -> tab as $liste) {
-                $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td> <td>{$liste['token']}</td><td><a href='./liste/{$liste['no']}'><i class='fa fa-eye'></i></a>
-                                                                                                   <a href='./supprimerliste/{$liste['no']}'><i class='fa fa-trash'></i></a></td></tr>";
+                $url_suppr = $this->container->router->pathFor('supprimerliste',['tokenModif' => $liste['tokenModif']]);
+                $url_show = $this->container->router->pathFor('afficherUneListe',['token' => $liste['token']]);
+                $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td> <td>{$liste['token']}</td><td><a href='$url_show'><i class='fa fa-eye'></i></a>
+                                                                                                   <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
             }
             $html .= "</tbody></table>";
         } else {
@@ -89,14 +107,19 @@ FIN;
         $html = "<h1>Liste : {$this->tab['titre']}</h1>";
         $html .= "<h3>Description : {$this->tab['description']}</h3>";
         $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
-        $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Etat de reservation</td></tr></thead><tbody>";
-        foreach ($this -> tab['item'] as $item) {
-            $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['etat']}</td></tr>";
+        $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Url</td><td>Etat de reservation</td></tr></thead><tbody>";
+        if(count($this->tab['item']) != 0) {
+            foreach ($this -> tab['item'] as $item) {
+                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td><td>{$item['url']}</td><td>{$item['etat']}</td></tr>";
+            }
+        }else{
+            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td></tr>";
         }
         $html .= "</tbody></table>";
-        if(isset($_SESSION['iduser'])){
-            if($this->tab['date'] > date("Y-m-d") ){
-                $html .= "<a class='button' href='../additem/{$this->tab['no']}'>Ajouter un item</a>";
+        if(isset($_SESSION['iduser']) == $this->tab['user_id']){
+            if($this->tab['date'] >= date("Y-m-d") ){
+                $url_additem = $this -> container -> router -> pathFor ( 'additem' , ["no" => $this->tab['no']]);
+                $html .= "<a class='button' href='$url_additem'>Ajouter un item</a>";
             }
         }
 
@@ -104,7 +127,7 @@ FIN;
     }
 
     private function modifliste() : String {
-        $url = $this -> container -> router -> pathFor ( 'modifierliste', ['no' => $this->tab['no']] );
+        $url = $this -> container -> router -> pathFor ( 'modifierliste', ['tokenModif' => $this->tab['tokenModif']] );
         $html = <<<FIN
 <form method="POST" action="$url">
 	<label>Titre :<br> <input type="text" name="titre" value="{$this->tab['titre']}"/></label><br>
@@ -116,8 +139,19 @@ FIN;
         return $html;
     }
 
-    private function recherchenul() : String {
+    private function recherchenulle() : String {
         return "<h1>Aucun resultat</h1>";
+    }
+
+    private function ajouterUneListe() : String {
+        $url = $this -> container -> router -> pathFor ( 'sajouterUneListe' );
+        $html = <<<FIN
+<form method="POST" action="$url">
+	<label>Code de modification :<br> <input type="text" name="token" required/></label><br>
+	<button class="button" type="submit">Ajouter</button>
+</form>	
+FIN;
+        return $html;
     }
 
     public function render(int $select): string
@@ -149,7 +183,11 @@ FIN;
                 break;
             }
             case 5 : {
-                VuePrincipale ::$content = $this -> recherchenul ();
+                VuePrincipale ::$content = $this -> recherchenulle ();
+                break;
+            }
+            case 6 : {
+                VuePrincipale ::$content = $this -> ajouterUneListe ();
                 break;
             }
         }

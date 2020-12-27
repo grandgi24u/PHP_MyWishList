@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 session_start ();
 
+use mywishlist\controls\ControleurErreur;
 use mywishlist\controls\ControleurPrincipal;
 use mywishlist\controls\ControleurListe;
 use \mywishlist\controls\ControleurSession;
@@ -49,7 +50,7 @@ $app->get('/compte', ControleurSession::class.':compte')->setName ('compte');
 /** Route pour les listes */
 
 //Route pour afficher les détails d'une liste
-$app->get('/liste/{no}', ControleurListe::class.':afficherUneListe')->setName ('afficherUneListe');
+$app->get('/liste/{token}', ControleurListe::class.':afficherUneListe')->setName ('afficherUneListe');
 
 //Route pour afficher les listes en cours de la personnes connectée
 $app->get('/listes', ControleurListe::class.':afficherlistes')->setName ('afficherlistes');
@@ -63,15 +64,22 @@ $app->post('/nouvelleliste' , ControleurListe::class.':nouvelleliste'  )->setNam
 
 if(isset($_SESSION['iduser'])){
     //Route pour modifier une liste
-    $app->get('/listemodif/{no}', ControleurListe::class.':listemodif')->setName ('listemodif');
-    $app->post('/modifierliste/{no}' , ControleurListe::class.':modifierliste'  )->setName('modifierliste'  );
+    $app->get('/listemodif/{tokenModif}', ControleurListe::class.':listemodif')->setName ('listemodif');
+    $app->post('/modifierliste/{tokenModif}' , ControleurListe::class.':modifierliste'  )->setName('modifierliste'  );
 
     //Route pour supprimer une liste
-    $app->get('/supprimerliste/{no}', ControleurListe::class.':supprimerliste')->setName ('supprimerliste');
+    $app->get('/supprimerliste/{tokenModif}', ControleurListe::class.':supprimerliste')->setName ('supprimerliste');
 }
 
+//Route pour faire une recherche de liste
 $app->post('/rechercher' , ControleurListe::class.':rechercher'  )->setName('rechercher');
-$app->get('/recherchenul', ControleurListe::class.':recherchenul'  )->setName('recherchenul');
+
+//Route pour afficher une erreur quand on ne trouve pas une recherche
+$app->get('/recherchenulle' , ControleurListe::class.':recherchenulle' )->setName('recherchenulle');
+
+$app->get('/ajouterUneListe' , ControleurListe::class.':ajouterUneListe' )->setName('ajouterUneListe');
+$app->post('/sajouterUneListe' , ControleurListe::class.':sajouterUneListe' )->setName('sajouterUneListe');
+
 
 
 /** Route pour les items */
@@ -85,6 +93,20 @@ $app->get('/itemsexpire', ControleurItem::class.':afficheritemsexpire')->setName
 //Route pour ajouter un item dans une liste
 $app->get('/additem/{no}', ControleurItem::class.':additem')->setName ('additem');
 $app->post('/ajouteritem/{no}' , ControleurItem::class.':ajouteritem'  )->setName('ajouteritem'  );
+
+
+
+/** Route pour les erreurs */
+
+//Route pour une action ou il y a besoin d'etre connecte
+$app->get('/besoinconnection', ControleurErreur::class.':besoinconnection')->setName ('besoinconnection');
+
+//Route quand la liste n'est pas trouver
+$app->get('/listnotfound', ControleurErreur::class.':listnotfound')->setName ('listnotfound');
+
+//Route quand la liste saisie appartient déjà à quelqu'un
+$app->get('/listappartient', ControleurErreur::class.':listappartient')->setName ('listappartient');
+
 
 
 

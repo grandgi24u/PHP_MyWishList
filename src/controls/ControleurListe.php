@@ -3,8 +3,6 @@
 
 namespace mywishlist\controls;
 
-
-use mywishlist\controls\ControleurItem;
 use mywishlist\models\Liste;
 use mywishlist\vue\VueListe;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -15,152 +13,222 @@ class ControleurListe
 
     private $container;
 
-    public function __construct($container) {
+    public function __construct($container)
+    {
         $this->container = $container;
     }
 
-    public function afficherListes(Request $rq, Response $rs, $args) : Response {
-        $listl = Liste::all() ;
+    public function afficherListes(Request $rq, Response $rs, $args): Response
+    {
+        $listl = Liste::all();
         $lf = array();
-        foreach ($listl as $l){
+        foreach ($listl as $l) {
             if (isset($_SESSION['iduser'])) {
-                if($l->user_id == $_SESSION['iduser']){
-                    if($l->expiration >= date("Y-m-d")){
+                if ($l->user_id == $_SESSION['iduser']) {
+                    if ($l->expiration >= date("Y-m-d")) {
                         $lf[] = $l;
                     }
                 }
             } else {
-                if($l->user_id == NULL) {
-                    if($l->expiration >= date("Y-m-d")){
+                if ($l->user_id == NULL) {
+                    if ($l->expiration >= date("Y-m-d")) {
                         $lf[] = $l;
                     }
                 }
             }
         }
-        $vue = new VueListe( $lf , $this->container ) ;
-        $rs->getBody()->write( $vue->render( 0 ) ) ;
+        $vue = new VueListe($lf, $this->container);
+        $rs->getBody()->write($vue->render(0));
         return $rs;
     }
 
-    public function afficherlistesexpire(Request $rq, Response $rs, $args) : Response {
-        $listl = Liste::all() ;
+    public function afficherlistesexpire(Request $rq, Response $rs, $args): Response
+    {
+        $listl = Liste::all();
         $lf = array();
-        foreach ($listl as $l){
+        foreach ($listl as $l) {
             if (isset($_SESSION['iduser'])) {
-                if($l->user_id == $_SESSION['iduser']){
-                    if($l->expiration < date("Y-m-d")){
+                if ($l->user_id == $_SESSION['iduser']) {
+                    if ($l->expiration < date("Y-m-d")) {
                         $lf[] = $l;
                     }
                 }
             } else {
-                if($l->user_id == NULL){
-                    if($l->expiration < date("Y-m-d")){
+                if ($l->user_id == NULL) {
+                    if ($l->expiration < date("Y-m-d")) {
                         $lf[] = $l;
                     }
                 }
             }
         }
-        $vue = new VueListe( $lf , $this->container ) ;
-        $rs->getBody()->write( $vue->render( 2 ) ) ;
+        $vue = new VueListe($lf, $this->container);
+        $rs->getBody()->write($vue->render(2));
         return $rs;
     }
 
-    public function creerliste(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueListe( [] , $this->container ) ;
-        $rs->getBody()->write( $vue->render( 1 ) ) ;
+    public function creerliste(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueListe([], $this->container);
+        $rs->getBody()->write($vue->render(1));
         return $rs;
     }
 
-    public function nouvelleListe(Request $rq, Response $rs, $args) : Response  {
-        $post = $rq->getParsedBody() ;
-        $titre       = filter_var($post['titre']       , FILTER_SANITIZE_STRING) ;
-        $description = filter_var($post['description'] , FILTER_SANITIZE_STRING) ;
-        $date = filter_var($post['date'] , FILTER_SANITIZE_STRING) ;
+    public function nouvelleListe(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+        $titre = filter_var($post['titre'], FILTER_SANITIZE_STRING);
+        $description = filter_var($post['description'], FILTER_SANITIZE_STRING);
+        $date = filter_var($post['date'], FILTER_SANITIZE_STRING);
         if (isset($_SESSION['iduser'])) {
-            $user_id = $_SESSION['iduser'] ;
+            $user_id = $_SESSION['iduser'];
         } else {
-            $user_id = NULL ;
+            $user_id = NULL;
         }
         $l = new Liste();
         $l->titre = $titre;
         $l->description = $description;
         $l->expiration = $date;
         $l->user_id = $user_id;
-        $l->token = $this->creerToken ();
+        $l->token = $this->creerToken();
+        $l->tokenModif = $this->creerToken();
         $l->save();
 
-        $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
+        $url_listes = $this->container->router->pathFor('afficherlistes');
         return $rs->withRedirect($url_listes);
     }
 
-    public function creerToken() : String {
-        return bin2hex(random_bytes(10));
+    public function creerToken(): string
+    {
+        $random = bin2hex(random_bytes(10));;//bin2hex(random_bytes(10));
+        $liste = Liste::all();
+        $same = true;
+        $array = array();
+        while ($same) {
+            foreach($liste as $l){
+                $array[] = $l->token;
+                $array[] = $l->tokenModif;
+            }
+            if (in_array($random,$array)) {
+                $same = true;
+                $random = bin2hex(random_bytes(10));
+            } else {
+                $same = false;
+            }
+        }
+        return $random;
     }
 
-    public function afficherUneListe(Request $rq, Response $rs, $args) : Response {
-        $liste = Liste::find( $args['no'] );
+    public function afficherUneListe(Request $rq, Response $rs, $args): Response
+    {
+        $liste = Liste::where("token","=",$args['token'])->first();
 
         $array = array();
 
         $array['no'] = $liste->no;
+        $array['user_id'] = $liste->user_id;
         $array['titre'] = $liste->titre;
         $array['description'] = $liste->description;
         $array['date'] = $liste->expiration;
         $array['token'] = $liste->token;
-        $array['item'] = ControleurItem::retournerItemsListe($args['no']);
+        $array['item'] = ControleurItem::retournerItemsListe($liste->no);
 
-        $vue = new VueListe( $array , $this->container ) ;
-        $rs->getBody()->write( $vue->render( 3 ) ) ;
+        $vue = new VueListe($array, $this->container);
+        $rs->getBody()->write($vue->render(3));
         return $rs;
     }
 
-    public function supprimerliste(Request $rq, Response $rs, $args) : Response {
-        Liste::find( $args['no'] )->delete();
-        $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
+    public function supprimerliste(Request $rq, Response $rs, $args): Response
+    {
+        Liste::where("tokenModif","=",$args['tokenModif'])->first()->delete();
+        $url_listes = $this->container->router->pathFor('afficherlistes');
         return $rs->withRedirect($url_listes);
     }
 
-    public function listemodif(Request $rq, Response $rs, $args) : Response {
-        $liste = Liste::find( $args['no'] );
-        $vue = new VueListe( $liste->toArray() , $this->container ) ;
-        $rs->getBody()->write( $vue->render( 4 ) ) ;
+    public function listemodif(Request $rq, Response $rs, $args): Response
+    {
+        $liste = Liste::where("tokenModif","=",$args['tokenModif'])->first();
+        $vue = new VueListe($liste->toArray(), $this->container);
+        $rs->getBody()->write($vue->render(4));
         return $rs;
     }
 
-    public function modifierliste(Request $rq, Response $rs, $args) : Response {
-        $post = $rq->getParsedBody() ;
-        $titre       = filter_var($post['titre']       , FILTER_SANITIZE_STRING) ;
-        $description = filter_var($post['description'] , FILTER_SANITIZE_STRING) ;
-        $date = filter_var($post['date'] , FILTER_SANITIZE_STRING) ;
+    public function modifierliste(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+        $titre = filter_var($post['titre'], FILTER_SANITIZE_STRING);
+        $description = filter_var($post['description'], FILTER_SANITIZE_STRING);
+        $date = filter_var($post['date'], FILTER_SANITIZE_STRING);
 
-        $l = Liste::find($args['no']);
+        $l = Liste::where("tokenModif","=",$args['tokenModif'])->first();
         $l->titre = $titre;
         $l->description = $description;
         $l->expiration = $date;
         $l->save();
 
-        $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
+        $url_listes = $this->container->router->pathFor('afficherlistes');
         return $rs->withRedirect($url_listes);
     }
 
-    public function rechercher(Request $rq, Response $rs, $args) : Response {
-        $post = $rq->getParsedBody() ;
+    public function rechercher(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+        $token = filter_var($post['token'], FILTER_SANITIZE_STRING);
 
-        $token = filter_var($post['token'], FILTER_SANITIZE_STRING) ;
-
-        $l = Liste::where("token", "=", $token)->first();
-
-        $no = $l->no;
-
-        $url_listes = $this->container->router->pathFor( 'afficherUneListe', ['no' => $no]);
+        $array = array();
+        foreach(Liste::all() as $li){
+            $array[] = $li->token;
+        }
+        if(in_array($token,$array)){
+            $url_listes = $this->container->router->pathFor('afficherUneListe', ['token' => $token]);
+        }else{
+            $url_listes = $this->container->router->pathFor('recherchenulle');
+        }
 
         return $rs->withRedirect($url_listes);
     }
 
-    public function recherchenul(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueListe( [] , $this->container ) ;
-        $rs->getBody()->write( $vue->render( 5 ) ) ;
+    public function recherchenulle(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueListe([], $this->container);
+        $rs->getBody()->write($vue->render(5));
         return $rs;
+    }
+
+    public function ajouterUneListe(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueListe([], $this->container);
+        $rs->getBody()->write($vue->render(6));
+        return $rs;
+    }
+
+    public function sajouterUneListe(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+        $token = filter_var($post['token'], FILTER_SANITIZE_STRING);
+
+        $liste = Liste::where("tokenModif","=",$token)->first();
+
+        $array = array();
+        foreach(Liste::all() as $li){
+            $array[] = $li->tokenModif;
+        }
+        if(in_array($token,$array)){
+            if(isset($_SESSION['iduser'])){
+                if($liste->user_id == null){
+                    $url = $this->container->router->pathFor('afficherlistes');
+                    $liste->user_id = $_SESSION['iduser'];
+                    $liste->save();
+                }else{
+                    $url = $this->container->router->pathFor('listappartient');
+                }
+            }else{
+                $url = $this->container->router->pathFor('besoinconnection');
+            }
+        }else{
+            $url = $this->container->router->pathFor('listnotfound');
+        }
+
+        return $rs->withRedirect($url);
     }
 
 }

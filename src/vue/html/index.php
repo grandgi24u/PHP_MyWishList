@@ -24,10 +24,6 @@ require ("footer.php"); // footer (bas de page)
 </html>
 <style>
 
-
-
-
-
     .button {
         padding: 12px;
         text-decoration: none;
@@ -212,6 +208,22 @@ require ("footer.php"); // footer (bas de page)
         .header-right {
             float: none;
         }
+
+        .header .search-container {
+            float: none;
+        }
+        .header a, .topnav input[type=text], .topnav .search-container button {
+            float: none;
+            display: block;
+            text-align: left;
+            width: 100%;
+            margin: 0;
+            padding: 14px;
+        }
+        .header input[type=text] {
+            border: 1px solid #ccc;
+        }
+
     }
 
 

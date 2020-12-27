@@ -25,8 +25,9 @@ class ControleurItem
         $lf = array();
         foreach ($particpation as $i){
             if($i->id_user == $_SESSION['iduser']){
-                $item = Item::where('id','=', $i->id_item)->first();
-                if(Liste::where('no','=',$item->liste_id)->first()->expiration > date("Y-m-d")){
+                $item = Item::find($i->id_item);
+                $liste = Liste::find($item->liste_id);
+                if($liste->expiration > date("Y-m-d")){
                     $lf[] = $item;
                 }
             }
@@ -41,8 +42,8 @@ class ControleurItem
         $lf = array();
         foreach ($particpation as $i){
             if($i->id_user == $_SESSION['iduser']){
-                $item = Item::where('id','=', $i->id_item)->first();
-                $liste = Liste::where('no','=',$item->liste_id)->first();
+                $item = Item::find($i->id_item);
+                $liste = Liste::find($item->liste_id);
                 if($liste->expiration < date("Y-m-d")){
                     $lf[] = $item;
                 }

@@ -10,7 +10,6 @@
 <div class="search-container">
     <form method="POST" action="$url_rechercher" style="margin-left: 2%">
 	    <input type="text" name="token" placeholder="Entrer une clé de partage" required/></label>
-	    <button type="submit"><i class="fa fa-search"></i></button>
     </form>	
 </div>
 End;
