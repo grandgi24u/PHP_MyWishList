@@ -24,14 +24,12 @@ class VueListe extends VuePrincipale
         $url_creerlistes = $this -> container -> router -> pathFor ( 'creerliste' );
 
         $html = <<<END
-
 <div class="vertical-menu">
   <a class="active">Mes listes</a>
   <a href="$url_lites">Mes listes en cours</a>
   <a href="$url_listesexpire">Mes listes expirées</a>
   <a href="$url_creerlistes">Créer une liste</a>
 </div>
-
 END;
         return $html;
     }
@@ -40,11 +38,13 @@ END;
     {
         $html = '<h2>Vos listes en cours : </h2>';
         if (sizeof ( $this -> tab ) > 0) {
+            $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Action</td></tr></thead><tbody>";
             foreach ($this -> tab as $liste) {
-                $html .= "<li>{$liste['titre']}, {$liste['description']}, expire le : {$liste['expiration']} -- <a href='./liste/{$liste['no']}'>afficher</a>
-                              -- <a href='./listemodif/{$liste['no']}'>modifier</a>
-                              -- <a href='./supprimerliste/{$liste['no']}'>supprimer</a></li>";
+                $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td> <td><a href='./liste/{$liste['no']}'><i class='fa fa-eye'></i></a>
+                              <a href='./listemodif/{$liste['no']}'><i class='fa fa-edit'></i></a>
+                              <a href='./supprimerliste/{$liste['no']}'><i class='fa fa-trash'></i></a></td></tr>";
             }
+            $html .= "</tbody></table>";
         } else {
             $html .= "Aucune liste";
         }
@@ -56,9 +56,12 @@ END;
     {
         $html = '<h2>Vos listes expirées : </h2>';
         if (sizeof ( $this -> tab ) > 0) {
+            $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Action</td></tr></thead><tbody>";
             foreach ($this -> tab as $liste) {
-                $html .= "<li>{$liste['titre']}, {$liste['description']}, expiré le : {$liste['expiration']} -- <a href='./liste/{$liste['no']}'>afficher</a>";
+                $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td> <td><a href='./liste/{$liste['no']}'><i class='fa fa-eye'></i></a>
+                                                                                                   <a href='./supprimerliste/{$liste['no']}'><i class='fa fa-trash'></i></a></td></tr>";
             }
+            $html .= "</tbody></table>";
         } else {
             $html .= "Aucune liste";
         }
@@ -75,7 +78,7 @@ END;
 	<label>Titre :<br> <input type="text" name="titre" required/></label><br><br>
 	<label>Description : <br><input type="text" name="description" required/></label><br><br>
 	<label>Date d'expiration : <br><input type="date" name="date" value=$today min=$today required/></label><br><br>
-	<button type="submit">Enregistrer la liste</button>
+	<button class="button" type="submit">Enregistrer la liste</button>
 </form>	
 FIN;
         return $html;
@@ -85,12 +88,13 @@ FIN;
     {
         $html = "<h1>Liste : {$this->tab['titre']}</h1>";
         $html .= "<h3>Description : {$this->tab['description']}</h3>";
-
+        $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td></tr></thead><tbody>";
         foreach ($this -> tab['item'] as $item) {
-            $html .= "<li>{$item['nom']}, {$item['descr']}, Etat : {$item['etat']}</li>";
+            $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td></tr>";
         }
+        $html .= "</tbody></table>";
         if($this->tab['date'] > date("Y-m-d") ){
-            $html .= "<br><a href='../additem/{$this->tab['no']}'>Ajouter un item</a>";
+            $html .= "<a class='button' href='../additem/{$this->tab['no']}'>Ajouter un item</a>";
         }
 
         return $html;
@@ -102,7 +106,7 @@ FIN;
 	<label>Titre :<br> <input type="text" name="titre" value="{$this->tab['titre']}"/></label><br>
 	<label>Description : <br><input type="text" name="description" value="{$this->tab['description']}"/></label><br>
 	<label>Date d'expiration : <br><input type="date" name="date" value="{$this->tab['expiration']}"/></label><br>
-	<button type="submit">Enregistrer la modification</button>
+	<button class="button" type="submit">Enregistrer la modification</button>
 </form>	
 FIN;
         return $html;
@@ -113,30 +117,32 @@ FIN;
         switch ($select) {
             case 0 :
             {
-                VuePrincipale ::$content = $this -> menulistes () . $this -> lesListes ();
+                VuePrincipale ::$content = $this -> lesListes ();
                 break;
             }
             case 1 :
             {
-                VuePrincipale ::$content = $this -> menulistes () . $this -> creerliste ();
+                VuePrincipale ::$content = $this -> creerliste ();
                 break;
             }
             case 2 :
             {
-                VuePrincipale ::$content = $this -> menulistes () . $this -> lesListesexpire ();
+                VuePrincipale ::$content = $this -> lesListesexpire ();
                 break;
             }
             case 3 :
             {
-                VuePrincipale ::$content = $this -> menulistes () . $this -> uneListe ();
+                VuePrincipale ::$content = $this -> uneListe ();
                 break;
             }
             case 4 :
             {
-                VuePrincipale ::$content = $this -> menulistes () . $this -> modifliste ();
+                VuePrincipale ::$content = $this -> modifliste ();
                 break;
             }
         }
+
+        VuePrincipale::$inMenu = $this -> menulistes ();
 
         return include ("html/index.php");
     }

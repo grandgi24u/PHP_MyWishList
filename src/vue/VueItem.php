@@ -36,9 +36,11 @@ END;
     private function lesParticipations() : String {
         $html = '<h2>Vos Items à achetées : </h2>';
         if(sizeof ($this->tab) > 0 ) {
+            $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td></tr></thead><tbody>";
             foreach($this->tab as $item){
-                $html .= "<li>{$item['nom']}, {$item['descr']}</li>";
+                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td></tr>";
             }
+            $html .= "</tbody></table>";
         }else{
             $html .= "Aucune participation";
         }
@@ -49,9 +51,11 @@ END;
     private function lesParticipationsexpire() : String {
         $html = '<h2>Vos Items expirées: </h2>';
         if(sizeof ($this->tab) > 0 ) {
+            $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td></tr></thead><tbody>";
             foreach($this->tab as $item){
-                $html .= "<li>{$item['nom']}, {$item['descr']}</li>";
+                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td></tr>";
             }
+            $html .= "</tbody></table>";
         }else{
             $html .= "Aucune participation expiré";
         }
@@ -66,7 +70,7 @@ END;
 	<label>Nom :<br> <input type="text" name="nom"/></label><br>
 	<label>Description : <br><input type="text" name="descr"/></label><br>
 	<label>Tarif : <br><input type="text" name="tarif"/></label><br>
-	<button type="submit">Ajouter l'item</button>
+	<button class="button" type="submit">Ajouter l'item</button>
 </form>	
 FIN;
         return $html;
@@ -75,18 +79,20 @@ FIN;
     public function render(int $select) : String{
         switch ($select){
             case 0 : {
-                VuePrincipale::$content = $this->menuParticipations () . $this->lesParticipations ();
+                $content = $this->lesParticipations ();
                 break;
             }
             case 1 : {
-                VuePrincipale::$content = $this->menuParticipations () . $this->lesParticipationsexpire ();
+                $content = $this->lesParticipationsexpire ();
                 break;
             }
             case 2 : {
-                VuePrincipale::$content = $this->ajouteritem ();
+                $content = $this->ajouteritem ();
                 break;
             }
         }
+        VuePrincipale::$inMenu = $this->menuParticipations ();
+        VuePrincipale::$content = $content;
 
         return include("html/index.php");
     }

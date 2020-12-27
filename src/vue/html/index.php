@@ -1,18 +1,19 @@
 <!DOCTYPE HTML>
 <html lang="fr">
-  <head>
+<head>
     <title> MyWishList </title>
     <meta charset='utf-8'>
-  </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 <body>
 
 <?php
 
-require("header.php"); // header (bare de navigation)
+require ("header.php"); // header (bare de navigation)
 
-require("body.php"); // contenu de la page
+require ("body.php"); // contenu de la page
 
-require("footer.php"); // footer (bas de page)
+require ("footer.php"); // footer (bas de page)
 
 ?>
 
@@ -22,6 +23,69 @@ require("footer.php"); // footer (bas de page)
 
 </html>
 <style>
+
+    .button {
+        padding: 12px;
+        text-decoration: none;
+        text-decoration: none;
+        font-size: 18px;
+        line-height: 25px;
+        border-radius: 4px;
+        background-color: #1e90ff;
+        color: white;
+    }
+
+
+
+    .inMenu {
+        display: inline-block;
+        width: 25%;
+    }
+
+    .content {
+        display: inline-block;
+        width: 75%;
+    }
+
+
+
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .styled-table thead tr {
+        background-color: #1e90ff;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #1e90ff;
+    }
+
+    .styled-table tbody tr.active-row {
+        font-weight: bold;
+        color: #1e90ff;
+    }
+
 
 
     .vertical-menu {
@@ -47,10 +111,9 @@ require("footer.php"); // footer (bas de page)
     }
 
     .vertical-menu a.active {
-        background-color: #1E90FF;
+        background-color: #1e90ff;
         color: white;
     }
-
 
 
 
@@ -64,7 +127,9 @@ require("footer.php"); // footer (bas de page)
         text-align: center;
     }
 
-    * {box-sizing: border-box;}
+    * {
+        box-sizing: border-box;
+    }
 
     body {
         margin: 0;

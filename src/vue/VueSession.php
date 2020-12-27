@@ -25,7 +25,7 @@ class VueSession extends VuePrincipale
 	<label>Identifiant :<br> <input type="text" name="login"/></label><br>
 	<label>Mot de passe : <br><input type="password" name="pass"/></label><br>
 	
-	<button type="submit">Creer le compte</button>
+	<button class="button" type="submit">Creer le compte</button>
 </form>	
 FIN;
         return $html;
@@ -38,7 +38,7 @@ FIN;
 <form method="POST" action="$url_testpass">
 	<label>Identifiant :<br> <input type="text" name="login"/></label><br>
 	<label>Mot de passe : <br><input type="password" name="pass"/></label><br>
-	<button type="submit">Se connecter</button>
+	<button class="button" type="submit">Se connecter</button>
 </form>	
 FIN;
         return $html;
@@ -97,6 +97,8 @@ FIN;
                 VuePrincipale ::$content = $this -> compte ();
             }
         }
+
+        VuePrincipale::$inMenu = "";
 
         return include ("html/index.php");
     }

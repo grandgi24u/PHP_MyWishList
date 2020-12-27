@@ -8,6 +8,7 @@ class VuePrincipale
     private $tab;
     private $container;
     public static $content;
+    public static $inMenu;
 
    public function __Construct($t, $c){
        $this->tab = $t;
@@ -39,5 +40,9 @@ END;
    public function getContent(): String {
        return VuePrincipale::$content;
    }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
 
 }
