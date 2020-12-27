@@ -33,6 +33,8 @@ END;
            }
        }
 
+       VuePrincipale::$inMenu = "";
+
        return include("html/index.php");
 
    }

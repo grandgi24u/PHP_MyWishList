@@ -24,6 +24,10 @@ require ("footer.php"); // footer (bas de page)
 </html>
 <style>
 
+
+
+
+
     .button {
         padding: 12px;
         text-decoration: none;

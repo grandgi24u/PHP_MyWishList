@@ -61,12 +61,14 @@ $app->get('/listesexpire', ControleurListe::class.':afficherlistesexpire')->setN
 $app->get('/creerliste', ControleurListe::class.':creerliste')->setName ('creerliste');
 $app->post('/nouvelleliste' , ControleurListe::class.':nouvelleliste'  )->setName('nouvelleliste'  );
 
-//Route pour modifier une liste
-$app->get('/listemodif/{no}', ControleurListe::class.':listemodif')->setName ('listemodif');
-$app->post('/modifierliste/{no}' , ControleurListe::class.':modifierliste'  )->setName('modifierliste'  );
+if(isset($_SESSION['iduser'])){
+    //Route pour modifier une liste
+    $app->get('/listemodif/{no}', ControleurListe::class.':listemodif')->setName ('listemodif');
+    $app->post('/modifierliste/{no}' , ControleurListe::class.':modifierliste'  )->setName('modifierliste'  );
 
-//Route pour supprimer une liste
-$app->get('/supprimerliste/{no}', ControleurListe::class.':supprimerliste')->setName ('supprimerliste');
+    //Route pour supprimer une liste
+    $app->get('/supprimerliste/{no}', ControleurListe::class.':supprimerliste')->setName ('supprimerliste');
+}
 
 
 

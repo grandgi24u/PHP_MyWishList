@@ -38,9 +38,9 @@ END;
     {
         $html = '<h2>Vos listes en cours : </h2>';
         if (sizeof ( $this -> tab ) > 0) {
-            $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Action</td></tr></thead><tbody>";
+            $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Code de partage</td><td>Action</td></tr></thead><tbody>";
             foreach ($this -> tab as $liste) {
-                $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td> <td><a href='./liste/{$liste['no']}'><i class='fa fa-eye'></i></a>
+                $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td> <td>{$liste['token']}</td><td><a href='./liste/{$liste['no']}'><i class='fa fa-eye'></i></a>
                               <a href='./listemodif/{$liste['no']}'><i class='fa fa-edit'></i></a>
                               <a href='./supprimerliste/{$liste['no']}'><i class='fa fa-trash'></i></a></td></tr>";
             }
@@ -88,9 +88,10 @@ FIN;
     {
         $html = "<h1>Liste : {$this->tab['titre']}</h1>";
         $html .= "<h3>Description : {$this->tab['description']}</h3>";
-        $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td></tr></thead><tbody>";
+        $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
+        $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Etat de reservation</td></tr></thead><tbody>";
         foreach ($this -> tab['item'] as $item) {
-            $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td></tr>";
+            $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['etat']}</td></tr>";
         }
         $html .= "</tbody></table>";
         if($this->tab['date'] > date("Y-m-d") ){

@@ -46,11 +46,12 @@ FIN;
 
     private function compte(): string
     {
-        $login = $this -> tab['login'];
-        $nom = $this -> tab['nom'];
-        $prenom = $this -> tab['prenom'];
+        if(isset($_SESSION['iduser'])){
+            $login = $this -> tab['login'];
+            $nom = $this -> tab['nom'];
+            $prenom = $this -> tab['prenom'];
 
-        $html = <<<FIN
+            $html = <<<FIN
 <ul>
 <li><p>Votre login : $login</p></li>
 <li><p>Votre nom : $nom</p></li>
@@ -58,6 +59,10 @@ FIN;
 </ul>
 
 FIN;
+        }else{
+            $html = "<h1>Vous devez etre connecté</h1>";
+        }
+
         return $html;
     }
 

@@ -88,10 +88,15 @@ class ControleurListe
         $l->description = $description;
         $l->expiration = $date;
         $l->user_id = $user_id;
+        $l->token = $this->creerToken ();
         $l->save();
 
         $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
         return $rs->withRedirect($url_listes);
+    }
+
+    public function creerToken() : String {
+        return bin2hex(random_bytes(10));
     }
 
     public function afficherUneListe(Request $rq, Response $rs, $args) : Response {
@@ -103,6 +108,7 @@ class ControleurListe
         $array['titre'] = $liste->titre;
         $array['description'] = $liste->description;
         $array['date'] = $liste->expiration;
+        $array['token'] = $liste->token;
         $array['item'] = ControleurItem::retournerItemsListe($args['no']);
 
         $vue = new VueListe( $array , $this->container ) ;
