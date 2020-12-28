@@ -183,21 +183,6 @@ include ("footer.php"); // footer (bas de page)
         border: none;
     }
 
-    .header .search-container button {
-        float: left;
-        padding: 6px 10px;
-        margin-top: 8px;
-        margin-right: 16px;
-        background: #ddd;
-        font-size: 17px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .header .search-container button:hover {
-        background: #ccc;
-    }
-
     @media screen and (max-width: 500px) {
         .header a {
             float: none;
@@ -212,7 +197,7 @@ include ("footer.php"); // footer (bas de page)
         .header .search-container {
             float: none;
         }
-        .header a, .topnav input[type=text], .topnav .search-container button {
+        .header a, .topnav input[type=text], .header .search-container button {
             float: none;
             display: block;
             text-align: left;
@@ -220,6 +205,7 @@ include ("footer.php"); // footer (bas de page)
             margin: 0;
             padding: 14px;
         }
+
         .header input[type=text] {
             border: 1px solid #ccc;
         }

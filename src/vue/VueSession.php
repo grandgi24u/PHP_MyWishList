@@ -82,8 +82,7 @@ FIN;
             }
             case 2 :
             {
-                $url_deconnexion = $this -> container -> router -> pathFor ( 'deconnexion' );
-                VuePrincipale ::$content = "<a href='$url_deconnexion'>Deconnexion</a>";
+                VuePrincipale ::$content = "<h1>Vous etes déjà connecté</h1>";
                 break;
             }
             case 3 :

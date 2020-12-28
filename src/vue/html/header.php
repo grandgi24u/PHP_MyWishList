@@ -31,10 +31,10 @@ End;
                 echo "<a class='active' href='$deco'>Deconnexion</a>";
 
             } else {
-                $url_creerliste = $this -> container -> router -> pathFor ( 'creerliste' );
+                $url_creerliste = $this -> container -> router -> pathFor ( 'afficherlistes' );
                 $url_connecter = $this -> container -> router -> pathFor ( 'connexion' );
                 $url_enregistrement = $this -> container -> router -> pathFor ( 'formEnregistrement' );
-                echo "<a href='$url_creerliste'>Creer une liste</a>";
+                echo "<a href='$url_creerliste'>Les listes</a>";
                 echo "<a class='active' href='$url_connecter'>Se connecter</a>";
                 echo "<a href='$url_enregistrement'>Creer un compte</a>";
 

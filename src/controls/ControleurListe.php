@@ -81,6 +81,7 @@ class ControleurListe
         $description = filter_var($post['description'], FILTER_SANITIZE_STRING);
         $date = filter_var($post['date'], FILTER_SANITIZE_STRING);
 
+
         $l = new Liste();
         $l->titre = $titre;
         $l->description = $description;
@@ -92,6 +93,9 @@ class ControleurListe
             $user_id = $_SESSION['iduser'];
             $url = $this->container->router->pathFor('afficherlistes');
         } else {
+            if($post['etat'] == "yes"){
+                $l->acces = "public";
+            }
             $user_id = NULL;
             $url = $this->container->router->pathFor('donnerTokenModif', ["tokenModif" => $tokenModif]);
         }
