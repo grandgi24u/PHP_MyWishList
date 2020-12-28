@@ -54,7 +54,7 @@ class VueErreur extends VuePrincipale
 
         VuePrincipale::$inMenu = "";
 
-        return include("html/index.php");
+        return substr(include ("html/index.php"), 1,-1);;
     }
 
 }

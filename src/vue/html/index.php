@@ -9,11 +9,11 @@
 
 <?php
 
-require ("header.php"); // header (bare de navigation)
+include ("header.php"); // header (bare de navigation)
 
-require ("body.php"); // contenu de la page
+include ("body.php"); // contenu de la page
 
-require ("footer.php"); // footer (bas de page)
+include ("footer.php"); // footer (bas de page)
 
 ?>
 

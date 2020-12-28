@@ -4,6 +4,7 @@
 namespace mywishlist\controls;
 
 use mywishlist\models\Liste;
+use mywishlist\vue\VueErreur;
 use mywishlist\vue\VueListe;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -79,22 +80,27 @@ class ControleurListe
         $titre = filter_var($post['titre'], FILTER_SANITIZE_STRING);
         $description = filter_var($post['description'], FILTER_SANITIZE_STRING);
         $date = filter_var($post['date'], FILTER_SANITIZE_STRING);
-        if (isset($_SESSION['iduser'])) {
-            $user_id = $_SESSION['iduser'];
-        } else {
-            $user_id = NULL;
-        }
+
         $l = new Liste();
         $l->titre = $titre;
         $l->description = $description;
         $l->expiration = $date;
-        $l->user_id = $user_id;
         $l->token = $this->creerToken();
-        $l->tokenModif = $this->creerToken();
+        $tokenModif = $this->creerToken();
+
+        if (isset($_SESSION['iduser'])) {
+            $user_id = $_SESSION['iduser'];
+            $url = $this->container->router->pathFor('afficherlistes');
+        } else {
+            $user_id = NULL;
+            $url = $this->container->router->pathFor('donnerTokenModif', ["tokenModif" => $tokenModif]);
+        }
+
+        $l->tokenModif = $tokenModif;
+        $l->user_id = $user_id;
         $l->save();
 
-        $url_listes = $this->container->router->pathFor('afficherlistes');
-        return $rs->withRedirect($url_listes);
+        return $rs->withRedirect($url);
     }
 
     public function creerToken(): string
@@ -104,11 +110,11 @@ class ControleurListe
         $same = true;
         $array = array();
         while ($same) {
-            foreach($liste as $l){
+            foreach ($liste as $l) {
                 $array[] = $l->token;
                 $array[] = $l->tokenModif;
             }
-            if (in_array($random,$array)) {
+            if (in_array($random, $array)) {
                 $same = true;
                 $random = bin2hex(random_bytes(10));
             } else {
@@ -120,7 +126,7 @@ class ControleurListe
 
     public function afficherUneListe(Request $rq, Response $rs, $args): Response
     {
-        $liste = Liste::where("token","=",$args['token'])->first();
+        $liste = Liste::where("token", "=", $args['token'])->first();
 
         $array = array();
 
@@ -139,14 +145,14 @@ class ControleurListe
 
     public function supprimerliste(Request $rq, Response $rs, $args): Response
     {
-        Liste::where("tokenModif","=",$args['tokenModif'])->first()->delete();
+        Liste::where("tokenModif", "=", $args['tokenModif'])->first()->delete();
         $url_listes = $this->container->router->pathFor('afficherlistes');
         return $rs->withRedirect($url_listes);
     }
 
     public function listemodif(Request $rq, Response $rs, $args): Response
     {
-        $liste = Liste::where("tokenModif","=",$args['tokenModif'])->first();
+        $liste = Liste::where("tokenModif", "=", $args['tokenModif'])->first();
         $vue = new VueListe($liste->toArray(), $this->container);
         $rs->getBody()->write($vue->render(4));
         return $rs;
@@ -159,7 +165,7 @@ class ControleurListe
         $description = filter_var($post['description'], FILTER_SANITIZE_STRING);
         $date = filter_var($post['date'], FILTER_SANITIZE_STRING);
 
-        $l = Liste::where("tokenModif","=",$args['tokenModif'])->first();
+        $l = Liste::where("tokenModif", "=", $args['tokenModif'])->first();
         $l->titre = $titre;
         $l->description = $description;
         $l->expiration = $date;
@@ -175,12 +181,12 @@ class ControleurListe
         $token = filter_var($post['token'], FILTER_SANITIZE_STRING);
 
         $array = array();
-        foreach(Liste::all() as $li){
+        foreach (Liste::all() as $li) {
             $array[] = $li->token;
         }
-        if(in_array($token,$array)){
+        if (in_array($token, $array)) {
             $url_listes = $this->container->router->pathFor('afficherUneListe', ['token' => $token]);
-        }else{
+        } else {
             $url_listes = $this->container->router->pathFor('recherchenulle');
         }
 
@@ -206,29 +212,44 @@ class ControleurListe
         $post = $rq->getParsedBody();
         $token = filter_var($post['token'], FILTER_SANITIZE_STRING);
 
-        $liste = Liste::where("tokenModif","=",$token)->first();
+        $liste = Liste::where("tokenModif", "=", $token)->first();
 
         $array = array();
-        foreach(Liste::all() as $li){
+        foreach (Liste::all() as $li) {
             $array[] = $li->tokenModif;
         }
-        if(in_array($token,$array)){
-            if(isset($_SESSION['iduser'])){
-                if($liste->user_id == null){
+        if (in_array($token, $array)) {
+            if (isset($_SESSION['iduser'])) {
+                if ($liste->user_id == null) {
                     $url = $this->container->router->pathFor('afficherlistes');
                     $liste->user_id = $_SESSION['iduser'];
                     $liste->save();
-                }else{
+                } else {
                     $url = $this->container->router->pathFor('listappartient');
                 }
-            }else{
+            } else {
                 $url = $this->container->router->pathFor('besoinconnection');
             }
-        }else{
+        } else {
             $url = $this->container->router->pathFor('listnotfound');
         }
 
         return $rs->withRedirect($url);
+    }
+
+    public function donnerTokenModif(Request $rq, Response $rs, $args): Response
+    {
+        $liste = Liste::where("tokenModif", "=", $args['tokenModif'])->first();
+
+        if($liste == null){
+            $vue = new VueErreur([], $this->container);
+            $rs->getBody()->write($vue->render(1));
+        }else{
+            $vue = new VueListe($liste->toArray(), $this->container);
+            $rs->getBody()->write($vue->render(7));
+        }
+
+        return $rs;
     }
 
 }

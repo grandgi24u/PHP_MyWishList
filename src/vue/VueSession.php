@@ -20,10 +20,10 @@ class VueSession extends VuePrincipale
         $url_nouveaulogin = $this -> container -> router -> pathFor ( 'nouvelEnregistrement' );
         $html = <<<FIN
 <form method="POST" action="$url_nouveaulogin">
-    <label>Nom : <br><input type="text" name="nom"/></label><br>
+    <br><label>Nom : <br><input type="text" name="nom"/></label><br>
     <label>Prenom : <br><input type="text" name="prenom"/></label><br>
 	<label>Identifiant :<br> <input type="text" name="login"/></label><br>
-	<label>Mot de passe : <br><input type="password" name="pass"/></label><br>
+	<label>Mot de passe : <br><input type="password" name="pass"/></label><br><br>
 	
 	<button class="button" type="submit">Creer le compte</button>
 </form>	
@@ -36,8 +36,8 @@ FIN;
         $url_testpass = $this -> container -> router -> pathFor ( 'testerConnexion' );
         $html = <<<FIN
 <form method="POST" action="$url_testpass">
-	<label>Identifiant :<br> <input type="text" name="login"/></label><br>
-	<label>Mot de passe : <br><input type="password" name="pass"/></label><br>
+	<br><label>Identifiant :<br> <input type="text" name="login"/></label><br>
+	<label>Mot de passe : <br><input type="password" name="pass"/></label><br><br>
 	<button class="button" type="submit">Se connecter</button>
 </form>	
 FIN;
@@ -105,7 +105,7 @@ FIN;
 
         VuePrincipale::$inMenu = "";
 
-        return include ("html/index.php");
+        return substr(include ("html/index.php"), 1,-1);;
     }
 
 }
