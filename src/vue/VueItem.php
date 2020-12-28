@@ -96,7 +96,7 @@ FIN;
         VuePrincipale::$inMenu = $this->menuParticipations ();
         VuePrincipale::$content = $content;
 
-        return substr(include ("html/index.php"), 1,-1);;
+        return substr(include ("html/index.php"), 1,-1);
     }
 
 
