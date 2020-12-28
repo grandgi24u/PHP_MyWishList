@@ -95,8 +95,8 @@ class ControleurItem
         $i->tarif = $tarif;
         $i->save();
 
-        $url_liste = $this->container->router->pathFor( 'afficherlistes' ) ;
-        return $rs->withRedirect($url_liste);
+        $url = $this->container->router->pathFor( 'afficherUneListeWithModif' , ['tokenModif' => $args['tokenModif']]) ;
+        return $rs->withRedirect($url);
     }
 
     public function ajouteritem(Request $rq, Response $rs, $args) : Response {
@@ -115,15 +115,15 @@ class ControleurItem
         }
         $item->save();
 
-        $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
-        return $rs->withRedirect($url_listes);
+        $url = $this->container->router->pathFor( 'afficherUneListeWithModif' , ['tokenModif' => $args['tokenModif']]) ;
+        return $rs->withRedirect($url);
     }
 
     public function supprimeritem(Request $rq, Response $rs, $args): Response
     {
         Item::where("id", "=", $args['no'])->first()->delete();
-        $url_listes = $this->container->router->pathFor('afficherlistes');
-        return $rs->withRedirect($url_listes);
+        $url = $this->container->router->pathFor( 'afficherUneListeWithModif' , ['tokenModif' => $args['tokenModif']]) ;
+        return $rs->withRedirect($url);
     }
 
 

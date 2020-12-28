@@ -4,6 +4,8 @@
 namespace mywishlist\vue;
 
 
+use mywishlist\models\Liste;
+
 class VueItem extends VuePrincipale
 {
 
@@ -64,7 +66,7 @@ END;
     }
 
     private function ajouteritem() : String {
-        $url = $this -> container -> router -> pathFor ( 'ajouteritem', ['no' => $this->tab['no']] );
+        $url = $this -> container -> router -> pathFor ( 'ajouteritem', ['tokenModif' => Liste::find($this->tab['no'])->tokenModif, 'no' => $this->tab['no']] );
         $html = "<h1>Ajouter un item a la liste {$this->tab['titre']}</h1>";
         $html .= <<<FIN
 <form method="POST" action="$url">
@@ -80,7 +82,7 @@ FIN;
 
     private function modifitem(): string
     {
-        $url = $this->container->router->pathFor('modifieritem', ['no' => $this->tab['id']]);
+        $url = $this->container->router->pathFor('modifieritem', ['tokenModif' => Liste::find($this->tab['liste_id'])->tokenModif, 'no' => $this->tab['id']]);
         $html = <<<FIN
 <form method="POST" action="$url">
 	<label>Nom :<br> <input type="text" name="nom" value="{$this->tab['nom']}"/></label><br>

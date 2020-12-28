@@ -84,7 +84,6 @@ $app->get('/recherchenulle', ControleurListe::class . ':recherchenulle')->setNam
 $app->get('/ajouterUneListe', ControleurListe::class . ':ajouterUneListe')->setName('ajouterUneListe');
 $app->post('/sajouterUneListe', ControleurListe::class . ':sajouterUneListe')->setName('sajouterUneListe');
 
-//Route
 //Route pour afficher les détails d'une liste
 $app->get('/afficherUneListeWithModif/{tokenModif}', ControleurListe::class . ':afficherUneListeWithModif')->setName('afficherUneListeWithModif');
 
@@ -99,15 +98,15 @@ $app->get('/items', ControleurItem::class . ':afficheritems')->setName('afficher
 $app->get('/itemsexpire', ControleurItem::class . ':afficheritemsexpire')->setName('afficheritemsexpire');
 
 //Route pour ajouter un item dans une liste
-$app->get('/additem/{no}', ControleurItem::class . ':additem')->setName('additem');
-$app->post('/ajouteritem/{no}', ControleurItem::class . ':ajouteritem')->setName('ajouteritem');
+$app->get('/additem/{tokenModif}/{no}', ControleurItem::class . ':additem')->setName('additem');
+$app->post('/ajouteritem/{tokenModif}/{no}', ControleurItem::class . ':ajouteritem')->setName('ajouteritem');
 
 //Route pour modifier un item dans une liste
-$app->get('/modifitem/{no}', ControleurItem::class . ':modifitem')->setName('modifitem');
-$app->post('/modifieritem/{no}', ControleurItem::class . ':modifieritem')->setName('modifieritem');
+$app->get('/modifitem/{tokenModif}/{no}', ControleurItem::class . ':modifitem')->setName('modifitem');
+$app->post('/modifieritem/{tokenModif}/{no}', ControleurItem::class . ':modifieritem')->setName('modifieritem');
 
 //Route pour supprimer un item
-$app->get('/supprimeritem/{no}', ControleurItem::class . ':supprimeritem')->setName('supprimeritem');
+$app->get('/supprimeritem/{tokenModif}/{no}', ControleurItem::class . ':supprimeritem')->setName('supprimeritem');
 
 
 

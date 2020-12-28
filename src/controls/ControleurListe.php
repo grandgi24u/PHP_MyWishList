@@ -141,10 +141,15 @@ class ControleurListe
         $array['description'] = $liste->description;
         $array['date'] = $liste->expiration;
         $array['token'] = $liste->token;
+        $array['tokenModif'] = $liste->tokenModif;
         $array['item'] = ControleurItem::retournerItemsListe($liste->no);
 
         $vue = new VueListe($array, $this->container);
-        $rs->getBody()->write($vue->render(3));
+        if(isset($_SESSION['iduser'])){
+            $rs->getBody()->write($vue->render(8));
+        }else{
+            $rs->getBody()->write($vue->render(3));
+        }
         return $rs;
     }
 
@@ -176,7 +181,7 @@ class ControleurListe
         $l->expiration = $date;
         $l->save();
 
-        $url_listes = $this->container->router->pathFor('afficherUneListe', ["token" => $l->token]);
+        $url_listes = $this->container->router->pathFor('afficherUneListeWithModif', ["tokenModif" => $l->tokenModif]);
         return $rs->withRedirect($url_listes);
     }
 

@@ -192,28 +192,23 @@ END;
             $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td></tr>";
         }
         $html .= "</tbody></table>";
-        if(isset($_SESSION['iduser']) == $this->tab['user_id']){
-            if($this->tab['date'] >= date("Y-m-d") ){
-                $url_additem = $this -> container -> router -> pathFor ( 'additem' , ["no" => $this->tab['no']]);
-                $html .= "<a class='button' href='$url_additem'>Ajouter un item</a>";
-            }
-        }
 
         return $html;
     }
 
-
-
-
     private function uneListeModif(): string
     {
-        $html = "<h1>Mode modification</h1>";
+        if(isset($_SESSION['iduser'])){
+            $html = "";
+        }else{
+            $html = "<h1>Mode modification</h1>";
+        }
         $html .= "<h1>Liste : {$this->tab['titre']}</h1>";
         $html .= "<h3>Description : {$this->tab['description']}</h3>";
         $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
         $html .= $this->afficherItems();
         if ($this->tab['date'] >= date("Y-m-d")) {
-            $url_additem = $this->container->router->pathFor('additem', ["no" => $this->tab['no']]);
+            $url_additem = $this->container->router->pathFor('additem', ['tokenModif' => $this->tab['tokenModif'], "no" => $this->tab['no']]);
             $url_modif = $this->container->router->pathFor('listemodif', ['tokenModif' => $this->tab['tokenModif']]);
             $url_suppr = $this->container->router->pathFor('supprimerliste', ['tokenModif' => $this->tab['tokenModif']]);
             $html .= "<a class='button' href='$url_additem'>Ajouter un item</a>
@@ -231,8 +226,8 @@ END;
         $html = "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Url</td><td>Etat de reservation</td><td>Action</td></tr></thead><tbody>";
         if (count($this->tab['item']) != 0) {
             foreach ($this->tab['item'] as $item) {
-                $url_modif = $this->container->router->pathFor('modifitem', ['no' => $item['id']]);
-                $url_suppr = $this->container->router->pathFor('supprimeritem', ['no' => $item['id']]);
+                $url_modif = $this->container->router->pathFor('modifitem', ['tokenModif' => $this->tab['tokenModif'], 'no' => $item['id']]);
+                $url_suppr = $this->container->router->pathFor('supprimeritem', ['tokenModif' => $this->tab['tokenModif'], 'no' => $item['id']]);
                 $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td><td>{$item['url']}</td><td>{$item['etat']}</td>
                           <td><a href='$url_modif'><i class='fa fa-edit'></i></a>
                           <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
@@ -290,11 +285,6 @@ END;
             case 8 :
             {
                 VuePrincipale::$content = $this->uneListeModif();
-                break;
-            }
-            case 9 :
-            {
-                VuePrincipale::$content = $this->modifieritem();
                 break;
             }
         }
