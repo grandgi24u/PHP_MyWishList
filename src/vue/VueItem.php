@@ -78,6 +78,22 @@ FIN;
         return $html;
     }
 
+    private function modifitem(): string
+    {
+        $url = $this->container->router->pathFor('modifieritem', ['no' => $this->tab['id']]);
+        $html = <<<FIN
+<form method="POST" action="$url">
+	<label>Nom :<br> <input type="text" name="nom" value="{$this->tab['nom']}"/></label><br>
+	<label>Description : <br><input type="text" name="descr" value="{$this->tab['descr']}"/></label><br>
+	<label>Url : <br><input type="text" name="url" value="{$this->tab['url']}"/></label><br>
+	<label>Tarif : <br><input type="text" name="tarif" value="{$this->tab['tarif']}"/></label><br>
+	<button class="button" type="submit">Enregistrer la modification</button>
+</form>	
+FIN;
+        return $html;
+    }
+
+
     public function render(int $select) : String{
         switch ($select){
             case 0 : {
@@ -90,6 +106,10 @@ FIN;
             }
             case 2 : {
                 $content = $this->ajouteritem ();
+                break;
+            }
+            case 3 : {
+                $content = $this->modifitem ();
                 break;
             }
         }

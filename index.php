@@ -102,6 +102,15 @@ $app->get('/itemsexpire', ControleurItem::class . ':afficheritemsexpire')->setNa
 $app->get('/additem/{no}', ControleurItem::class . ':additem')->setName('additem');
 $app->post('/ajouteritem/{no}', ControleurItem::class . ':ajouteritem')->setName('ajouteritem');
 
+//Route pour modifier un item dans une liste
+$app->get('/modifitem/{no}', ControleurItem::class . ':modifitem')->setName('modifitem');
+$app->post('/modifieritem/{no}', ControleurItem::class . ':modifieritem')->setName('modifieritem');
+
+//Route pour supprimer un item
+$app->get('/supprimeritem/{no}', ControleurItem::class . ':supprimeritem')->setName('supprimeritem');
+
+
+
 
 
 /** Route pour les erreurs */

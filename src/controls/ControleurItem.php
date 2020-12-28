@@ -72,6 +72,33 @@ class ControleurItem
         return $rs;
     }
 
+    public function modifitem(Request $rq, Response $rs, $args): Response
+    {
+        $i = Item::where("id", "=", $args['no'])->first();
+        $vue = new VueItem($i->toArray(), $this->container);
+        $rs->getBody()->write($vue->render(3));
+        return $rs;
+    }
+
+    public function modifieritem(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+        $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+        $descr = filter_var($post['descr'], FILTER_SANITIZE_STRING);
+        $url = filter_var($post['url'], FILTER_SANITIZE_STRING);
+        $tarif = filter_var($post['tarif'], FILTER_SANITIZE_STRING);
+
+        $i = Item::where("id", "=", $args['no'])->first();
+        $i->nom = $nom;
+        $i->descr = $descr;
+        $i->url = $url;
+        $i->tarif = $tarif;
+        $i->save();
+
+        $url_liste = $this->container->router->pathFor( 'afficherlistes' ) ;
+        return $rs->withRedirect($url_liste);
+    }
+
     public function ajouteritem(Request $rq, Response $rs, $args) : Response {
         $post = $rq->getParsedBody() ;
         $nom = filter_var($post['nom'] , FILTER_SANITIZE_STRING) ;
@@ -91,5 +118,13 @@ class ControleurItem
         $url_listes = $this->container->router->pathFor( 'afficherlistes' ) ;
         return $rs->withRedirect($url_listes);
     }
+
+    public function supprimeritem(Request $rq, Response $rs, $args): Response
+    {
+        Item::where("id", "=", $args['no'])->first()->delete();
+        $url_listes = $this->container->router->pathFor('afficherlistes');
+        return $rs->withRedirect($url_listes);
+    }
+
 
 }
