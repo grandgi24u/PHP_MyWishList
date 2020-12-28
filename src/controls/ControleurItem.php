@@ -86,12 +86,49 @@ class ControleurItem
         $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
         $descr = filter_var($post['descr'], FILTER_SANITIZE_STRING);
         $url = filter_var($post['url'], FILTER_SANITIZE_STRING);
+        if (empty(filter_var($post['img'], FILTER_SANITIZE_STRING))) {
+            if (empty(filter_var($post['photo'], FILTER_SANITIZE_STRING))) {
+                $img = NULL;
+            } else {
+                /* pas terminé ($_FILES ne marche pas)
+                $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+                $filename = $_FILES["photo"]["name"];
+                $filetype = $post['photo']["type"];
+                $filesize = $post['photo']["size"];
+
+                // Vérifie l'extension du fichier
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                if (!array_key_exists($ext, $allowed)) die("Erreur : Veuillez sélectionner un format de fichier valide.");
+
+                // Vérifie la taille du fichier - 10Mo maximum
+                $maxsize = 10 * 1024 * 1024;
+                if ($filesize > $maxsize) die("Error: La taille du fichier est supérieure à la limite autorisée.");
+
+                // Vérifie le type MIME du fichier
+                if (in_array($filetype, $allowed)) {
+                    // Vérifie si le fichier existe avant de le télécharger.
+                    if (file_exists("img/" . $_FILES["photo"]["name"])) {
+                        $img = "img/" . $_FILES["photo"]["name"];
+                    } else {
+                        // On met la photo dans le dossier img
+                        move_uploaded_file($_FILES["photo"]["tmp_name"], "img/" . $_FILES["photo"]["name"]);
+                        $img = "img/" . $_FILES["photo"]["name"];
+                        echo "Votre fichier a été téléchargé avec succès.";
+                    }
+                } else {
+                    echo "Error: Il y a eu un problème de téléchargement de votre fichier. Veuillez réessayer.";
+                }*/
+            }
+        } else {
+            $img = filter_var($post['img'], FILTER_SANITIZE_STRING);
+        }
         $tarif = filter_var($post['tarif'], FILTER_SANITIZE_STRING);
 
         $i = Item::where("id", "=", $args['no'])->first();
         $i->nom = $nom;
         $i->descr = $descr;
         $i->url = $url;
+        $i->img = $img;
         $i->tarif = $tarif;
         $i->save();
 

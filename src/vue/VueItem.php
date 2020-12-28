@@ -88,6 +88,10 @@ FIN;
 	<label>Nom :<br> <input type="text" name="nom" value="{$this->tab['nom']}"/></label><br>
 	<label>Description : <br><input type="text" name="descr" value="{$this->tab['descr']}"/></label><br>
 	<label>Url : <br><input type="text" name="url" value="{$this->tab['url']}"/></label><br>
+	<label>Url de l'image : <br><input type="text" name="img" value="{$this->tab['img']}"/></label><br>
+	<label for="fileUpload">Ou uploadez votre image :</label><br>
+        <input type="file" name="photo">
+        <p><strong>Note:</strong> Seuls les formats .jpg, .jpeg, .gif, .png sont autorisés jusqu'à une taille maximale de 10 Mo.</p>
 	<label>Tarif : <br><input type="text" name="tarif" value="{$this->tab['tarif']}"/></label><br>
 	<button class="button" type="submit">Enregistrer la modification</button>
 </form>	

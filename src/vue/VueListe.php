@@ -223,12 +223,14 @@ END;
     }
 
     private function afficherItems() : String {
-        $html = "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Url</td><td>Etat de reservation</td><td>Action</td></tr></thead><tbody>";
+        $html = "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Url</td><td>Image</td><td>Etat de reservation</td><td>Action</td></tr></thead><tbody>";
         if (count($this->tab['item']) != 0) {
             foreach ($this->tab['item'] as $item) {
                 $url_modif = $this->container->router->pathFor('modifitem', ['tokenModif' => $this->tab['tokenModif'], 'no' => $item['id']]);
                 $url_suppr = $this->container->router->pathFor('supprimeritem', ['tokenModif' => $this->tab['tokenModif'], 'no' => $item['id']]);
-                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td><td>{$item['url']}</td><td>{$item['etat']}</td>
+                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td>
+                          <td><img style='height:80px; width: 80px;' src={$item['img']}></td>
+                          <td>{$item['etat']}</td>
                           <td><a href='$url_modif'><i class='fa fa-edit'></i></a>
                           <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
             }
