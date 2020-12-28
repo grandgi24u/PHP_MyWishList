@@ -12,19 +12,19 @@ class VueListe extends VuePrincipale
 
     public function __Construct($t, $c)
     {
-        $this -> tab = $t;
-        $this -> container = $c;
-        parent ::__construct ( $t, $c );
+        $this->tab = $t;
+        $this->container = $c;
+        parent::__construct($t, $c);
     }
 
     private function menulistes(): string
     {
-        $url_lites = $this -> container -> router -> pathFor ( 'afficherlistes' );
-        $url_listesexpire = $this -> container -> router -> pathFor ( 'afficherlistesexpire' );
-        $url_creerlistes = $this -> container -> router -> pathFor ( 'creerliste' );
-        $url_ajouteruneliste = $this -> container -> router -> pathFor ( 'ajouterUneListe' );
+        $url_lites = $this->container->router->pathFor('afficherlistes');
+        $url_listesexpire = $this->container->router->pathFor('afficherlistesexpire');
+        $url_creerlistes = $this->container->router->pathFor('creerliste');
+        $url_ajouteruneliste = $this->container->router->pathFor('ajouterUneListe');
 
-        if(isset($_SESSION['iduser'])){
+        if (isset($_SESSION['iduser'])) {
             $html = <<<END
 <div class="vertical-menu">
   <a class="active">Mes listes</a>
@@ -34,7 +34,7 @@ class VueListe extends VuePrincipale
   <a href='$url_ajouteruneliste'>Ajouter une liste au compte</a>
 </div>
 END;
-        }else{
+        } else {
             $html = <<<END
 <div class="vertical-menu">
   <a class="active">Les listes publiques</a>
@@ -50,25 +50,25 @@ END;
 
     private function lesListes(): string
     {
-        if(isset($_SESSION['iduser'])){
+        if (isset($_SESSION['iduser'])) {
             $html = '<h2>Vos listes en cours : </h2>';
-        }else{
+        } else {
             $html = '<h2>Les listes en cours : </h2>';
         }
-        if (sizeof ( $this -> tab ) > 0) {
+        if (sizeof($this->tab) > 0) {
             $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Code de partage</td><td>Action</td></tr></thead><tbody>";
-            foreach ($this -> tab as $liste) {
-                if(isset($_SESSION['iduser'])){
-                    $url_show = $this->container->router->pathFor('afficherUneListe',['token' => $liste['token']]);
+            foreach ($this->tab as $liste) {
+                if (isset($_SESSION['iduser'])) {
+                    $url_show = $this->container->router->pathFor('afficherUneListe', ['token' => $liste['token']]);
                     $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
                             <td>{$liste['token']}</td><td><a href='$url_show'><i class='fa fa-eye'></i></a>";
-                    $url_modif = $this->container->router->pathFor('listemodif',['tokenModif' => $liste['tokenModif']]);
-                    $url_suppr = $this->container->router->pathFor('supprimerliste',['tokenModif' => $liste['tokenModif']]);
+                    $url_modif = $this->container->router->pathFor('listemodif', ['tokenModif' => $liste['tokenModif']]);
+                    $url_suppr = $this->container->router->pathFor('supprimerliste', ['tokenModif' => $liste['tokenModif']]);
                     $html .= " <a href='$url_modif'><i class='fa fa-edit'></i></a>
                               <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
-                }else{
-                    if($liste['acces'] == "public"){
-                        $url_show = $this->container->router->pathFor('afficherUneListe',['token' => $liste['token']]);
+                } else {
+                    if ($liste['acces'] == "public") {
+                        $url_show = $this->container->router->pathFor('afficherUneListe', ['token' => $liste['token']]);
                         $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
                             <td>{$liste['token']}</td><td><a href='$url_show'><i class='fa fa-eye'></i></a></td></tr>";
 
@@ -85,28 +85,29 @@ END;
 
     private function lesListesexpire(): string
     {
-        if(isset($_SESSION['iduser'])){
+        if (isset($_SESSION['iduser'])) {
             $html = '<h2>Vos listes expirées : </h2>';
-        }else{
+        } else {
             $html = '<h2>Les listes expirées : </h2>';
         }
-        if (sizeof ( $this -> tab ) > 0) {
+        if (sizeof($this->tab) > 0) {
             $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Code de partage</td><td>Action</td></tr></thead><tbody>";
-            foreach ($this -> tab as $liste) {
-                if(isset($_SESSION['iduser'])){
-                    $url_show = $this->container->router->pathFor('afficherUneListe',['token' => $liste['token']]);
+            foreach ($this->tab as $liste) {
+                if (isset($_SESSION['iduser'])) {
+                    $url_show = $this->container->router->pathFor('afficherUneListe', ['token' => $liste['token']]);
                     $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
                             <td>{$liste['token']}</td><td><a href='$url_show'><i class='fa fa-eye'></i></a>";
-                    $url_suppr = $this->container->router->pathFor('supprimerliste',['tokenModif' => $liste['tokenModif']]);
+                    $url_suppr = $this->container->router->pathFor('supprimerliste', ['tokenModif' => $liste['tokenModif']]);
                     $html .= " <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
-                }else{
-                    if($liste['acces'] == "public"){
-                        $url_show = $this->container->router->pathFor('afficherUneListe',['token' => $liste['token']]);
+                } else {
+                    if ($liste['acces'] == "public") {
+                        $url_show = $this->container->router->pathFor('afficherUneListe', ['token' => $liste['token']]);
                         $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
                             <td>{$liste['token']}</td><td><a href='$url_show'><i class='fa fa-eye'></i></a></td></tr>";
 
                     }
-                }}
+                }
+            }
             $html .= "</tbody></table>";
         } else {
             $html .= "Aucune liste";
@@ -118,7 +119,7 @@ END;
     private function creerliste(): string
     {
         $today = date('Y-m-d');
-        $url_new_liste = $this -> container -> router -> pathFor ( 'nouvelleliste' );
+        $url_new_liste = $this->container->router->pathFor('nouvelleliste');
         $html = <<<FIN
 <form method="POST" action="$url_new_liste" style="margin-left: 2%">
 	<label>Titre :<br> <input type="text" name="titre" required/></label><br><br>
@@ -130,32 +131,9 @@ FIN;
         return $html;
     }
 
-    private function uneListe(): string
+    private function modifliste(): string
     {
-        $html = "<h1>Liste : {$this->tab['titre']}</h1>";
-        $html .= "<h3>Description : {$this->tab['description']}</h3>";
-        $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
-        $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Url</td><td>Etat de reservation</td></tr></thead><tbody>";
-        if(count($this->tab['item']) != 0) {
-            foreach ($this -> tab['item'] as $item) {
-                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td><td>{$item['url']}</td><td>{$item['etat']}</td></tr>";
-            }
-        }else{
-            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td></tr>";
-        }
-        $html .= "</tbody></table>";
-        if(isset($_SESSION['iduser']) == $this->tab['user_id']){
-            if($this->tab['date'] >= date("Y-m-d") ){
-                $url_additem = $this -> container -> router -> pathFor ( 'additem' , ["no" => $this->tab['no']]);
-                $html .= "<a class='button' href='$url_additem'>Ajouter un item</a>";
-            }
-        }
-
-        return $html;
-    }
-
-    private function modifliste() : String {
-        $url = $this -> container -> router -> pathFor ( 'modifierliste', ['tokenModif' => $this->tab['tokenModif']] );
+        $url = $this->container->router->pathFor('modifierliste', ['tokenModif' => $this->tab['tokenModif']]);
         $html = <<<FIN
 <form method="POST" action="$url">
 	<label>Titre :<br> <input type="text" name="titre" value="{$this->tab['titre']}"/></label><br>
@@ -167,12 +145,14 @@ FIN;
         return $html;
     }
 
-    private function recherchenulle() : String {
+    private function recherchenulle(): string
+    {
         return "<h1>Aucun resultat</h1>";
     }
 
-    private function ajouterUneListe() : String {
-        $url = $this -> container -> router -> pathFor ( 'sajouterUneListe' );
+    private function ajouterUneListe(): string
+    {
+        $url = $this->container->router->pathFor('sajouterUneListe');
         $html = <<<FIN
 <form method="POST" action="$url">
 	<label>Code de modification :<br> <input type="text" name="token" required/></label><br>
@@ -182,7 +162,8 @@ FIN;
         return $html;
     }
 
-    private function donnerTokenModif() : String {
+    private function donnerTokenModif(): string
+    {
         $html = <<<END
 
 <h1>Informations importantes : </h1>
@@ -197,51 +178,110 @@ END;
         return $html;
     }
 
+    private function uneListe(): string
+    {
+        $html = "<h1>Liste : {$this->tab['titre']}</h1>";
+        $html .= "<h3>Description : {$this->tab['description']}</h3>";
+        $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
+        $html .= $this->afficherItems();
+        if (isset($_SESSION['iduser']) == $this->tab['user_id'] && $this->tab['user_id'] != null) {
+            if ($this->tab['date'] >= date("Y-m-d")) {
+                $url_additem = $this->container->router->pathFor('additem', ["no" => $this->tab['no']]);
+                $html .= "<a class='button' href='$url_additem'>Ajouter un item</a>";
+            }
+        }
+
+        return $html;
+    }
+
+    private function uneListeModif(): string
+    {
+        $html = "<h1>Mode modification</h1>";
+        $html .= "<h1>Liste : {$this->tab['titre']}</h1>";
+        $html .= "<h3>Description : {$this->tab['description']}</h3>";
+        $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
+        $html .= $this->afficherItems();
+        if ($this->tab['date'] >= date("Y-m-d")) {
+            $url_additem = $this->container->router->pathFor('additem', ["no" => $this->tab['no']]);
+            $url_modif = $this->container->router->pathFor('listemodif', ['tokenModif' => $this->tab['tokenModif']]);
+            $url_suppr = $this->container->router->pathFor('supprimerliste', ['tokenModif' => $this->tab['tokenModif']]);
+            $html .= "<a class='button' href='$url_additem'>Ajouter un item</a>
+                      <a class='button' href='$url_modif'>Modifier la liste</a>
+                      <a class='button' href='$url_suppr'>Supprimer la liste</a>";
+        }else{
+            $url_suppr = $this->container->router->pathFor('supprimerliste', ['tokenModif' => $this->tab['tokenModif']]);
+            $html .= "<a class='button' href='$url_suppr'>Supprimer la liste</a>";
+        }
+
+        return $html;
+    }
+
+    private function afficherItems() : String {
+        $html = "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Url</td><td>Etat de reservation</td></tr></thead><tbody>";
+        if (count($this->tab['item']) != 0) {
+            foreach ($this->tab['item'] as $item) {
+                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td><td>{$item['url']}</td><td>{$item['etat']}</td></tr>";
+            }
+        } else {
+            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td></tr>";
+        }
+        $html .= "</tbody></table>";
+        return $html;
+    }
+
     public function render(int $select): string
     {
         switch ($select) {
             case 0 :
             {
-                VuePrincipale ::$content = $this -> lesListes ();
+                VuePrincipale::$content = $this->lesListes();
                 break;
             }
             case 1 :
             {
-                VuePrincipale ::$content = $this -> creerliste ();
+                VuePrincipale::$content = $this->creerliste();
                 break;
             }
             case 2 :
             {
-                VuePrincipale ::$content = $this -> lesListesexpire ();
+                VuePrincipale::$content = $this->lesListesexpire();
                 break;
             }
             case 3 :
             {
-                VuePrincipale ::$content = $this -> uneListe ();
+                VuePrincipale::$content = $this->uneListe();
                 break;
             }
             case 4 :
             {
-                VuePrincipale ::$content = $this -> modifliste ();
+                VuePrincipale::$content = $this->modifliste();
                 break;
             }
-            case 5 : {
-                VuePrincipale ::$content = $this -> recherchenulle ();
+            case 5 :
+            {
+                VuePrincipale::$content = $this->recherchenulle();
                 break;
             }
-            case 6 : {
-                VuePrincipale ::$content = $this -> ajouterUneListe ();
+            case 6 :
+            {
+                VuePrincipale::$content = $this->ajouterUneListe();
                 break;
             }
-            case 7 : {
-                VuePrincipale ::$content = $this -> donnerTokenModif ();
+            case 7 :
+            {
+                VuePrincipale::$content = $this->donnerTokenModif();
+                break;
+            }
+            case 8 :
+            {
+                VuePrincipale::$content = $this->uneListeModif();
                 break;
             }
         }
 
-        VuePrincipale::$inMenu = $this -> menulistes ();
+        VuePrincipale::$inMenu = $this->menulistes();
 
-        return substr(include ("html/index.php"), 1,-1);
+        return substr(include("html/index.php"), 1, -1);
     }
 
 }

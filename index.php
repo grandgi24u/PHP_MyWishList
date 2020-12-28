@@ -84,6 +84,10 @@ $app->get('/recherchenulle', ControleurListe::class . ':recherchenulle')->setNam
 $app->get('/ajouterUneListe', ControleurListe::class . ':ajouterUneListe')->setName('ajouterUneListe');
 $app->post('/sajouterUneListe', ControleurListe::class . ':sajouterUneListe')->setName('sajouterUneListe');
 
+//Route
+//Route pour afficher les détails d'une liste
+$app->get('/afficherUneListeWithModif/{tokenModif}', ControleurListe::class . ':afficherUneListeWithModif')->setName('afficherUneListeWithModif');
+
 
 
 /** Route pour les items */

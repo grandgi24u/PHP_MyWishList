@@ -171,7 +171,7 @@ class ControleurListe
         $l->expiration = $date;
         $l->save();
 
-        $url_listes = $this->container->router->pathFor('afficherlistes');
+        $url_listes = $this->container->router->pathFor('afficherUneListe', ["token" => $l->token]);
         return $rs->withRedirect($url_listes);
     }
 
@@ -181,11 +181,15 @@ class ControleurListe
         $token = filter_var($post['token'], FILTER_SANITIZE_STRING);
 
         $array = array();
+        $arraymodif = array();
         foreach (Liste::all() as $li) {
             $array[] = $li->token;
+            $arraymodif[] = $li->tokenModif;
         }
         if (in_array($token, $array)) {
             $url_listes = $this->container->router->pathFor('afficherUneListe', ['token' => $token]);
+        } else if(in_array($token, $arraymodif)){
+            $url_listes = $this->container->router->pathFor('afficherUneListeWithModif', ['tokenModif' => $token]);
         } else {
             $url_listes = $this->container->router->pathFor('recherchenulle');
         }
@@ -249,6 +253,26 @@ class ControleurListe
             $rs->getBody()->write($vue->render(7));
         }
 
+        return $rs;
+    }
+
+    public function afficherUneListeWithModif(Request $rq, Response $rs, $args): Response
+    {
+        $liste = Liste::where("tokenModif", "=", $args['tokenModif'])->first();
+
+        $array = array();
+
+        $array['no'] = $liste->no;
+        $array['user_id'] = $liste->user_id;
+        $array['titre'] = $liste->titre;
+        $array['description'] = $liste->description;
+        $array['date'] = $liste->expiration;
+        $array['token'] = $liste->token;
+        $array['tokenModif'] = $liste->tokenModif;
+        $array['item'] = ControleurItem::retournerItemsListe($liste->no);
+
+        $vue = new VueListe($array, $this->container);
+        $rs->getBody()->write($vue->render(8));
         return $rs;
     }
 
