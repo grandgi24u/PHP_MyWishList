@@ -120,17 +120,13 @@ END;
     {
         $today = date('Y-m-d');
         $url_new_liste = $this->container->router->pathFor('nouvelleliste');
-        if(isset($_SESSION['iduser'])){
-            $content = "";
-        }else{
-            $content = "<label for='subscribeNews'>Liste publique?</label><input type='checkbox' name='etat' value='yes'>";
-        }
+
         $html = <<<FIN
 <form method="POST" action="$url_new_liste" style="margin-left: 2%">
 	<label>Titre :<br> <input type="text" name="titre" required/></label><br><br>
 	<label>Description : <br><input type="text" name="description" required/></label><br><br>
 	<label>Date d'expiration : <br><input type="date" name="date" value=$today min=$today required/></label><br><br>
-	$content <br><br>
+	<label for='subscribeNews'>Liste publique?</label><input type='checkbox' name='etat' value='yes'><br><br>
 	<button class="button" type="submit">Enregistrer la liste</button>
 </form>	
 FIN;

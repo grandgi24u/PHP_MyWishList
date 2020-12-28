@@ -31,7 +31,7 @@ class ControleurListe
                     }
                 }
             } else {
-                if ($l->user_id == NULL) {
+                if ($l->acces == "public") {
                     if ($l->expiration >= date("Y-m-d")) {
                         $lf[] = $l;
                     }
@@ -55,7 +55,7 @@ class ControleurListe
                     }
                 }
             } else {
-                if ($l->user_id == NULL) {
+                if ($l->acces == "public") {
                     if ($l->expiration < date("Y-m-d")) {
                         $lf[] = $l;
                     }
@@ -81,25 +81,26 @@ class ControleurListe
         $description = filter_var($post['description'], FILTER_SANITIZE_STRING);
         $date = filter_var($post['date'], FILTER_SANITIZE_STRING);
 
-
         $l = new Liste();
         $l->titre = $titre;
         $l->description = $description;
         $l->expiration = $date;
-        $l->token = $this->creerToken();
+        $token = $this->creerToken();
         $tokenModif = $this->creerToken();
+
+        if($post['etat'] == "yes"){
+            $l->acces = "public";
+        }
 
         if (isset($_SESSION['iduser'])) {
             $user_id = $_SESSION['iduser'];
-            $url = $this->container->router->pathFor('afficherlistes');
+            $url = $this->container->router->pathFor('afficherUneListe', ["token" => $token]);
         } else {
-            if($post['etat'] == "yes"){
-                $l->acces = "public";
-            }
             $user_id = NULL;
             $url = $this->container->router->pathFor('donnerTokenModif', ["tokenModif" => $tokenModif]);
         }
 
+        $l->token = $token;
         $l->tokenModif = $tokenModif;
         $l->user_id = $user_id;
         $l->save();
