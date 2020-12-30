@@ -35,6 +35,11 @@ include ("footer.php"); // footer (bas de page)
         color: white;
     }
 
+    .red {
+        background-color: #ff1e1e;
+        color: white;
+    }
+
 
 
     .inMenu {

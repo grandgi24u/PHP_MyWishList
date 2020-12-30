@@ -4,6 +4,8 @@
 namespace mywishlist\vue;
 
 
+use mywishlist\models\Participation;
+
 class VueListe extends VuePrincipale
 {
 
@@ -56,11 +58,11 @@ END;
             $html = '<h2>Les listes en cours : </h2>';
         }
         if (sizeof($this->tab) > 0) {
-            $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Code de partage</td><td>Action</td></tr></thead><tbody>";
+            $html .= "<table class='styled-table' ><thead><tr><td>Acces</td><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Code de partage</td><td>Action</td></tr></thead><tbody>";
             foreach ($this->tab as $liste) {
                 if (isset($_SESSION['iduser'])) {
                     $url_show = $this->container->router->pathFor('afficherUneListe', ['token' => $liste['token']]);
-                    $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
+                    $html .= "<tr><td>{$liste['acces']}</td><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
                             <td>{$liste['token']}</td><td><a href='$url_show'><i class='fa fa-eye'></i></a>";
                     $url_modif = $this->container->router->pathFor('listemodif', ['tokenModif' => $liste['tokenModif']]);
                     $url_suppr = $this->container->router->pathFor('supprimerliste', ['tokenModif' => $liste['tokenModif']]);
@@ -69,7 +71,7 @@ END;
                 } else {
                     if ($liste['acces'] == "public") {
                         $url_show = $this->container->router->pathFor('afficherUneListe', ['token' => $liste['token']]);
-                        $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
+                        $html .= "<tr><td>{$liste['acces']}</td><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
                             <td>{$liste['token']}</td><td><a href='$url_show'><i class='fa fa-eye'></i></a></td></tr>";
 
                     }
@@ -91,18 +93,18 @@ END;
             $html = '<h2>Les listes expirées : </h2>';
         }
         if (sizeof($this->tab) > 0) {
-            $html .= "<table class='styled-table' ><thead><tr><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Code de partage</td><td>Action</td></tr></thead><tbody>";
+            $html .= "<table class='styled-table' ><thead><tr><td>Acces</td><td>Titre</td><td>Description</td><td>Date d'expiration</td><td>Code de partage</td><td>Action</td></tr></thead><tbody>";
             foreach ($this->tab as $liste) {
                 if (isset($_SESSION['iduser'])) {
                     $url_show = $this->container->router->pathFor('afficherUneListe', ['token' => $liste['token']]);
-                    $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
+                    $html .= "<tr><td>{$liste['acces']}</td><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
                             <td>{$liste['token']}</td><td><a href='$url_show'><i class='fa fa-eye'></i></a>";
                     $url_suppr = $this->container->router->pathFor('supprimerliste', ['tokenModif' => $liste['tokenModif']]);
                     $html .= " <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
                 } else {
                     if ($liste['acces'] == "public") {
                         $url_show = $this->container->router->pathFor('afficherUneListe', ['token' => $liste['token']]);
-                        $html .= "<tr><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
+                        $html .= "<tr><td>{$liste['acces']}</td><td>{$liste['titre']}</td> <td>{$liste['description']}</td> <td>{$liste['expiration']}</td>
                             <td>{$liste['token']}</td><td><a href='$url_show'><i class='fa fa-eye'></i></a></td></tr>";
 
                     }
@@ -126,7 +128,7 @@ END;
 	<label>Titre :<br> <input type="text" name="titre" required/></label><br><br>
 	<label>Description : <br><input type="text" name="description" required/></label><br><br>
 	<label>Date d'expiration : <br><input type="date" name="date" value=$today min=$today required/></label><br><br>
-	<label for='subscribeNews'>Liste publique?</label><input type='checkbox' name='etat' value='yes'><br><br>
+	<label>Liste publique?</label><input type='checkbox' name='etat' value='yes'><br><br>
 	<button class="button" type="submit">Enregistrer la liste</button>
 </form>	
 FIN;
@@ -136,21 +138,21 @@ FIN;
     private function modifliste(): string
     {
         $url = $this->container->router->pathFor('modifierliste', ['tokenModif' => $this->tab['tokenModif']]);
+        if($this->tab['acces'] == "public"){
+            $a = "<label>Liste publique?</label><input type='checkbox' name='etat' value='yes' checked><br><br>";
+        }else{
+            $a = "<label>Liste publique?</label><input type='checkbox' name='etat' value='yes'><br><br>";
+        }
         $html = <<<FIN
 <form method="POST" action="$url">
 	<label>Titre :<br> <input type="text" name="titre" value="{$this->tab['titre']}"/></label><br>
 	<label>Description : <br><input type="text" name="description" value="{$this->tab['description']}"/></label><br>
 	<label>Date d'expiration : <br><input type="date" name="date" value="{$this->tab['expiration']}"/></label><br>
+	$a
 	<button class="button" type="submit">Enregistrer la modification</button>
 </form>	
 FIN;
         return $html;
-    }
-
-
-    private function recherchenulle(): string
-    {
-        return "<h1>Aucun resultat</h1>";
     }
 
     private function ajouterUneListe(): string
@@ -171,7 +173,7 @@ FIN;
 <h1>Informations importantes : </h1>
 <p>
 Voici le code qui va vous servir d'ajouter des items et de gerer votre liste ! <br>
-Garder le bien il ne vous sera pas recommuniqué : {$this->tab['tokenModif']} <br><br>
+<strong>Garder le bien </strong>il ne vous sera pas recommuniqué : {$this->tab['tokenModif']} <br><br>
 Et voici votre code de patarge a donner a vos amis / familles / etc : {$this->tab['token']}
 </p>
 END;
@@ -183,13 +185,26 @@ END;
         $html = "<h1>Liste : {$this->tab['titre']}</h1>";
         $html .= "<h3>Description : {$this->tab['description']}</h3>";
         $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
-        $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Url</td><td>Etat de reservation</td></tr></thead><tbody>";
+        $html .= "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Etat de reservation</td></tr></thead><tbody>";
         if(count($this->tab['item']) != 0) {
             foreach ($this -> tab['item'] as $item) {
-                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$item['etat']}</td>";
+                if(file_exists ("../uploads/{$item['img']}")){
+                    $img = "../uploads/{$item['img']}";
+                }else{
+                    $img = "../uploads/base.png";
+                }
+                if($item['etat'] == 0){
+                    $url_additem = $this->container->router->pathFor('reserver', ['token' => $this->tab['token'], "id" => $item['id']]);
+                    $etat = "<a class='button red' href='$url_additem'>Reserver</a>";
+                }else{
+                    $p = Participation::where("id_item","=", $item["id"])->first();
+                    $etat = "<pre>Réserver par : " . $p->nom . " <br>Commentaire : " . $p->commentaire . "</pre>";
+                }
+                $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td><td>{$item['nom']}</td> 
+                          <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$etat}</td>";
             }
         }else{
-            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td></tr>";
+            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td></tr>";
         }
         $html .= "</tbody></table>";
 
@@ -223,19 +238,25 @@ END;
     }
 
     private function afficherItems() : String {
-        $html = "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Url</td><td>Image</td><td>Etat de reservation</td><td>Action</td></tr></thead><tbody>";
+        $html = "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Action</td></tr></thead><tbody>";
         if (count($this->tab['item']) != 0) {
             foreach ($this->tab['item'] as $item) {
                 $url_modif = $this->container->router->pathFor('modifitem', ['tokenModif' => $this->tab['tokenModif'], 'no' => $item['id']]);
                 $url_suppr = $this->container->router->pathFor('supprimeritem', ['tokenModif' => $this->tab['tokenModif'], 'no' => $item['id']]);
-                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td>
-                          <td><img style='height:80px; width: 80px;' src={$item['img']}></td>
-                          <td>{$item['etat']}</td>
+
+                if(file_exists ("../uploads/{$item['img']}")){
+                    $img = "../uploads/{$item['img']}";
+                }else{
+                    $img = "../uploads/base.png";
+                }
+
+                $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td>
+                          <td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td>
                           <td><a href='$url_modif'><i class='fa fa-edit'></i></a>
                           <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
             }
         } else {
-            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td></tr>";
+            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>";
         }
         $html .= "</tbody></table>";
         return $html;

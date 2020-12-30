@@ -33,6 +33,14 @@ class VueErreur extends VuePrincipale
         return "<h1>La liste saisie appartient déjà à quelqu'un</h1>";
     }
 
+    private function itemreserver() : String {
+        return "<h1>L'item ne peux pas etre modifier ou supprimer car il est réserver</h1>";
+    }
+
+    private function itemdejareserver() : String {
+        return "<h1>L'item est déjà réserver</h1>";
+    }
+
     public function render($select) : String {
         switch ($select) {
             case 0 :
@@ -48,6 +56,16 @@ class VueErreur extends VuePrincipale
             case 2 :
             {
                 VuePrincipale::$content = $this->listappartient();
+                break;
+            }
+            case 3 :
+            {
+                VuePrincipale::$content = $this->itemreserver();
+                break;
+            }
+            case 4 :
+            {
+                VuePrincipale::$content = $this->itemdejareserver();
                 break;
             }
         }

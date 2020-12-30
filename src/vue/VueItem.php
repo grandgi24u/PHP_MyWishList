@@ -38,9 +38,9 @@ END;
     private function lesParticipations() : String {
         $html = '<h2>Vos Items à achetées : </h2>';
         if(sizeof ($this->tab) > 0 ) {
-            $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td></tr></thead><tbody>";
+            $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Tarif</td><td>Url</td></tr></thead><tbody>";
             foreach($this->tab as $item){
-                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td></tr>";
+                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['tarif']}</td> <td>{$item['url']}</td></tr>";
             }
             $html .= "</tbody></table>";
         }else{
@@ -53,9 +53,9 @@ END;
     private function lesParticipationsexpire() : String {
         $html = '<h2>Vos Items expirées: </h2>';
         if(sizeof ($this->tab) > 0 ) {
-            $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td></tr></thead><tbody>";
+            $html .= "<table class='styled-table' ><thead><tr><td>Item</td><td>Description</td><td>Tarif</td><td>Url</td></tr></thead><tbody>";
             foreach($this->tab as $item){
-                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td></tr>";
+                $html .= "<tr><td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['tarif']}</td> <td>{$item['url']}</td></tr>";
             }
             $html .= "</tbody></table>";
         }else{
@@ -84,21 +84,40 @@ FIN;
     {
         $url = $this->container->router->pathFor('modifieritem', ['tokenModif' => Liste::find($this->tab['liste_id'])->tokenModif, 'no' => $this->tab['id']]);
         $html = <<<FIN
-<form method="POST" action="$url">
+<form method="POST" action="$url" enctype="multipart/form-data">
 	<label>Nom :<br> <input type="text" name="nom" value="{$this->tab['nom']}"/></label><br>
 	<label>Description : <br><input type="text" name="descr" value="{$this->tab['descr']}"/></label><br>
 	<label>Url : <br><input type="text" name="url" value="{$this->tab['url']}"/></label><br>
-	<label>Url de l'image : <br><input type="text" name="img" value="{$this->tab['img']}"/></label><br>
-	<label for="fileUpload">Ou uploadez votre image :</label><br>
-        <input type="file" name="photo">
-        <p><strong>Note:</strong> Seuls les formats .jpg, .jpeg, .gif, .png sont autorisés jusqu'à une taille maximale de 10 Mo.</p>
 	<label>Tarif : <br><input type="text" name="tarif" value="{$this->tab['tarif']}"/></label><br>
+	<label>Url de l'image : <br><input type="text" name="img" value="{$this->tab['img']}"/></label><br><br>
+	<label for="fileUpload">Ou uploadez votre image :</label><br>
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        
+        <p><strong>Note:</strong> Seuls les formats .jpg, .jpeg, .gif, .png sont autorisés jusqu'à une taille maximale de 10 Mo.</p>
+	
 	<button class="button" type="submit">Enregistrer la modification</button>
 </form>	
 FIN;
         return $html;
     }
 
+    public function reserver() : String
+    {
+        $url = $this->container->router->pathFor('reserverform', ["token" => $this->tab['token'], "id" => $this->tab['item']['id']]);
+        if(!isset($_SESSION['iduser'])){
+            $a = "<label>* Nom :<br> <input type='text' name='nom' required/></label><br>";
+        }else{
+            $a = "";
+        }
+        $html = <<<FIN
+<form method="POST" action="$url" enctype="multipart/form-data">
+	<br>$a
+	<label>Commentaire : <br><input type="text" name="commentaire" /></label><br><br>
+	<button class="button" type="submit">Enregistrer la réservation</button>
+</form>	
+FIN;
+        return $html;
+    }
 
     public function render(int $select) : String{
         switch ($select){
@@ -116,6 +135,10 @@ FIN;
             }
             case 3 : {
                 $content = $this->modifitem ();
+                break;
+            }
+            case 4 : {
+                $content = $this->reserver();
                 break;
             }
         }

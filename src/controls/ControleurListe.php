@@ -3,7 +3,9 @@
 
 namespace mywishlist\controls;
 
+use mywishlist\models\Item;
 use mywishlist\models\Liste;
+use mywishlist\models\Participation;
 use mywishlist\vue\VueErreur;
 use mywishlist\vue\VueListe;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -145,7 +147,7 @@ class ControleurListe
         $array['item'] = ControleurItem::retournerItemsListe($liste->no);
 
         $vue = new VueListe($array, $this->container);
-        if(isset($_SESSION['iduser'])){
+        if(isset($_SESSION['iduser']) && $_SESSION['iduser'] == $liste->user_id){
             $rs->getBody()->write($vue->render(8));
         }else{
             $rs->getBody()->write($vue->render(3));
@@ -155,7 +157,22 @@ class ControleurListe
 
     public function supprimerliste(Request $rq, Response $rs, $args): Response
     {
-        Liste::where("tokenModif", "=", $args['tokenModif'])->first()->delete();
+        $l = Liste::where("tokenModif", "=", $args['tokenModif'])->first();
+        $items = Item::all();
+        $participations = Participation::all();
+        foreach ($items as $i){
+            foreach ($participations as $p){
+                if($p->id_item == $i->id){
+                    if($i->liste_id == $l->no){
+                        $p->delete ();
+                    }
+                }
+            }
+            if($i->liste_id == $l->no){
+                $i->delete ();
+            }
+        }
+        $l->delete();
         $url_listes = $this->container->router->pathFor('afficherlistes');
         return $rs->withRedirect($url_listes);
     }
@@ -174,11 +191,17 @@ class ControleurListe
         $titre = filter_var($post['titre'], FILTER_SANITIZE_STRING);
         $description = filter_var($post['description'], FILTER_SANITIZE_STRING);
         $date = filter_var($post['date'], FILTER_SANITIZE_STRING);
+        $acces = filter_var($post['etat'], FILTER_SANITIZE_STRING);
 
         $l = Liste::where("tokenModif", "=", $args['tokenModif'])->first();
         $l->titre = $titre;
         $l->description = $description;
         $l->expiration = $date;
+        if($acces == "yes"){
+            $l->acces = "public";
+        }else{
+            $l->acces = "private";
+        }
         $l->save();
 
         $url_listes = $this->container->router->pathFor('afficherUneListeWithModif', ["tokenModif" => $l->tokenModif]);

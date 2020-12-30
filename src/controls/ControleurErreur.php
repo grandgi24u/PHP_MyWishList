@@ -36,4 +36,10 @@ class ControleurErreur
         return $rs;
     }
 
+    public function itemreserver(Request $rq, Response $rs, $args) : Response {
+        $vue = new VueErreur([], $this->container);
+        $rs->getBody()->write($vue->render(3));
+        return $rs;
+    }
+
 }

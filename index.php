@@ -108,7 +108,11 @@ $app->post('/modifieritem/{tokenModif}/{no}', ControleurItem::class . ':modifier
 //Route pour supprimer un item
 $app->get('/supprimeritem/{tokenModif}/{no}', ControleurItem::class . ':supprimeritem')->setName('supprimeritem');
 
+/** Route pour les participants */
 
+//Route pour réserver un item
+$app->get('/reserver/{token}/{id}', ControleurItem::class . ':reserver')->setName('reserver');
+$app->post('/reserverform/{token}/{id}', ControleurItem::class . ':reserverform')->setName('reserverform');
 
 
 
@@ -122,6 +126,9 @@ $app->get('/listnotfound', ControleurErreur::class . ':listnotfound')->setName('
 
 //Route quand la liste saisie appartient déjà à quelqu'un
 $app->get('/listappartient', ControleurErreur::class . ':listappartient')->setName('listappartient');
+
+//Route pour empecher la modification ou la suppression d'un item reserver
+$app->get('/itemreserver', ControleurErreur::class . ':itemreserver')->setName('itemreserver');
 
 
 $app->run();
