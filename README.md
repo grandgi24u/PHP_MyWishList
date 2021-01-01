@@ -42,7 +42,7 @@ Suivi : [Carnet de bord](https://docs.google.com/spreadsheets/d/1624796koU7YWj59
 
 ## Descriptif des fonctionnalités réalisées
 ```
-Particpant :
+Participant :
 
 Fonctionalitées : 1 - 2 - 3 - 4
 ```
