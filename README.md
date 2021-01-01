@@ -41,11 +41,11 @@ Le fichier : [.htaccess](https://drive.google.com/file/d/1-vl4Fv9f-n4OHAnRzL78sv
 Suivi : [Carnet de bord](https://docs.google.com/spreadsheets/d/1624796koU7YWj593UP73e4uDMPmXC7ZdKhuX9dDsz7I/edit?usp=sharing)
 
 ## Descriptif des fonctionnalités réalisées
-
+```
 Particpant :
 
 Fonctionalitées : 1 - 2 - 3 - 4
-
+```
 ### Afficher une liste de souhaits
 * L'affichage du détail d'une liste présente toutes les informations de la liste accompagnées de la liste des items
 * Chaque item est affiché avec son nom, son image et l'état de la réservation
@@ -66,11 +66,11 @@ Fonctionalitées : 1 - 2 - 3 - 4
 ### Ajouter un message avec sa réservation
 * Dans la page de l'item, si l'item n'est pas réservé, le formulaire de participation permet également de saisir un message destiné le créateur
 * La validation du formulaire enregistre le message avec la participation
-
+```
 Créateur :
 
 Fonctionalitées : 6 - 7 - 8 - 9 - 10 - 14 - 15 - 16
-
+```
 ### Créer une liste
 * Un utilisateur non authentifié peut créer une nouvelle liste de souhaits
 * Un formulaire lui permet de saisir les informations générales de la liste
@@ -105,11 +105,11 @@ Fonctionalitées : 6 - 7 - 8 - 9 - 10 - 14 - 15 - 16
 
 ### Consulter les réservations et messages d'une de ses listes après échéance
 * Après la date d'échéance de la liste, le créateur authentifié d'une liste partagée peut consulterles réservations effectuées sur sa liste avec les noms des participants et les message associés aux réservations
-
+```
 Extensions :
 
 Fonctionnalitées : 17 - 18 - 19 - 20 - 21 - 25 - 27 - 28
-
+```
 ### Créer un compte
 * Tout utilisateur non inscrit peut créer un compte à l'aide d'un formulaire
 * Il choisit alors un login et un mot de passe
