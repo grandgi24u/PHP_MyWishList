@@ -45,8 +45,10 @@ $app->post('/testerConnexion', ControleurSession::class . ':testerConnexion')->s
 $app->get('/deconnexion', ControleurSession::class . ':deconnexion')->setName('deconnexion');
 
 //Route pour le bouton "Mon Compte"
-$app->get('/compte', ControleurSession::class . ':compte')->setName('compte');
+$app->get('/compte/{login}', ControleurSession::class . ':compte')->setName('compte');
 
+//Route pour supprimer son compte
+$app->get('/supprimercompte/{login}', ControleurSession::class . ':supprimercompte')->setName('supprimercompte');
 
 
 /** Route pour les listes */

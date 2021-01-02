@@ -4,6 +4,7 @@
 namespace mywishlist\controls;
 
 use mywishlist\models\User;
+use mywishlist\vue\VueErreur;
 use mywishlist\vue\VueSession;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -107,6 +108,19 @@ class ControleurSession
             $vue = new VueSession([], $this->container);
         }
         $rs -> getBody () -> write ( $vue -> render ( 5 ) );
+        return $rs;
+    }
+
+    public function supprimercompte(Request $rq, Response $rs, $args): Response
+    {
+        if(isset($_SESSION['iduser'])){
+            User::find($_SESSION['iduser'])->delete();
+            $url = $this -> container -> router -> pathFor ( 'deconnexion' );
+            $rs = $rs -> withRedirect ( $url );
+        }else{
+            $vue = new VueErreur([], $this->container);
+            $rs -> getBody () -> write ( $vue -> render ( 0 ) );
+        }
         return $rs;
     }
 

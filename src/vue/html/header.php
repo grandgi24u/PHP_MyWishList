@@ -1,6 +1,9 @@
 <head>
     <div class="header">
         <?php
+
+        use mywishlist\models\User;
+
         $url_accueil = $this -> container -> router -> pathFor ( 'racine' );
 
         echo "<a href='$url_accueil' class='logo'>MyWishList</a>";
@@ -22,7 +25,7 @@ End;
             if (isset( $_SESSION['iduser'] )) {
                 $url_items = $this -> container -> router -> pathFor ( 'afficheritems' );
                 $url_listes = $this -> container -> router -> pathFor ( 'afficherlistes' );
-                $url_comptes = $this -> container -> router -> pathFor ( 'compte' );
+                $url_comptes = $this -> container -> router -> pathFor ( 'compte', ["login" => User::find($_SESSION['iduser'])->login] );
                 $deco = $this -> container -> router -> pathFor ( 'deconnexion' );
 
                 echo "<a href='$url_items'>Mes Participations</a>";

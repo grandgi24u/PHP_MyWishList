@@ -2,6 +2,8 @@
 
 namespace mywishlist\vue;
 
+use mywishlist\models\User;
+
 class VueSession extends VuePrincipale
 {
 
@@ -46,17 +48,21 @@ FIN;
 
     private function compte(): string
     {
+
         if(isset($_SESSION['iduser'])){
             $login = $this -> tab['login'];
             $nom = $this -> tab['nom'];
             $prenom = $this -> tab['prenom'];
-
+            $url = $this->container->router->pathFor('supprimercompte', ["login" => User::find($_SESSION['iduser'])->login]);
             $html = <<<FIN
-<ul>
-<li><p>Votre login : $login</p></li>
-<li><p>Votre nom : $nom</p></li>
-<li><p>Votre prenom : $prenom</p></li>
-</ul>
+<h1>Votre compte</h1>
+
+<p>Votre login : $login</p>
+<p>Votre nom : $nom</p>
+<p>Votre prénom : $prenom</p><br>
+
+
+<a class='button red' href='$url'>Supprimer le compte</a>
 
 FIN;
         }else{

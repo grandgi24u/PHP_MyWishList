@@ -40,6 +40,10 @@ include ("footer.php"); // footer (bas de page)
         color: white;
     }
 
+    .important {
+        color: #ff1e1e;
+    }
+
 
 
     .inMenu {

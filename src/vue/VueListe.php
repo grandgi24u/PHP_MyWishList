@@ -4,6 +4,7 @@
 namespace mywishlist\vue;
 
 
+use mywishlist\models\Liste;
 use mywishlist\models\Participation;
 
 class VueListe extends VuePrincipale
@@ -169,6 +170,7 @@ FIN;
 
     private function donnerTokenModif(): string
     {
+        $url_additem = $this->container->router->pathFor('afficherUneListeWithModif', ['tokenModif' => $this->tab['tokenModif']]);
         $html = <<<END
 <h1>Informations importantes : </h1>
 <p>
@@ -176,6 +178,7 @@ Voici le code qui va vous servir d'ajouter des items et de gerer votre liste ! <
 <strong>Garder le bien </strong>il ne vous sera pas recommuniqué : {$this->tab['tokenModif']} <br><br>
 Et voici votre code de patarge a donner a vos amis / familles / etc : {$this->tab['token']}
 </p>
+<br><a class='button' href='$url_additem'>Accéder en modification à la liste</a>
 END;
         return $html;
     }
@@ -213,11 +216,7 @@ END;
 
     private function uneListeModif(): string
     {
-        if(isset($_SESSION['iduser'])){
-            $html = "";
-        }else{
-            $html = "<h1>Mode modification</h1>";
-        }
+        $html = "<h1 class='important'>Mode modification</h1>";
         $html .= "<h1>Liste : {$this->tab['titre']}</h1>";
         $html .= "<h3>Description : {$this->tab['description']}</h3>";
         $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
@@ -228,7 +227,7 @@ END;
             $url_suppr = $this->container->router->pathFor('supprimerliste', ['tokenModif' => $this->tab['tokenModif']]);
             $html .= "<a class='button' href='$url_additem'>Ajouter un item</a>
                       <a class='button' href='$url_modif'>Modifier la liste</a>
-                      <a class='button' href='$url_suppr'>Supprimer la liste</a>";
+                      <a class='button red' href='$url_suppr'>Supprimer la liste</a>";
         }else{
             $url_suppr = $this->container->router->pathFor('supprimerliste', ['tokenModif' => $this->tab['tokenModif']]);
             $html .= "<a class='button' href='$url_suppr'>Supprimer la liste</a>";
@@ -238,7 +237,7 @@ END;
     }
 
     private function afficherItems() : String {
-        $html = "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Action</td></tr></thead><tbody>";
+        $html = "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Réservation</td><td>Action</td></tr></thead><tbody>";
         if (count($this->tab['item']) != 0) {
             foreach ($this->tab['item'] as $item) {
                 $url_modif = $this->container->router->pathFor('modifitem', ['tokenModif' => $this->tab['tokenModif'], 'no' => $item['id']]);
@@ -249,9 +248,19 @@ END;
                 }else{
                     $img = "../uploads/base.png";
                 }
+                if(Liste::where("no","=",$item['liste_id'])->first()->expiration < date("Y-m-d")){
+                    $p = Participation::where("id_item","=", $item["id"])->first();
+                    $etat = "<pre>Réserver par : " . $p->nom . " <br>Commentaire : " . $p->commentaire . "</pre>";
+                }else{
+                    if($item['etat'] == 1){
+                        $etat = "Réservé";
+                    }else{
+                        $etat = "Disponible";
+                    }
+                }
 
                 $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td>
-                          <td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td>
+                          <td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$etat}</td>
                           <td><a href='$url_modif'><i class='fa fa-edit'></i></a>
                           <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
             }
@@ -288,11 +297,6 @@ END;
             case 4 :
             {
                 VuePrincipale::$content = $this->modifliste();
-                break;
-            }
-            case 5 :
-            {
-                VuePrincipale::$content = $this->recherchenulle();
                 break;
             }
             case 6 :

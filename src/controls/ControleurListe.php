@@ -23,7 +23,7 @@ class ControleurListe
 
     public function afficherListes(Request $rq, Response $rs, $args): Response
     {
-        $listl = Liste::all();
+        $listl = Liste::all()->sortBy ('expiration');
         $lf = array();
         foreach ($listl as $l) {
             if (isset($_SESSION['iduser'])) {
@@ -47,7 +47,7 @@ class ControleurListe
 
     public function afficherlistesexpire(Request $rq, Response $rs, $args): Response
     {
-        $listl = Liste::all();
+        $listl = Liste::all()->sortBy ('expiration');
         $lf = array();
         foreach ($listl as $l) {
             if (isset($_SESSION['iduser'])) {
