@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 session_start();
 
-use mywishlist\controls\ControleurErreur;
+use mywishlist\controls\ControleurAlert;
 use mywishlist\controls\ControleurPrincipal;
 use mywishlist\controls\ControleurListe;
 use \mywishlist\controls\ControleurSession;
@@ -50,6 +50,10 @@ $app->get('/compte/{login}', ControleurSession::class . ':compte')->setName('com
 //Route pour supprimer son compte
 $app->get('/supprimercompte/{login}', ControleurSession::class . ':supprimercompte')->setName('supprimercompte');
 
+//Route pour modifier son compte
+$app->get('/modifierCompte/{login}', ControleurSession::class . ':modifierCompte')->setName('modifierCompte');
+$app->post('/modifierCompteA', ControleurSession::class . ':modifierCompteA')->setName('modifierCompteA');
+
 
 /** Route pour les listes */
 
@@ -86,8 +90,11 @@ $app->get('/recherchenulle', ControleurListe::class . ':recherchenulle')->setNam
 $app->get('/ajouterUneListe', ControleurListe::class . ':ajouterUneListe')->setName('ajouterUneListe');
 $app->post('/sajouterUneListe', ControleurListe::class . ':sajouterUneListe')->setName('sajouterUneListe');
 
-//Route pour afficher les détails d'une liste
+//Route pour afficher une liste et donnée la possibilité de la modifier
 $app->get('/afficherUneListeWithModif/{tokenModif}', ControleurListe::class . ':afficherUneListeWithModif')->setName('afficherUneListeWithModif');
+
+//Route pour ajouter un commentaire a une liste
+$app->post('/ajouterCom/{token}', ControleurListe::class . ':ajouterCom')->setName('ajouterCom');
 
 
 
@@ -118,19 +125,22 @@ $app->post('/reserverform/{token}/{id}', ControleurItem::class . ':reserverform'
 
 
 
-/** Route pour les erreurs */
+/** Route pour les messages */
 
 //Route pour une action ou il y a besoin d'etre connecte
-$app->get('/besoinconnection', ControleurErreur::class . ':besoinconnection')->setName('besoinconnection');
+$app->get('/besoinconnection', ControleurAlert::class . ':besoinconnection')->setName('besoinconnection');
 
 //Route quand la liste n'est pas trouver
-$app->get('/listnotfound', ControleurErreur::class . ':listnotfound')->setName('listnotfound');
+$app->get('/listnotfound', ControleurAlert::class . ':listnotfound')->setName('listnotfound');
 
 //Route quand la liste saisie appartient déjà à quelqu'un
-$app->get('/listappartient', ControleurErreur::class . ':listappartient')->setName('listappartient');
+$app->get('/listappartient', ControleurAlert::class . ':listappartient')->setName('listappartient');
 
 //Route pour empecher la modification ou la suppression d'un item reserver
-$app->get('/itemreserver', ControleurErreur::class . ':itemreserver')->setName('itemreserver');
+$app->get('/itemreserver', ControleurAlert::class . ':itemreserver')->setName('itemreserver');
+
+//Route pour empecher la modification ou la suppression d'un item reserver
+$app->get('/creationReussi', ControleurAlert::class . ':creationReussi')->setName('creationReussi');
 
 
 $app->run();

@@ -7,7 +7,7 @@ use mywishlist\models\Item;
 use mywishlist\models\Liste;
 use mywishlist\models\Participation;
 use mywishlist\models\User;
-use mywishlist\vue\VueErreur;
+use mywishlist\vue\VueAlert;
 use mywishlist\vue\VueItem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -84,7 +84,7 @@ class ControleurItem
         $i = Item ::where ( "id", "=", $args['no'] ) -> first ();
 
         if($i->etat == 1){
-            $vue = new VueErreur([], $this->container);
+            $vue = new VueAlert([], $this->container);
             $rs -> getBody () -> write ( $vue -> render ( 3 ) );
         }else{
             $vue = new VueItem( $i -> toArray (), $this -> container );
@@ -192,7 +192,7 @@ class ControleurItem
     {
         $i = Item ::where ( "id", "=", $args['id'] ) -> first ();
         if($i->etat == 1){
-            $vue = new VueErreur([], $this->container);
+            $vue = new VueAlert([], $this->container);
             $rs -> getBody () -> write ( $vue -> render ( 4 ) );
         }else{
             $array = array('item' => $i -> toArray (),'token' => $args['token']);

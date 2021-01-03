@@ -24,9 +24,41 @@ include ("footer.php"); // footer (bas de page)
 </html>
 <style>
 
+    input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=date] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+
+
+
     .button {
         padding: 12px;
-        text-decoration: none;
         text-decoration: none;
         font-size: 18px;
         line-height: 25px;
@@ -52,6 +84,8 @@ include ("footer.php"); // footer (bas de page)
     }
 
     .content {
+        padding: 20px;
+        padding-bottom: 50px;
         display: inline-block;
         width: 75%;
     }

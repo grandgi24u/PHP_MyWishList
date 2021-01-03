@@ -4,7 +4,7 @@
 namespace mywishlist\vue;
 
 
-class VueErreur extends VuePrincipale
+class VueAlert extends VuePrincipale
 {
 
     private $tab;
@@ -41,6 +41,10 @@ class VueErreur extends VuePrincipale
         return "<h1>L'item est déjà réserver</h1>";
     }
 
+    private function creationReussi() : String {
+        return "<h1>Création réussi</h1>";
+    }
+
     public function render($select) : String {
         switch ($select) {
             case 0 :
@@ -66,6 +70,11 @@ class VueErreur extends VuePrincipale
             case 4 :
             {
                 VuePrincipale::$content = $this->itemdejareserver();
+                break;
+            }
+            case 5 :
+            {
+                VuePrincipale::$content = $this->creationReussi();
                 break;
             }
         }

@@ -4,6 +4,7 @@
 namespace mywishlist\vue;
 
 
+use mywishlist\models\Commentaire;
 use mywishlist\models\Liste;
 use mywishlist\models\Participation;
 
@@ -125,7 +126,8 @@ END;
         $url_new_liste = $this->container->router->pathFor('nouvelleliste');
 
         $html = <<<FIN
-<form method="POST" action="$url_new_liste" style="margin-left: 2%">
+<h1>Créer une liste</h1>
+<form method="POST" action="$url_new_liste">
 	<label>Titre :<br> <input type="text" name="titre" required/></label><br><br>
 	<label>Description : <br><input type="text" name="description" required/></label><br><br>
 	<label>Date d'expiration : <br><input type="date" name="date" value=$today min=$today required/></label><br><br>
@@ -145,6 +147,7 @@ FIN;
             $a = "<label>Liste publique?</label><input type='checkbox' name='etat' value='yes'><br><br>";
         }
         $html = <<<FIN
+<h1>Modifier une liste</h1>
 <form method="POST" action="$url">
 	<label>Titre :<br> <input type="text" name="titre" value="{$this->tab['titre']}"/></label><br>
 	<label>Description : <br><input type="text" name="description" value="{$this->tab['description']}"/></label><br>
@@ -210,6 +213,37 @@ END;
             $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td></tr>";
         }
         $html .= "</tbody></table>";
+        $html .= $this->ajouterCommentaire ();
+        $html .= $this->affichageCommentaire ();
+        return $html;
+    }
+
+    public function ajouterCommentaire () : String {
+        $url = $this->container->router->pathFor('ajouterCom', ['token' => $this->tab['token']]);
+        $html = <<<FIN
+<hr><h1>Ajouter un commentaire a cette liste</h1>
+<form method="POST" action="$url">
+	<label>Nom :<br> <input type="text" name="nom" required/></label><br> 
+	<label>Commentaire : <br><input type="text" name="commentaire" required/></label><br>
+	<button class="button" type="submit">Publier</button>
+</form>	<br>
+FIN;
+        return $html;
+    }
+
+    public function affichageCommentaire () :  String {
+        $com = Commentaire::all();
+        if(Commentaire::where("id_liste","=", Liste::where("token","=",$this->tab['token'])->first()->no)->first() != null){
+            $html = "<hr><h1>Commentaires</h1>";
+        }else{
+            $html = "<hr><h1>Aucun commentaires</h1>";
+        }
+
+        foreach ($com as $c){
+            if($c->id_liste == Liste::where("token","=",$this->tab['token'])->first()->no){
+                $html .= "<h3>$c->nom : $c->text</h3>";
+            }
+        }
 
         return $html;
     }

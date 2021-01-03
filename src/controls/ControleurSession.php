@@ -4,7 +4,7 @@
 namespace mywishlist\controls;
 
 use mywishlist\models\User;
-use mywishlist\vue\VueErreur;
+use mywishlist\vue\VueAlert;
 use mywishlist\vue\VueSession;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -111,6 +111,7 @@ class ControleurSession
         return $rs;
     }
 
+    // Pour supprimer son compte de la base de données
     public function supprimercompte(Request $rq, Response $rs, $args): Response
     {
         if(isset($_SESSION['iduser'])){
@@ -118,10 +119,34 @@ class ControleurSession
             $url = $this -> container -> router -> pathFor ( 'deconnexion' );
             $rs = $rs -> withRedirect ( $url );
         }else{
-            $vue = new VueErreur([], $this->container);
+            $vue = new VueAlert([], $this->container);
             $rs -> getBody () -> write ( $vue -> render ( 0 ) );
         }
         return $rs;
+    }
+
+    public function modifierCompte(Request $rq, Response $rs, $args): Response
+    {
+        if(isset($_SESSION['iduser'])){
+            $vue = new VueSession( User::find($_SESSION['iduser'])->toArray(), $this -> container );
+            $rs -> getBody () -> write ( $vue -> render ( 6 ) );
+        }else{
+            $vue = new VueAlert([], $this->container);
+            $rs -> getBody () -> write ( $vue -> render ( 0 ) );
+        }
+        return $rs;
+    }
+
+    public function modifierCompteA(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq -> getParsedBody ();
+        $u = User::find($_SESSION['iduser']);
+
+        $u->nom = filter_var ( $post['nom'], FILTER_SANITIZE_STRING );
+        $u->prenom = filter_var ( $post['prenom'], FILTER_SANITIZE_STRING );
+        $u->save();
+
+        return $rs -> withRedirect ( $this -> container -> router -> pathFor ( 'compte', ['login' => $_SESSION['iduser']] ));
     }
 
 }
