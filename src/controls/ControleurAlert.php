@@ -48,18 +48,4 @@ class ControleurAlert
         return $rs;
     }
 
-    /*
-     * public function listnotfound(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueAlert([], $this->container);
-        $rs->getBody()->write($vue->render(1));
-        return $rs;
-    }
-
-    public function listappartient(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueAlert([], $this->container);
-        $rs->getBody()->write($vue->render(2));
-        return $rs;
-    }
-    */
-
 }

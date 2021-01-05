@@ -401,4 +401,43 @@ FIN;
         return substr ( include ("html/index.php"), 1, -1 );
     }
 
+
+    /*
+     * private function afficherItems(): string
+    {
+        $html = "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Réservation</td><td>Action</td></tr></thead><tbody>";
+        if (count ( $this -> tab['item'] ) != 0) {
+            foreach ($this -> tab['item'] as $item) {
+                $url_modif = $this -> container -> router -> pathFor ( 'modifitem', ['tokenModif' => $this -> tab['tokenModif'], 'no' => $item['id']] );
+                $url_suppr = $this -> container -> router -> pathFor ( 'supprimeritem', ['tokenModif' => $this -> tab['tokenModif'], 'no' => $item['id']] );
+
+                if (file_exists ( "../uploads/{$item['img']}" )) {
+                    $img = "../uploads/{$item['img']}";
+                } else {
+                    $img = "../uploads/base.png";
+                }
+                if (Liste ::where ( "no", "=", $item['liste_id'] ) -> first () -> expiration < date ( "Y-m-d" )) {
+                    $p = Participation ::where ( "id_item", "=", $item["id"] ) -> first ();
+                    $etat = "<pre>Réserver par : " . $p -> nom . " <br>Commentaire : " . $p -> commentaire . "</pre>";
+                } else {
+                    if ($item['etat'] == 1) {
+                        $etat = "Réservé";
+                    } else {
+                        $etat = "Disponible";
+                    }
+                }
+
+                $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td>
+                          <td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$etat}</td>
+                          <td><a href='$url_modif'><i class='fa fa-edit'></i></a>
+                          <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
+            }
+        } else {
+            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>";
+        }
+        $html .= "</tbody></table>";
+        return $html;
+    }
+     */
+
 }
