@@ -437,6 +437,27 @@ FIN;
         }
         $html .= "</tbody></table>";
         return $html;
+
+
+         $etat = "<pre>Réserver par : " . $p -> nom . " <br>Commentaire : " . $p -> commentaire . "</pre>";
+                } else {
+                    if ($item['etat'] == 1) {
+                        $etat = "Réservé";
+                    } else {
+                        $etat = "Disponible";
+                    }
+                }
+
+                $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td>
+                          <td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$etat}</td>
+                          <td><a href='$url_modif'><i class='fa fa-edit'></i></a>
+                          <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
+            }
+        } else {
+            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>";
+        }
+        $html .= "</tbody></table>";
+        return $html;
     }
      */
 

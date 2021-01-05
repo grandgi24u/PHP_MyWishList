@@ -129,4 +129,56 @@ FIN;
         return substr(include ("html/index.php"), 1,-1);
     }
 
+
+    /*
+     *   private function connexion(): string
+    {
+        $url_testpass = $this -> container -> router -> pathFor ( 'testerConnexion' );
+        $html = <<<FIN
+<form method="POST" action="$url_testpass">
+	<br><label>Identifiant :<br> <input type="text" name="login"/></label><br>
+	<label>Mot de passe : <br><input type="password" name="pass"/></label><br><br>
+	<button class="button" type="submit">Se connecter</button>
+</form>
+FIN;
+        return $html;
+    }
+
+    private function compte(): string
+    {
+        if(isset($_SESSION['iduser'])){
+            $url = $this->container->router->pathFor('supprimercompte', ["login" => User::find($_SESSION['iduser'])->login]);
+            $url_2 = $this->container->router->pathFor('modifierCompte', ["login" => User::find($_SESSION['iduser'])->login]);
+            $html = <<<FIN
+<h1>Votre compte</h1>
+
+<p>Votre login : {$this->tab['login']}</p>
+<p>Votre nom : {$this->tab['nom']}</p>
+<p>Votre prénom : {$this->tab['prenom']}</p><br>
+
+<a class='button' href='$url_2'>Modifier le compte</a>
+<a class='button red' href='$url'>Supprimer le compte</a>
+
+FIN;
+        }else{
+            $html = "<h1>Vous devez etre connecté</h1>";
+        }
+
+        return $html;
+    }
+
+    private function modifierCompte(): string
+    {
+        $url = $this -> container -> router -> pathFor ( 'modifierCompteA' );
+        $html = <<<FIN
+<form method="POST" action="$url">
+	<br><label>Nom :<br> <input type="text" name="nom" value="{$this->tab['nom']}"/></label><br>
+	<label>Prenom :<br> <input type="text" name="prenom" value="{$this->tab['prenom']}"/></label><br>
+	<label>Mot de passe : <br><input type="password" name="pass"/></label><br><br>
+	<button class="button" type="submit">Se connecter</button>
+</form>
+FIN;
+        return $html;
+    }
+     */
 }
