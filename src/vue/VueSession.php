@@ -109,8 +109,7 @@ FIN;
             }
             case 4 :
             {
-                $res = ($this -> tab['res']) ? 'connecté' : 'pas connecté';
-                VuePrincipale ::$content = 'Vous etes <b>' . $res . '</b>';
+                ($this -> tab['res']) ? VuePrincipale ::$content = 'Vous etes <b>connecté</b>' : VuePrincipale ::$content = 'Votre mot de passe est <b>Incorrect</b>';
                 break;
             }
             case 5 :

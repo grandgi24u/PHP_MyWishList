@@ -59,7 +59,7 @@ class ControleurItem
         return $rs;
     }
 
-    public function retournerItemsListe($no): array
+    public static function retournerItemsListe($no): array
     {
         $item = Item ::all ();
         $array = array();

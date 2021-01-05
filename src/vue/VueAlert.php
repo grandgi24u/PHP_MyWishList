@@ -45,7 +45,7 @@ class VueAlert extends VuePrincipale
         return "<h1>Création réussi</h1>";
     }
 
-    public function render($select) : String {
+    public function render(int $select) : String {
         switch ($select) {
             case 0 :
             {
@@ -75,6 +75,11 @@ class VueAlert extends VuePrincipale
             case 5 :
             {
                 VuePrincipale::$content = $this->creationReussi();
+                break;
+            }
+            case 6 :
+            {
+                VuePrincipale::$content = $this->erreurconnection();
                 break;
             }
         }

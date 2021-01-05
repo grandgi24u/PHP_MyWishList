@@ -25,11 +25,13 @@ End;
             if (isset( $_SESSION['iduser'] )) {
                 $url_items = $this -> container -> router -> pathFor ( 'afficheritems' );
                 $url_listes = $this -> container -> router -> pathFor ( 'afficherlistes' );
+                $url_meslistes = $this -> container -> router -> pathFor ( 'affichermeslistes' );
                 $url_comptes = $this -> container -> router -> pathFor ( 'compte', ["login" => User::find($_SESSION['iduser'])->login] );
                 $deco = $this -> container -> router -> pathFor ( 'deconnexion' );
 
+                echo "<a href='$url_listes'>Les listes publiques</a>";
                 echo "<a href='$url_items'>Mes Participations</a>";
-                echo "<a href='$url_listes'>Mes listes</a>";
+                echo "<a href='$url_meslistes'>Mes listes</a>";
                 echo "<a href='$url_comptes'>Mon Compte</a>";
                 echo "<a class='active' href='$deco'>Deconnexion</a>";
 

@@ -73,13 +73,16 @@ class ControleurSession
         $post = $rq -> getParsedBody ();
         $login = filter_var ( $post['login'], FILTER_SANITIZE_STRING );
         $pass = filter_var ( $post['pass'], FILTER_SANITIZE_STRING );
-        $u = User ::where ( 'login', '=', $login ) -> first ();
-        $res = password_verify ( $pass, $u -> pass );
+        if(User ::where ( 'login', '=', $login ) -> first () !== null){
+            $u = User ::where ( 'login', '=', $login ) -> first ();
+            if (password_verify ( $pass, $u -> pass )) $_SESSION['iduser'] = $u -> id;
+            $vue = new VueSession( ['res' => password_verify ( $pass, $u -> pass )], $this -> container );
+            $rs -> getBody () -> write ( $vue -> render ( 4 ) );
+        }else{
+            $vue = new VueAlert( [], $this -> container );
+            $rs -> getBody () -> write ( $vue -> render ( 6 ) );
+        }
 
-        if ($res) $_SESSION['iduser'] = $u -> id;
-
-        $vue = new VueSession( ['res' => $res], $this -> container );
-        $rs -> getBody () -> write ( $vue -> render ( 4 ) );
         return $rs;
     }
 

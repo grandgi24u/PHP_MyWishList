@@ -60,11 +60,17 @@ $app->post('/modifierCompteA', ControleurSession::class . ':modifierCompteA')->s
 //Route pour afficher les détails d'une liste
 $app->get('/liste/{token}', ControleurListe::class . ':afficherUneListe')->setName('afficherUneListe');
 
-//Route pour afficher les listes en cours de la personnes connectée
+//Route pour afficher les listes en cours publiques
 $app->get('/listes', ControleurListe::class . ':afficherlistes')->setName('afficherlistes');
 
-//Route pour afficher les listes en passées de la personnes connectée
+//Route pour afficher les listes en passées
 $app->get('/listesexpire', ControleurListe::class . ':afficherlistesexpire')->setName('afficherlistesexpire');
+
+//Route pour afficher les listes en cours publiques
+$app->get('/meslistes', ControleurListe::class . ':affichermeslistes')->setName('affichermeslistes');
+
+//Route pour afficher les listes en passées
+$app->get('/meslistesexpire', ControleurListe::class . ':affichermeslistesexpire')->setName('affichermeslistesexpire');
 
 //Route pour le formulaire de création de liste
 $app->get('/creerliste', ControleurListe::class . ':creerliste')->setName('creerliste');

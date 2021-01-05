@@ -29,17 +29,9 @@ class ControleurListe
         $listl = Liste ::all () -> sortBy ( 'expiration' );
         $lf = array();
         foreach ($listl as $l) {
-            if (isset( $_SESSION['iduser'] )) {
-                if ($l -> user_id == $_SESSION['iduser']) {
-                    if ($l -> expiration >= date ( "Y-m-d" )) {
-                        $lf[] = $l;
-                    }
-                }
-            } else {
-                if ($l -> acces == "public") {
-                    if ($l -> expiration >= date ( "Y-m-d" )) {
-                        $lf[] = $l;
-                    }
+            if ($l -> acces == "public") {
+                if ($l -> expiration >= date ( "Y-m-d" )) {
+                    $lf[] = $l;
                 }
             }
         }
@@ -54,14 +46,45 @@ class ControleurListe
         $listl = Liste ::all () -> sortBy ( 'expiration' );
         $lf = array();
         foreach ($listl as $l) {
-            if (isset( $_SESSION['iduser'] )) {
-                if ($l -> user_id == $_SESSION['iduser']) {
+
+                if ($l -> acces == "public") {
                     if ($l -> expiration < date ( "Y-m-d" )) {
                         $lf[] = $l;
                     }
                 }
-            } else {
-                if ($l -> acces == "public") {
+
+        }
+        $vue = new VueListe( $lf, $this -> container );
+        $rs -> getBody () -> write ( $vue -> render ( 2 ) );
+        return $rs;
+    }
+
+    // Afficher les listes qui m'appartiennent
+    public function affichermeslistes(Request $rq, Response $rs, $args): Response
+    {
+        $listl = Liste ::all () -> sortBy ( 'expiration' );
+        $lf = array();
+        foreach ($listl as $l) {
+            if (isset( $_SESSION['iduser'] )) {
+                if ($l -> user_id == $_SESSION['iduser']) {
+                    if ($l -> expiration >= date ( "Y-m-d" )) {
+                        $lf[] = $l;
+                    }
+                }
+            }
+        }
+        $vue = new VueListe( $lf, $this -> container );
+        $rs -> getBody () -> write ( $vue -> render ( 9 ) );
+        return $rs;
+    }
+
+    public function affichermeslistesexpire(Request $rq, Response $rs, $args): Response
+    {
+        $listl = Liste ::all () -> sortBy ( 'expiration' );
+        $lf = array();
+        foreach ($listl as $l) {
+            if (isset( $_SESSION['iduser'] )) {
+                if ($l -> user_id == $_SESSION['iduser']) {
                     if ($l -> expiration < date ( "Y-m-d" )) {
                         $lf[] = $l;
                     }
@@ -69,7 +92,7 @@ class ControleurListe
             }
         }
         $vue = new VueListe( $lf, $this -> container );
-        $rs -> getBody () -> write ( $vue -> render ( 2 ) );
+        $rs -> getBody () -> write ( $vue -> render ( 10 ) );
         return $rs;
     }
 
@@ -317,13 +340,13 @@ class ControleurListe
         $post = $rq -> getParsedBody ();
 
         $commentaire = new Commentaire();
-        $commentaire->id_liste = Liste::where("token", "=", $args['token'])->first()->no;
-        $commentaire->nom = filter_var ( $post['nom'], FILTER_SANITIZE_STRING );
-        $commentaire->text = filter_var ( $post['commentaire'], FILTER_SANITIZE_STRING );
+        $commentaire -> id_liste = Liste ::where ( "token", "=", $args['token'] ) -> first () -> no;
+        $commentaire -> nom = filter_var ( $post['nom'], FILTER_SANITIZE_STRING );
+        $commentaire -> text = filter_var ( $post['commentaire'], FILTER_SANITIZE_STRING );
 
-        $commentaire->save();
+        $commentaire -> save ();
 
-        return $rs -> withRedirect ( $this -> container -> router -> pathFor ( 'creationReussi' ));
+        return $rs -> withRedirect ( $this -> container -> router -> pathFor ( 'creationReussi' ) );
     }
 
 
