@@ -229,27 +229,6 @@ class ControleurListe
         $url_listes = $this -> container -> router -> pathFor ( 'afficherlistes' );
         return $rs -> withRedirect ( $url_listes );
 
-
-        /*
-        $l = Liste ::where ( "tokenModif", "=", $args['tokenModif'] ) -> first ();
-        $items = Item ::all ();
-        $participations = Participation ::all ();
-        foreach ($items as $i) {
-            foreach ($participations as $p) {
-                if ($p -> id_item == $i -> id) {
-                    if ($i -> liste_id == $l -> no) {
-                        $p -> delete ();
-                    }
-                }
-            }
-            if ($i -> liste_id == $l -> no) {
-                $i -> delete ();
-            }
-        }
-        $l -> delete ();
-        $url_listes = $this -> container -> router -> pathFor ( 'afficherlistes' );
-        return $rs -> withRedirect ( $url_listes );
-        */
     }
 
     // affichage du formulaire pour modifier une liste

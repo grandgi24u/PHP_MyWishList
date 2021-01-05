@@ -227,4 +227,45 @@ class ControleurItem
         return $rs -> withRedirect ( $url );
     }
 
+    /*
+     * public function reserver(Request $rq, Response $rs, $args): Response
+    {
+        $i = Item ::where ( "id", "=", $args['id'] ) -> first ();
+        if($i->etat == 1){
+            $vue = new VueAlert([], $this->container);
+            $rs -> getBody () -> write ( $vue -> render ( 4 ) );
+        }else{
+            $array = array('item' => $i -> toArray (),'token' => $args['token']);
+            $vue = new VueItem( $array , $this -> container );
+            $rs -> getBody () -> write ( $vue -> render ( 4 ) );
+        }
+        return $rs;
+    }
+
+    public function reserverform(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq -> getParsedBody ();
+        $nom = filter_var ( $post['nom'], FILTER_SANITIZE_STRING );
+        $commentaire = filter_var ( $post['commentaire'], FILTER_SANITIZE_STRING );
+
+        $participant = new Participation();
+        $participant->id_item = $args['id'];
+        $participant->commentaire = $commentaire;
+        if(isset($_SESSION['iduser'])){
+            $participant->id_user = $_SESSION['iduser'];
+            $participant->nom = User::find($_SESSION['iduser'])->nom;
+        }else{
+            $participant->nom = $nom;
+        }
+        $participant->save();
+
+        $item = Item::where("id","=",$args["id"])->first();
+        $item->etat = 1;
+        $item->save();
+
+        $url = $this -> container -> router -> pathFor ( 'afficherUneListe', ["token" => $args['token']] );
+        return $rs -> withRedirect ( $url );
+    }
+     */
+
 }
