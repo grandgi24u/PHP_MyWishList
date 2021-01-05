@@ -129,56 +129,1249 @@ FIN;
         return substr(include ("html/index.php"), 1,-1);
     }
 
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
 
     /*
-     *   private function connexion(): string
-    {
-        $url_testpass = $this -> container -> router -> pathFor ( 'testerConnexion' );
-        $html = <<<FIN
-<form method="POST" action="$url_testpass">
-	<br><label>Identifiant :<br> <input type="text" name="login"/></label><br>
-	<label>Mot de passe : <br><input type="password" name="pass"/></label><br><br>
-	<button class="button" type="submit">Se connecter</button>
-</form>
-FIN;
-        return $html;
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
     }
+     */
+    /*
+     * public function render(int $select) : String {
 
-    private function compte(): string
-    {
-        if(isset($_SESSION['iduser'])){
-            $url = $this->container->router->pathFor('supprimercompte', ["login" => User::find($_SESSION['iduser'])->login]);
-            $url_2 = $this->container->router->pathFor('modifierCompte', ["login" => User::find($_SESSION['iduser'])->login]);
-            $html = <<<FIN
-<h1>Votre compte</h1>
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
 
-<p>Votre login : {$this->tab['login']}</p>
-<p>Votre nom : {$this->tab['nom']}</p>
-<p>Votre prénom : {$this->tab['prenom']}</p><br>
+       VuePrincipale::$inMenu = "";
 
-<a class='button' href='$url_2'>Modifier le compte</a>
-<a class='button red' href='$url'>Supprimer le compte</a>
+       return substr(include ("html/index.php"), 1,-1);
 
-FIN;
-        }else{
-            $html = "<h1>Vous devez etre connecté</h1>";
-        }
+   }
 
-        return $html;
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
     }
+     */
+    /*
+     * public function render(int $select) : String {
 
-    private function modifierCompte(): string
-    {
-        $url = $this -> container -> router -> pathFor ( 'modifierCompteA' );
-        $html = <<<FIN
-<form method="POST" action="$url">
-	<br><label>Nom :<br> <input type="text" name="nom" value="{$this->tab['nom']}"/></label><br>
-	<label>Prenom :<br> <input type="text" name="prenom" value="{$this->tab['prenom']}"/></label><br>
-	<label>Mot de passe : <br><input type="password" name="pass"/></label><br><br>
-	<button class="button" type="submit">Se connecter</button>
-</form>
-FIN;
-        return $html;
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+ * public function render(int $select) : String {
+
+   switch($select){
+       case 0 : {
+           VuePrincipale::$content = $this->accueil();
+       }
+   }
+
+   VuePrincipale::$inMenu = "";
+
+   return substr(include ("html/index.php"), 1,-1);
+
+}
+
+public function getContent(): String {
+   return VuePrincipale::$content;
+}
+
+public function getInMenu(): String {
+    return VuePrincipale::$inMenu;
+}
+ */
+
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+ * public function render(int $select) : String {
+
+   switch($select){
+       case 0 : {
+           VuePrincipale::$content = $this->accueil();
+       }
+   }
+
+   VuePrincipale::$inMenu = "";
+
+   return substr(include ("html/index.php"), 1,-1);
+
+}
+
+public function getContent(): String {
+   return VuePrincipale::$content;
+}
+
+public function getInMenu(): String {
+    return VuePrincipale::$inMenu;
+}
+ */
+
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
+    }
+     */
+    /*
+     * public function render(int $select) : String {
+
+       switch($select){
+           case 0 : {
+               VuePrincipale::$content = $this->accueil();
+           }
+       }
+
+       VuePrincipale::$inMenu = "";
+
+       return substr(include ("html/index.php"), 1,-1);
+
+   }
+
+   public function getContent(): String {
+       return VuePrincipale::$content;
+   }
+
+    public function getInMenu(): String {
+        return VuePrincipale::$inMenu;
     }
      */
 }
