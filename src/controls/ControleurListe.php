@@ -181,6 +181,30 @@ class ControleurListe
             $rs -> getBody () -> write ( $vue -> render ( 3 ) );
         }
         return $rs;
+
+
+        /*
+        $liste = Liste ::where ( "token", "=", $args['token'] ) -> first ();
+
+        $array = array();
+
+        $array['no'] = $liste -> no;
+        $array['user_id'] = $liste -> user_id;
+        $array['titre'] = $liste -> titre;
+        $array['description'] = $liste -> description;
+        $array['date'] = $liste -> expiration;
+        $array['token'] = $liste -> token;
+        $array['tokenModif'] = $liste -> tokenModif;
+        $array['item'] = ControleurItem ::retournerItemsListe ( $liste -> no );
+
+        $vue = new VueListe( $array, $this -> container );
+        if (isset( $_SESSION['iduser'] ) && $_SESSION['iduser'] == $liste -> user_id) {
+            $rs -> getBody () -> write ( $vue -> render ( 8 ) );
+        } else {
+            $rs -> getBody () -> write ( $vue -> render ( 3 ) );
+        }
+        return $rs;
+        */
     }
 
     // suppresion d'une liste
@@ -204,6 +228,28 @@ class ControleurListe
         $l -> delete ();
         $url_listes = $this -> container -> router -> pathFor ( 'afficherlistes' );
         return $rs -> withRedirect ( $url_listes );
+
+
+        /*
+        $l = Liste ::where ( "tokenModif", "=", $args['tokenModif'] ) -> first ();
+        $items = Item ::all ();
+        $participations = Participation ::all ();
+        foreach ($items as $i) {
+            foreach ($participations as $p) {
+                if ($p -> id_item == $i -> id) {
+                    if ($i -> liste_id == $l -> no) {
+                        $p -> delete ();
+                    }
+                }
+            }
+            if ($i -> liste_id == $l -> no) {
+                $i -> delete ();
+            }
+        }
+        $l -> delete ();
+        $url_listes = $this -> container -> router -> pathFor ( 'afficherlistes' );
+        return $rs -> withRedirect ( $url_listes );
+        */
     }
 
     // affichage du formulaire pour modifier une liste
@@ -234,6 +280,26 @@ class ControleurListe
 
         $url_listes = $this -> container -> router -> pathFor ( 'afficherUneListeWithModif', ["tokenModif" => $l -> tokenModif] );
         return $rs -> withRedirect ( $url_listes );
+
+
+        /*
+         * $post = $rq -> getParsedBody ();
+        $acces = filter_var ( $post['etat'], FILTER_SANITIZE_STRING );
+
+        $l = Liste ::where ( "tokenModif", "=", $args['tokenModif'] ) -> first ();
+        $l -> titre = filter_var ( $post['titre'], FILTER_SANITIZE_STRING );
+        $l -> description = filter_var ( $post['description'], FILTER_SANITIZE_STRING );
+        $l -> expiration = filter_var ( $post['date'], FILTER_SANITIZE_STRING );
+        if ($acces == "yes") {
+            $l -> acces = "public";
+        } else {
+            $l -> acces = "private";
+        }
+        $l -> save ();
+
+        $url_listes = $this -> container -> router -> pathFor ( 'afficherUneListeWithModif', ["tokenModif" => $l -> tokenModif] );
+        return $rs -> withRedirect ( $url_listes );
+         */
     }
 
     // fonction pour afficher une liste grace a la recherche
