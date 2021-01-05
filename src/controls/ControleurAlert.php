@@ -60,18 +60,6 @@ class ControleurAlert
         $rs->getBody()->write($vue->render(2));
         return $rs;
     }
-
-    public function itemreserver(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueAlert([], $this->container);
-        $rs->getBody()->write($vue->render(3));
-        return $rs;
-    }
-
-    public function creationReussi(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueAlert([], $this->container);
-        $rs->getBody()->write($vue->render(5));
-        return $rs;
-    }
-     */
+    */
 
 }

@@ -260,25 +260,6 @@ class ControleurListe
         $url_listes = $this -> container -> router -> pathFor ( 'afficherUneListeWithModif', ["tokenModif" => $l -> tokenModif] );
         return $rs -> withRedirect ( $url_listes );
 
-
-        /*
-         * $post = $rq -> getParsedBody ();
-        $acces = filter_var ( $post['etat'], FILTER_SANITIZE_STRING );
-
-        $l = Liste ::where ( "tokenModif", "=", $args['tokenModif'] ) -> first ();
-        $l -> titre = filter_var ( $post['titre'], FILTER_SANITIZE_STRING );
-        $l -> description = filter_var ( $post['description'], FILTER_SANITIZE_STRING );
-        $l -> expiration = filter_var ( $post['date'], FILTER_SANITIZE_STRING );
-        if ($acces == "yes") {
-            $l -> acces = "public";
-        } else {
-            $l -> acces = "private";
-        }
-        $l -> save ();
-
-        $url_listes = $this -> container -> router -> pathFor ( 'afficherUneListeWithModif', ["tokenModif" => $l -> tokenModif] );
-        return $rs -> withRedirect ( $url_listes );
-         */
     }
 
     // fonction pour afficher une liste grace a la recherche

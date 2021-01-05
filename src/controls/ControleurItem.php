@@ -266,6 +266,46 @@ class ControleurItem
         $url = $this -> container -> router -> pathFor ( 'afficherUneListe', ["token" => $args['token']] );
         return $rs -> withRedirect ( $url );
     }
+
+    $participant = new Participation();
+        $participant->id_item = $args['id'];
+        $participant->commentaire = $commentaire;
+        if(isset($_SESSION['iduser'])){
+            $participant->id_user = $_SESSION['iduser'];
+            $participant->nom = User::find($_SESSION['iduser'])->nom;
+        }else{
+            $participant->nom = $nom;
+        }
+        $participant->save();
+
+        $item = Item::where("id","=",$args["id"])->first();
+        $item->etat = 1;
+        $item->save();
+
+        $url = $this -> container -> router -> pathFor ( 'afficherUneListe', ["token" => $args['token']] );
+        return $rs -> withRedirect ( $url );
+    }
+
+    $participant = new Participation();
+        $participant->id_item = $args['id'];
+        $participant->commentaire = $commentaire;
+        if(isset($_SESSION['iduser'])){
+            $participant->id_user = $_SESSION['iduser'];
+            $participant->nom = User::find($_SESSION['iduser'])->nom;
+        }else{
+            $participant->nom = $nom;
+        }
+        $participant->save();
+
+        $item = Item::where("id","=",$args["id"])->first();
+        $item->etat = 1;
+        $item->save();
+
+        $url = $this -> container -> router -> pathFor ( 'afficherUneListe', ["token" => $args['token']] );
+        return $rs -> withRedirect ( $url );
+    }
      */
+
+
 
 }
