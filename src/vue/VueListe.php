@@ -402,9 +402,3 @@ FIN;
     }
 
 }
-
-// VueItem
-// VueItem
-
-
-
