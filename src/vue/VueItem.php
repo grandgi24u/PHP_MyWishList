@@ -75,7 +75,7 @@ END;
 	<label>Tarif : <br><input type="text" name="tarif"/></label><br>
 	<label>Url (site) : <br><input type="text" name="url"/></label><br>
 	<button class="button" type="submit">Ajouter l'item</button>
-</form>	
+</form>
 FIN;
         return $html;
     }
@@ -92,11 +92,11 @@ FIN;
 	<label>Url de l'image : <br><input type="text" name="img" value="{$this->tab['img']}"/></label><br><br>
 	<label for="fileUpload">Ou uploadez votre image :</label><br>
         <input type="file" name="fileToUpload" id="fileToUpload">
-        
+
         <p><strong>Note:</strong> Seuls les formats .jpg, .jpeg, .gif, .png sont autorisés jusqu'à une taille maximale de 10 Mo.</p>
-	
+
 	<button class="button" type="submit">Enregistrer la modification</button>
-</form>	
+</form>
 FIN;
         return $html;
     }
@@ -114,7 +114,7 @@ FIN;
 	<br>$a
 	<label>Commentaire : <br><input type="text" name="commentaire" /></label><br><br>
 	<button class="button" type="submit">Enregistrer la réservation</button>
-</form>	
+</form>
 FIN;
         return $html;
     }
@@ -151,3 +151,42 @@ FIN;
 
 
 }
+
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem// VueItem
+// VueItem
+// VueItem// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
