@@ -156,7 +156,7 @@ END;
 	<label>Date d'expiration : <br><input type="date" name="date" value=$today min=$today required/></label><br><br>
 	<label>Liste publique?</label><input type='checkbox' name='etat' value='yes'><br><br>
 	<button class="button" type="submit">Enregistrer la liste</button>
-</form>	
+</form>
 FIN;
         return $html;
     }
@@ -177,7 +177,7 @@ FIN;
 	<label>Date d'expiration : <br><input type="date" name="date" value="{$this -> tab['expiration']}"/></label><br>
 	$a
 	<button class="button" type="submit">Enregistrer la modification</button>
-</form>	
+</form>
 FIN;
         return $html;
     }
@@ -189,7 +189,7 @@ FIN;
 <form method="POST" action="$url">
 	<label>Code de modification :<br> <input type="text" name="token" required/></label><br>
 	<button class="button" type="submit">Ajouter</button>
-</form>	
+</form>
 FIN;
         return $html;
     }
@@ -229,7 +229,7 @@ END;
                     $p = Participation ::where ( "id_item", "=", $item["id"] ) -> first ();
                     $etat = "<pre>Réserver par : " . $p -> nom . " <br>Commentaire : " . $p -> commentaire . "</pre>";
                 }
-                $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td><td>{$item['nom']}</td> 
+                $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td><td>{$item['nom']}</td>
                           <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$etat}</td>";
             }
         } else {
@@ -247,7 +247,7 @@ END;
         $html = <<<FIN
 <hr><h1>Ajouter un commentaire a cette liste</h1>
 <form method="POST" action="$url">
-	<label>Nom :<br> <input type="text" name="nom" required/></label><br> 
+	<label>Nom :<br> <input type="text" name="nom" required/></label><br>
 	<label>Commentaire : <br><input type="text" name="commentaire" required/></label><br>
 	<button class="button" type="submit">Publier</button>
 </form>	<br>
@@ -402,3 +402,72 @@ FIN;
     }
 
 }
+
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+
+// VueItem
+
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem// VueItem
+
+// VueItem
+// VueItem// VueItem
+// VueItem// VueItem// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+
+// VueItem
+
+// VueItem
+// VueItem
+// VueItem
+// VueItem// VueItem
+
+// VueItem
+// VueItem
+// VueItem
+// VueItem// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
+// VueItem
