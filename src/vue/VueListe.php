@@ -214,7 +214,7 @@ END;
         $html = "<h1>Liste : {$this->tab['titre']}</h1>";
         $html .= "<h3>Description : {$this->tab['description']}</h3>";
         $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
-        $html .= "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Etat de reservation</td></tr></thead><tbody>";
+        $html .= "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Tarif</td><td>Etat de reservation</td></tr></thead><tbody>";
         if (count ( $this -> tab['item'] ) != 0) {
             foreach ($this -> tab['item'] as $item) {
                 if (file_exists ( "../uploads/{$item['img']}" )) {
@@ -223,14 +223,18 @@ END;
                     $img = "../uploads/base.png";
                 }
                 if ($item['etat'] == 0) {
-                    $url_additem = $this -> container -> router -> pathFor ( 'reserver', ['token' => $this -> tab['token'], "id" => $item['id']] );
-                    $etat = "<a class='button red' href='$url_additem'>Reserver</a>";
+                    if(Liste ::where ( "no", "=", $item['liste_id'] ) -> first () -> expiration >= date ( "Y-m-d" )){
+                        $url_additem = $this -> container -> router -> pathFor ( 'reserver', ['token' => $this -> tab['token'], "id" => $item['id']] );
+                        $etat = "<a class='button red' href='$url_additem'>Reserver</a>";
+                    }else{
+                        $etat = "<p>Pas de réservation</p>";
+                    }
                 } else {
                     $p = Participation ::where ( "id_item", "=", $item["id"] ) -> first ();
                     $etat = "<pre>Réserver par : " . $p -> nom . " <br>Commentaire : " . $p -> commentaire . "</pre>";
                 }
                 $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td><td>{$item['nom']}</td> 
-                          <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$etat}</td>";
+                          <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$item['tarif']}</td><td>{$etat}</td>";
             }
         } else {
             $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td></tr>";
@@ -297,7 +301,7 @@ FIN;
 
     private function afficherItems(): string
     {
-        $html = "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Réservation</td><td>Action</td></tr></thead><tbody>";
+        $html = "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Tarif</td><td>Réservation</td><td>Action</td></tr></thead><tbody>";
         if (count ( $this -> tab['item'] ) != 0) {
             foreach ($this -> tab['item'] as $item) {
                 $url_modif = $this -> container -> router -> pathFor ( 'modifitem', ['tokenModif' => $this -> tab['tokenModif'], 'no' => $item['id']] );
@@ -308,7 +312,7 @@ FIN;
                 } else {
                     $img = "../uploads/base.png";
                 }
-                if (Liste ::where ( "no", "=", $item['liste_id'] ) -> first () -> expiration < date ( "Y-m-d" )) {
+                if (Liste ::where ( "no", "=", $item['liste_id'] ) -> first () -> expiration < date ( "Y-m-d" ) && $item['etat'] == 1) {
                     $p = Participation ::where ( "id_item", "=", $item["id"] ) -> first ();
                     $etat = "<pre>Réserver par : " . $p -> nom . " <br>Commentaire : " . $p -> commentaire . "</pre>";
                 } else {
@@ -320,12 +324,12 @@ FIN;
                 }
 
                 $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td>
-                          <td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$etat}</td>
+                          <td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$item['tarif']}</td><td>{$etat}</td>
                           <td><a href='$url_modif'><i class='fa fa-edit'></i></a>
                           <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
             }
         } else {
-            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>";
+            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>";
         }
         $html .= "</tbody></table>";
         return $html;
