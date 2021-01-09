@@ -45,6 +45,14 @@ class VueAlert extends VuePrincipale
         return "<h1>Création réussi</h1>";
     }
 
+    private function motdepasse() : String {
+        return "<h1>Modification de votre mot de passe reussi</h1>";
+    }
+
+    private function echecmotdepasse() : String {
+        return "<h1>Mot de passe invalide</h1>";
+    }
+
     public function render(int $select) : String {
         switch ($select) {
             case 0 :
@@ -80,6 +88,16 @@ class VueAlert extends VuePrincipale
             case 6 :
             {
                 VuePrincipale::$content = $this->erreurconnection();
+                break;
+            }
+            case 7 :
+            {
+                VuePrincipale::$content = $this->motdepasse();
+                break;
+            }
+            case 8 :
+            {
+                VuePrincipale::$content = $this->echecmotdepasse();
                 break;
             }
         }

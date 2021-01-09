@@ -148,6 +148,13 @@ $app->get('/itemreserver', ControleurAlert::class . ':itemreserver')->setName('i
 //Route pour empecher la modification ou la suppression d'un item reserver
 $app->get('/creationReussi', ControleurAlert::class . ':creationReussi')->setName('creationReussi');
 
+//Route pour la reussite de la modification de mot de passe
+$app->get('/motdepasse', ControleurAlert::class . ':motdepasse')->setName('motdepasse');
+
+//Route pour la reussite de la modification de mot de passe
+$app->get('/echecmotdepasse', ControleurAlert::class . ':echecmotdepasse')->setName('echecmotdepasse');
+
+
 
 $app->run();
 

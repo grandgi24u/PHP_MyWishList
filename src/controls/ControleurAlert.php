@@ -53,4 +53,19 @@ class ControleurAlert
         return $rs;
     }
 
+    public function motdepasse(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueAlert( [], $this -> container );
+        $rs -> getBody () -> write ( $vue -> render ( 7 ) );
+        return $rs;
+    }
+
+    public function echecmotdepasse(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueAlert( [], $this -> container );
+        $rs -> getBody () -> write ( $vue -> render ( 8 ) );
+        return $rs;
+    }
+
+
 }

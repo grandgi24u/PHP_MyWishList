@@ -76,8 +76,12 @@ FIN;
 <form method="POST" action="$url">
 	<br><label>Nom :<br> <input type="text" name="nom" value="{$this->tab['nom']}"/></label><br>
 	<label>Prenom :<br> <input type="text" name="prenom" value="{$this->tab['prenom']}"/></label><br>
-	<label>Mot de passe : <br><input type="password" name="pass"/></label><br><br>
-	<button class="button" type="submit">Se connecter</button>
+	<label>Ancien Mot de passe : <br><input type="password" name="oldpass"/></label><br><br>
+	
+	<h2>Ne pas remplir pour ne pas changer son mot de passe</h2>
+	<label>Nouveau Mot de passe : <br><input type="password" name="pass"/></label><br><br>
+	
+	<button class="button" type="submit">Enregistrer</button>
 </form>	
 FIN;
         return $html;
