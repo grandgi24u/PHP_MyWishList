@@ -44,7 +44,7 @@ Suivi : [Carnet de bord](https://docs.google.com/spreadsheets/d/1624796koU7YWj59
 ```
 Participant :
 
-Fonctionalitées : 1 - 2 - 3 - 4
+Fonctionalitées : 1 - 2 - 3 - 4 - 5
 ```
 ### Afficher une liste de souhaits
 * L'affichage du détail d'une liste présente toutes les informations de la liste accompagnées de la liste des items
@@ -66,6 +66,11 @@ Fonctionalitées : 1 - 2 - 3 - 4
 ### Ajouter un message avec sa réservation
 * Dans la page de l'item, si l'item n'est pas réservé, le formulaire de participation permet également de saisir un message destiné le créateur
 * La validation du formulaire enregistre le message avec la participation
+
+## Ajouter un message sur une liste
+* Dans la page d'une liste, un formulaire permet d'ajouter un message public rattaché à la liste
+* Les messages sur la liste seront affichés avec le détail de la liste
+
 ```
 Créateur :
 
