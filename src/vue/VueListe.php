@@ -7,6 +7,7 @@ namespace mywishlist\vue;
 use mywishlist\models\Commentaire;
 use mywishlist\models\Liste;
 use mywishlist\models\Participation;
+use mywishlist\models\User;
 
 class VueListe extends VuePrincipale
 {
@@ -211,48 +212,62 @@ END;
 
     private function uneListe(): string
     {
-        $html = "<h1>Liste : {$this->tab['titre']}</h1>";
-        $html .= "<h3>Description : {$this->tab['description']}</h3>";
-        $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
-        $html .= "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Tarif</td><td>Etat de reservation</td></tr></thead><tbody>";
-        if (count ( $this -> tab['item'] ) != 0) {
-            foreach ($this -> tab['item'] as $item) {
-                if (file_exists ( "../uploads/{$item['img']}" )) {
-                    $img = "../uploads/{$item['img']}";
-                } else {
-                    $img = "../uploads/base.png";
-                }
-                if ($item['etat'] == 0) {
-                    if(Liste ::where ( "no", "=", $item['liste_id'] ) -> first () -> expiration >= date ( "Y-m-d" )){
-                        $url_additem = $this -> container -> router -> pathFor ( 'reserver', ['token' => $this -> tab['token'], "id" => $item['id']] );
-                        $etat = "<a class='button red' href='$url_additem'>Reserver</a>";
-                    }else{
-                        $etat = "<p>Pas de réservation</p>";
+        if(isset($_COOKIE['liste']) && in_array ($this->tab['tokenModif'],$_COOKIE['liste'])){
+            $html = $this -> uneListeModif ();
+        }else{
+            $html = "<h1>Liste : {$this->tab['titre']}</h1>";
+            $html .= "<h3>Description : {$this->tab['description']}</h3>";
+            $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
+            $html .= "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Tarif</td><td>Etat de reservation</td></tr></thead><tbody>";
+            if (count ( $this -> tab['item'] ) != 0) {
+                foreach ($this -> tab['item'] as $item) {
+                    if (file_exists ( "../uploads/{$item['img']}" )) {
+                        $img = "../uploads/{$item['img']}";
+                    } else {
+                        $img = "../uploads/base.png";
                     }
-                } else {
-                    $p = Participation ::where ( "id_item", "=", $item["id"] ) -> first ();
-                    $etat = "<pre>Réserver par : " . $p -> nom . " <br>Commentaire : " . $p -> commentaire . "</pre>";
-                }
-                $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td><td>{$item['nom']}</td> 
+                    if ($item['etat'] == 0) {
+                        if(Liste ::where ( "no", "=", $item['liste_id'] ) -> first () -> expiration >= date ( "Y-m-d" )){
+                            $url_additem = $this -> container -> router -> pathFor ( 'reserver', ['token' => $this -> tab['token'], "id" => $item['id']] );
+                            $etat = "<a class='button red' href='$url_additem'>Reserver</a>";
+                        }else{
+                            $etat = "<p>Pas de réservation</p>";
+                        }
+                    } else {
+                        $p = Participation ::where ( "id_item", "=", $item["id"] ) -> first ();
+                        $etat = "<pre>Réserver par : " . $p -> nom . " <br>Commentaire : " . $p -> commentaire . "</pre>";
+                    }
+                    $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td><td>{$item['nom']}</td> 
                           <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$item['tarif']}</td><td>{$etat}</td>";
+                }
+            } else {
+                $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>";
             }
-        } else {
-            $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td></tr>";
+            $html .= "</tbody></table>";
+            $html .= $this -> ajouterCommentaire ();
+            $html .= $this -> affichageCommentaire ();
         }
-        $html .= "</tbody></table>";
-        $html .= $this -> ajouterCommentaire ();
-        $html .= $this -> affichageCommentaire ();
         return $html;
     }
 
     public function ajouterCommentaire(): string
     {
         $url = $this -> container -> router -> pathFor ( 'ajouterCom', ['token' => $this -> tab['token']] );
+        if(isset($_COOKIE['commentaire'])){
+            if(isset($_COOKIE['iduser'])){
+                $value = User::find($_COOKIE['iduser'])->nom;
+            }else{
+                $value = $_COOKIE['commentaire'];
+            }
+            $content = "<label>Nom :<br> <input type='text' name='nom' value='$value' required/></label><br> ";
+        }else{
+            $content = "<label>Nom :<br> <input type='text' name='nom' required/></label><br> ";
+        }
         $html = <<<FIN
 <hr><h1>Ajouter un commentaire a cette liste</h1>
 <form method="POST" action="$url">
-	<label>Nom :<br> <input type="text" name="nom" required/></label><br> 
-	<label>Commentaire : <br><input type="text" name="commentaire" required/></label><br>
+	$content
+	<label>Commentaire : <br><input type='text' name='commentaire' required/></label><br>
 	<button class="button" type="submit">Publier</button>
 </form>	<br>
 FIN;

@@ -148,7 +148,7 @@ class ControleurSession
         $u->nom = filter_var ( $post['nom'], FILTER_SANITIZE_STRING );
         $u->prenom = filter_var ( $post['prenom'], FILTER_SANITIZE_STRING );
 
-        if(filter_var ( $post['pass'], FILTER_SANITIZE_STRING ) !== null ){
+        if(filter_var ( $post['pass'], FILTER_SANITIZE_STRING ) !== "" ){
             if(password_verify ( filter_var ( $post['oldpass'], FILTER_SANITIZE_STRING ), $u -> pass )){
                 $u->pass = password_hash ( filter_var ( $post['pass'], FILTER_SANITIZE_STRING ), PASSWORD_DEFAULT );
                 $url = $this -> container -> router -> pathFor ( 'motdepasse' );

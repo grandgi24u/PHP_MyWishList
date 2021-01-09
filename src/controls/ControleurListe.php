@@ -133,6 +133,16 @@ class ControleurListe
         $l -> user_id = $user_id;
         $l -> save ();
 
+        if(isset($_COOKIE['liste'])){
+            $a = count($_COOKIE['liste']);
+            $a++;
+            setcookie ("liste[$a]", $l->tokenModif, time() + (10 * 365 * 24 * 60 * 60), '/');
+        }else{
+            $a = 0;
+            setcookie ("liste[$a]", $l->tokenModif, time() + (10 * 365 * 24 * 60 * 60), '/');
+        }
+
+
         return $rs -> withRedirect ( $url );
     }
 
@@ -181,30 +191,6 @@ class ControleurListe
             $rs -> getBody () -> write ( $vue -> render ( 3 ) );
         }
         return $rs;
-
-
-        /*
-        $liste = Liste ::where ( "token", "=", $args['token'] ) -> first ();
-
-        $array = array();
-
-        $array['no'] = $liste -> no;
-        $array['user_id'] = $liste -> user_id;
-        $array['titre'] = $liste -> titre;
-        $array['description'] = $liste -> description;
-        $array['date'] = $liste -> expiration;
-        $array['token'] = $liste -> token;
-        $array['tokenModif'] = $liste -> tokenModif;
-        $array['item'] = ControleurItem ::retournerItemsListe ( $liste -> no );
-
-        $vue = new VueListe( $array, $this -> container );
-        if (isset( $_SESSION['iduser'] ) && $_SESSION['iduser'] == $liste -> user_id) {
-            $rs -> getBody () -> write ( $vue -> render ( 8 ) );
-        } else {
-            $rs -> getBody () -> write ( $vue -> render ( 3 ) );
-        }
-        return $rs;
-        */
     }
 
     // suppresion d'une liste
@@ -361,9 +347,12 @@ class ControleurListe
         return $rs;
     }
 
+    // ajout d'un commentaire sur une liste
     public function ajouterCom(Request $rq, Response $rs, $args): Response
     {
         $post = $rq -> getParsedBody ();
+
+        setcookie("commentaire", filter_var ( $post['nom'], FILTER_SANITIZE_STRING ), time() + (10 * 365 * 24 * 60 * 60), '/') ;
 
         $commentaire = new Commentaire();
         $commentaire -> id_liste = Liste ::where ( "token", "=", $args['token'] ) -> first () -> no;
