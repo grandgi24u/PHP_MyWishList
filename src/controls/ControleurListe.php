@@ -136,10 +136,10 @@ class ControleurListe
         if(isset($_COOKIE['liste'])){
             $a = count($_COOKIE['liste']);
             $a++;
-            setcookie ("liste[$a]", $l->tokenModif, time() + (10 * 365 * 24 * 60 * 60), '/');
+            setcookie ("liste[$a]", $l->tokenModif, $l->expiration, '/');
         }else{
             $a = 0;
-            setcookie ("liste[$a]", $l->tokenModif, time() + (10 * 365 * 24 * 60 * 60), '/');
+            setcookie ("liste[$a]", $l->tokenModif, $l->expiration, '/');
         }
 
 
