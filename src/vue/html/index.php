@@ -195,10 +195,14 @@ include ("footer.php"); // footer (bas de page)
         line-height: 25px;
         border-radius: 4px;
     }
-
+    .header .logo img {
+        padding: 5px;
+        height : 44px;
+    }
     .header a.logo {
         font-size: 25px;
         font-weight: bold;
+        padding: 3px;
     }
 
     .header a:hover {

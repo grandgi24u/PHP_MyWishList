@@ -6,7 +6,7 @@
 
         $url_accueil = $this -> container -> router -> pathFor ( 'racine' );
 
-        echo "<a href='$url_accueil' class='logo'>MyWishList</a>";
+        echo "<a href='$url_accueil' class='logo'><img src = 'img/logo.svg'></a>";
 
         $url_rechercher = $this -> container -> router -> pathFor ( 'rechercher' );
         echo <<<End
