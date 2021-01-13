@@ -67,7 +67,7 @@ Fonctionalitées : 1 - 2 - 3 - 4 - 5
 * Dans la page de l'item, si l'item n'est pas réservé, le formulaire de participation permet également de saisir un message destiné le créateur
 * La validation du formulaire enregistre le message avec la participation
 
-## Ajouter un message sur une liste
+### Ajouter un message sur une liste
 * Dans la page d'une liste, un formulaire permet d'ajouter un message public rattaché à la liste
 * Les messages sur la liste seront affichés avec le détail de la liste
 
