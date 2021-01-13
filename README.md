@@ -1,7 +1,8 @@
 # Projet MyWishList
 
 ## Description du projet
-A détailler
+
+MyWishList est une application en ligne pour créer, partager et gérer des listes de cadeaux. L'application permet de créer une liste de souhaits à l'occasion d'un événement particulier (anniversaire, fin d'année, mariage, retraite …) et lui permet de diffuser cette liste de souhaits à un ensemble de personnes concernées. Vous pouvez donc consulter cette liste et s'engager à offrir 1 élément de la liste. 
 
 ## Membre du groupe
 * GRANDGIRARD Clément
