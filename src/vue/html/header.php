@@ -17,9 +17,9 @@
     </form>	
 </div>
 End;
-
-        ?>
         //partie droite du header
+        ?>
+
         <div class="header-right">
 
             <?php

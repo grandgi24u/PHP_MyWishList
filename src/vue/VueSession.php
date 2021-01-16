@@ -154,7 +154,7 @@ FIN;
             //Si select vaut 6
             case 6 :
             {
-                //Le contenue est le formulaire de creation de compte
+                //Le contenue est le formulaire de modification de compte
                 VuePrincipale ::$content = $this -> modifierCompte ();
                 break;
             }

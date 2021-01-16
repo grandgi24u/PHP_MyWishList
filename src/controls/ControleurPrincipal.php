@@ -23,6 +23,4 @@ class ControleurPrincipal{
         //retoutrn la reponse
         return $rs;
     }
-
-
 }
