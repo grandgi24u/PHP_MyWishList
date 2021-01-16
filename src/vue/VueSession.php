@@ -12,6 +12,8 @@ class VueSession extends VuePrincipale
     //Constructeur de vue VueSession
     public function __Construct($t, $c)
     {
+        $this->tab = $t;
+        $this->container = $c;
         //herite du constructeur de VuePrincipale
         parent ::__construct ( $t, $c );
     }
