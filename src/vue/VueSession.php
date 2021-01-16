@@ -9,17 +9,18 @@ class VueSession extends VuePrincipale
 
     private $tab;
     private $container;
-
+    //Constructeur de vue VueSession
     public function __Construct($t, $c)
     {
-        $this -> tab = $t;
-        $this -> container = $c;
+        //herite du constructeur de VuePrincipale
         parent ::__construct ( $t, $c );
     }
-
+    //Cette methode genere du formulaire d'enregistrement
     private function formEnregistrement(): string
     {
+        //Definition du path qui appelle un nouvelle enregistement
         $url_nouveaulogin = $this -> container -> router -> pathFor ( 'nouvelEnregistrement' );
+        //definition du formulaire html qui recupere les informations d'enregistremnts
         $html = <<<FIN
 <form method="POST" action="$url_nouveaulogin">
     <br><label>Nom : <br><input type="text" name="nom"/></label><br>
@@ -30,12 +31,15 @@ class VueSession extends VuePrincipale
 	<button class="button" type="submit">Creer le compte</button>
 </form>	
 FIN;
+        //retourne le formulaire
         return $html;
     }
-
+    //Cette methode genere le formulaire de connexion
     private function connexion(): string
     {
+        //Definition du path qui appelle un nouvelle tentative de connexion
         $url_testpass = $this -> container -> router -> pathFor ( 'testerConnexion' );
+        //definition du formulaire html qui recupere les informations de connexion
         $html = <<<FIN
 <form method="POST" action="$url_testpass">
 	<br><label>Identifiant :<br> <input type="text" name="login"/></label><br>
@@ -43,14 +47,20 @@ FIN;
 	<button class="button" type="submit">Se connecter</button>
 </form>	
 FIN;
+        //retourne le formulaire
         return $html;
     }
-
+    //Cette methode retourne la vue des information de l'utilisateur
     private function compte(): string
     {
+        //si la variable de session iduser existe
+        //l'utilisateur est connecte
         if(isset($_SESSION['iduser'])){
+            //definition de la route du bouton qui mene a la suppression du compte
             $url = $this->container->router->pathFor('supprimercompte', ["login" => User::find($_SESSION['iduser'])->login]);
+            //definition de la route du bouton qui mene a la modification des informations du compte
             $url_2 = $this->container->router->pathFor('modifierCompte', ["login" => User::find($_SESSION['iduser'])->login]);
+            //Contenue html de la vue Session lorsque l'utilisateur est connecte
             $html = <<<FIN
 <h1>Votre compte</h1>
 
@@ -63,9 +73,12 @@ FIN;
 
 FIN;
         }else{
+            //si iduser n'existe pas
+            //un message previens que l'utilisateur dois ce connecter
             $html = "<h1>Vous devez etre connecté</h1>";
         }
-
+        //retourne le les information du compte
+        //ou l'alerte
         return $html;
     }
 
