@@ -9,14 +9,16 @@ class VuePrincipale
     private $container;
     public static $content;
     public static $inMenu;
-
+    //constructeur de la vue Principale
    public function __Construct($t, $c){
        $this->tab = $t;
        $this->container = $c;
    }
-
+    //Cette methode genere la page d'accueil du site
    public function accueil() : String {
+       //definition de l'url du lien qui mene a la creation de liste
        $url_creerlistes = $this -> container -> router -> pathFor ( 'creerliste' );
+       //Message de bienvenue du site
        $html = <<<END
 
 <center><h1>Bienvenue sur le site MyWishList</h1></center>
@@ -32,25 +34,27 @@ et s'engager à offrir 1 élément de la liste.
 END;
         return $html;
    }
-
+   //Cette methode envoie les contenue de la pages d'accueil e fonction de l'entier select
    public function render(int $select) : String {
 
        switch($select){
+           //Dans le cas ou select vaut 0
            case 0 : {
+               //on associe a la varial content (contenue) le message d'accueil
                VuePrincipale::$content = $this->accueil();
            }
        }
-
+        //On vide la variable inMenue
        VuePrincipale::$inMenu = "";
-
+        //retourne le fichier index qui contien principalement le css du site
        return substr(include ("html/index.php"), 1,-1);
 
    }
-
+    //getter du contenue de la vu principal
    public function getContent(): String {
        return VuePrincipale::$content;
    }
-
+    //getter du contenue de la variable inMenu
     public function getInMenu(): String {
         return VuePrincipale::$inMenu;
     }
