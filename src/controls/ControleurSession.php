@@ -104,7 +104,7 @@ class ControleurSession
         if(User ::where ( 'login', '=', $login ) -> first () !== null){
             //u associe l'utilisateur unique du meme login de la db
             $u = User ::where ( 'login', '=', $login ) -> first ();
-            //si le mot de pass correspond
+            //si le mot de passe correspond
             //on creer une variable de session iduser qui contient l'id de l'utilisateur
             if (password_verify ( $pass, $u -> pass )) $_SESSION['iduser'] = $u -> id;
             //On creer un instance de session qui prend en parametre le resultat du password verify
@@ -125,78 +125,116 @@ class ControleurSession
     //Fin de la session
     public function deconnexion(Request $rq, Response $rs, $args): Response
     {
+        //detruit la session
         session_destroy ();
+        //Reinitialisation de la session a []
         $_SESSION = [];
-
+        //creation d'une nouvelle vue session
         $vue = new VueSession( [], $this -> container );
+        //Implementation du rendu 3 dans la reponse
         $rs -> getBody () -> write ( $vue -> render ( 3 ) );
+        //retourne la response
         return $rs;
     }
 
     //Affichage mon compte
     public function compte(Request $rq, Response $rs, $args): Response
     {
+        //Si l'utilisateur est connecter
         if(isset($_SESSION['iduser'])){
+            //recuperation de l'utilisateur dans la db
             $user = User ::find ( $_SESSION['iduser'] );
+            //creation d'une vue session
+            //Elle contient les informations du user
             $vue = new VueSession( [
                 'login' => $user -> login,
                 'nom' => $user -> nom,
                 'prenom' => $user -> prenom
             ], $this -> container );
         }else{
+            //si personnes n'est conétcet
+            //on renvoie une sessions vide
             $vue = new VueSession([], $this->container);
         }
+        //Implementation du rendu 5 dans la reponse
         $rs -> getBody () -> write ( $vue -> render ( 5 ) );
+        //on envoie la reponse
         return $rs;
     }
 
     // Pour supprimer son compte de la base de données
     public function supprimercompte(Request $rq, Response $rs, $args): Response
     {
+        //Si l'utilisateur est connecter
         if(isset($_SESSION['iduser'])){
+            //recuperation de l'utilisateur dans la db
             User::find($_SESSION['iduser'])->delete();
+            //definition du chemin pour deconnecter le client
             $url = $this -> container -> router -> pathFor ( 'deconnexion' );
+            //Implementation du chemin en redirection dans la reponse
             $rs = $rs -> withRedirect ( $url );
         }else{
+            //si il n'est pas connecter
+            //on cree une alerte
             $vue = new VueAlert([], $this->container);
+            //Implementation du rendu 0 dans la reponse
             $rs -> getBody () -> write ( $vue -> render ( 0 ) );
         }
+        //retourne reponse
         return $rs;
     }
 
     public function modifierCompte(Request $rq, Response $rs, $args): Response
     {
+        //Si l'utilisateur est connecter
         if(isset($_SESSION['iduser'])){
+            //creation d'une vue session
+            //elle contient les informations du user
             $vue = new VueSession( User::find($_SESSION['iduser'])->toArray(), $this -> container );
+            //Implementation du rendu 6 dans la reponse
             $rs -> getBody () -> write ( $vue -> render ( 6 ) );
         }else{
+            //si il n'est pas connecter
+            //on cree une alerte
             $vue = new VueAlert([], $this->container);
+            //Implementation du rendu 0 dans la reponse
             $rs -> getBody () -> write ( $vue -> render ( 0 ) );
         }
+        //retourne reponse
         return $rs;
     }
 
     public function modifierCompteA(Request $rq, Response $rs, $args): Response
     {
+        //Recuperation des informations du formulaire dans un tableau post
         $post = $rq -> getParsedBody ();
+        //recuperation de l'utilisateur dans la db
         $u = User::find($_SESSION['iduser']);
-
+        //on modifie les variables par celle donner par le client
+        //on remplace le nom
         $u->nom = filter_var ( $post['nom'], FILTER_SANITIZE_STRING );
+        //on remplace le prenom
         $u->prenom = filter_var ( $post['prenom'], FILTER_SANITIZE_STRING );
-
+        //Si le mot de passe n'est pas vide
         if(filter_var ( $post['pass'], FILTER_SANITIZE_STRING ) !== "" ){
+            //Si l'anciens mot de passe correspond a celui donné par l'utilisateur
             if(password_verify ( filter_var ( $post['oldpass'], FILTER_SANITIZE_STRING ), $u -> pass )){
+                //On remplace le nouveau mot de passe
                 $u->pass = password_hash ( filter_var ( $post['pass'], FILTER_SANITIZE_STRING ), PASSWORD_DEFAULT );
+                //definition du chemin vers le message de validation
                 $url = $this -> container -> router -> pathFor ( 'motdepasse' );
             }else{
+                //si le mot de passe ne correspond pas
+                //definition du chemin vers le message d'echec
                 $url = $this -> container -> router -> pathFor ( 'echecmotdepasse' );
             }
         }else{
+            //definition du chemin l'affichage du compte
             $url = $this -> container -> router -> pathFor ( 'compte', ['login' => $_SESSION['iduser']] );
         }
-
+        //sauvegarde de l'utilisateur modifié
         $u->save();
-
+        //retourne la reponse
         return $rs -> withRedirect ($url);
     }
 
