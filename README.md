@@ -82,7 +82,7 @@ Fonctionalitées : 1 - 2 - 3 - 4 - 5
 ```
 Créateur :
 
-Fonctionalitées : 6 - 7 - 8 - 9 - 10 - 14 - 15 - 16
+Fonctionalitées : 6 - 7 - 8 - 9 - 10 - 11 - 12 - 13 - 14 - 15 - 16
 ```
 ### Créer une liste
 * Un utilisateur non authentifié peut créer une nouvelle liste de souhaits
@@ -107,6 +107,17 @@ Fonctionalitées : 6 - 7 - 8 - 9 - 10 - 14 - 15 - 16
 
 ### Supprimer un item
 * Le créateur d'une liste peut supprimer un item d'un de ses listes si il n'est pas reservé
+
+### Rajouter une image à un item
+* Le créateur d'une liste peut ajouter une image à un de ses items
+* Pour cela il fournit l'URL complète d'une image externe (acceptant le hot-linking) ou bien le chemin relatif d'une image déjà présente dans le dossier web/img/
+
+### Modifier une image d'un item
+* Le créateur d'une liste peut modifier l'URL de l'image de ses items
+
+### Supprimer une image d'un item
+* Le créateur d'une liste peut supprimer l'image de ses items
+* Dans le cas d'une image locale, le fichier de l'image n'est pas supprimé
 
 ### Partager une liste
 * Une fois la liste entièrement saisie, le créateur peut la partager
