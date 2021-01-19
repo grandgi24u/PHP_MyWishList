@@ -85,7 +85,7 @@ include ("footer.php"); // footer (bas de page)
 
     .content {
         padding: 20px;
-        padding-bottom: 50px;
+        padding-bottom: 100px;
         display: inline-block;
         width: 75%;
     }

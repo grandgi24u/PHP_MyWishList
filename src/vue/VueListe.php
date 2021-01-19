@@ -131,9 +131,9 @@ END;
                     $html .= " <a href='$url_modif'><i class='fa fa-edit'></i></a>
                                       <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
                 }
-                //Ferme les balises html
-                $html .= "</tbody></table>";
             }
+            //Ferme les balises html
+            $html .= "</tbody></table>";
         } else {
             //Si il n'y a pas de liste dans le tableau
             //on affiche
@@ -299,102 +299,60 @@ END;
         return $html;
     }
 
-    //affice une liste
+    //
     private function uneListe(): string
     {
-        //si il y a une liste dans les cookies et que le token de modification est present
         if(isset($_COOKIE['liste']) && in_array ($this->tab['tokenModif'],$_COOKIE['liste'])){
-            //renvois vers l'affichage de modification
             $html = $this -> uneListeModif ();
         }else{
-            //sinon
-            //ecrit le titre de la liste
             $html = "<h1>Liste : {$this->tab['titre']}</h1>";
-            //implemente la description de la liste
             $html .= "<h3>Description : {$this->tab['description']}</h3>";
-            //implemente la cle de partage de la liste
             $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
-            //implemente le tableau qui contien les items
             $html .= "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Tarif</td><td>Etat de reservation</td></tr></thead><tbody>";
-            //si il y a des items
             if (count ( $this -> tab['item'] ) != 0) {
-                //pour chaque items
                 foreach ($this -> tab['item'] as $item) {
-                    //si il y a une image
-                    if (file_exists ( "../uploads/{$item['img']}" )) {
-                        //elle est ajouter a la vu
-                        $img = "../uploads/{$item['img']}";
+                    if ($item['img'] != null) {
+                        $img = "{$this->container->router->pathFor('racine')}uploads/{$item['img']}";
                     } else {
-                        //si non
-                        //on mais l'image de base
-                        $img = "../uploads/base.png";
+                        $img = "{$this->container->router->pathFor('racine')}uploads/base.png";
                     }
-                    //si l'item n'est pas reserver
                     if ($item['etat'] == 0) {
-                        //si la liste n'est pas expirer
                         if(Liste ::where ( "no", "=", $item['liste_id'] ) -> first () -> expiration >= date ( "Y-m-d" )){
-                            //on defini l'url qui permet de reserver l'item
                             $url_additem = $this -> container -> router -> pathFor ( 'reserver', ['token' => $this -> tab['token'], "id" => $item['id']] );
-                            //on creer le bouton
                             $etat = "<a class='button red' href='$url_additem'>Reserver</a>";
                         }else{
-                            //si la liste est expirer
-                            //on affiche le message suivant
                             $etat = "<p>Pas de réservation</p>";
                         }
                     } else {
-                        //si l'item est reserver
-                        //on recupere le participant
                         $p = Participation ::where ( "id_item", "=", $item["id"] ) -> first ();
-                        //affiche les detail de la participation
                         $etat = "<pre>Réserver par : " . $p -> nom . " <br>Commentaire : " . $p -> commentaire . "</pre>";
                     }
-                    //remplie le tableau avec les informations de l'item
                     $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td><td>{$item['nom']}</td> 
                           <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$item['tarif']}</td><td>{$etat}</td>";
                 }
             } else {
-                //si il n'y a pas d'item
-                //on affiche aucun item
                 $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>";
             }
-            //ferme les balises html
             $html .= "</tbody></table>";
-            //ajoute le formulaire pour les commentaires
             $html .= $this -> ajouterCommentaire ();
-            //ajoute les commentaires precedement poster
             $html .= $this -> affichageCommentaire ();
         }
-        //retourne la page
         return $html;
     }
 
-    //creer le formulaire de commentaire
     public function ajouterCommentaire(): string
     {
-        //url associe le chemin qui appelle l'enregistrement d'un commentaire
         $url = $this -> container -> router -> pathFor ( 'ajouterCom', ['token' => $this -> tab['token']] );
-        //si il a un commentaire dans les cookies
         if(isset($_COOKIE['commentaire'])){
-            //si l'utilisateur est connecter
             if(isset($_COOKIE['iduser'])){
-                //on tire le nom du compte utilisateur
                 $value = User::find($_COOKIE['iduser'])->nom;
             }else{
-                //si n'est pas connecter
-                //on tire le nom de la variable commentaire
                 $value = $_COOKIE['commentaire'];
-
             }
-            //
-            //ajoute la valeur au contenue html
             $content = "<label>Nom :<br> <input type='text' name='nom' value='$value' required/></label><br> ";
         }else{
-            //sinon
-            //l'input est vide
             $content = "<label>Nom :<br> <input type='text' name='nom' required/></label><br> ";
         }
-        //creation du module complet
         $html = <<<FIN
 <hr><h1>Ajouter un commentaire a cette liste</h1>
 <form method="POST" action="$url">
@@ -403,200 +361,144 @@ END;
 	<button class="button" type="submit">Publier</button>
 </form>	<br>
 FIN;
-        //retourne l'html
         return $html;
     }
 
-    //affiche les commentaires de la liste
     public function affichageCommentaire(): string
     {
-        //on recupere tout les commentaires
         $com = Commentaire ::all ();
-        //si il y a des commentaires pour cette liste
         if (Commentaire ::where ( "id_liste", "=", Liste ::where ( "token", "=", $this -> tab['token'] ) -> first () -> no ) -> first () != null) {
-            //on affiche
             $html = "<hr><h1>Commentaires</h1>";
         } else {
-            //si il n'y a pas de commentaire
-            //on affiche
             $html = "<hr><h1>Aucun commentaires</h1>";
         }
-        //pour chaque commentaire dans com
+
         foreach ($com as $c) {
-            //si il appartient a la liste
             if ($c -> id_liste == Liste ::where ( "token", "=", $this -> tab['token'] ) -> first () -> no) {
-                //on l'ajoute a l'html
                 $html .= "<h3>$c->nom : $c->text</h3>";
             }
         }
-        //retourne l'html
+
         return $html;
     }
 
-    //affiche le mode modification
     private function uneListeModif(): string
     {
-        //on affiche les caracteristique de la liste
         $html = "<h1 class='important'>Mode modification</h1>";
         $html .= "<h1>Liste : {$this->tab['titre']}</h1>";
         $html .= "<h3>Description : {$this->tab['description']}</h3>";
         $html .= "<h3>Clé de partage : {$this->tab['token']}</h3>";
         $html .= $this -> afficherItems ();
-        //si elle n'est pas expirer
         if ($this -> tab['date'] >= date ( "Y-m-d" )) {
-            //on definie les routes des diferentes fonctions
             $url_additem = $this -> container -> router -> pathFor ( 'additem', ['tokenModif' => $this -> tab['tokenModif'], "no" => $this -> tab['no']] );
             $url_modif = $this -> container -> router -> pathFor ( 'listemodif', ['tokenModif' => $this -> tab['tokenModif']] );
             $url_suppr = $this -> container -> router -> pathFor ( 'supprimerliste', ['tokenModif' => $this -> tab['tokenModif']] );
-            //creer les boutons
             $html .= "<a class='button' href='$url_additem'>Ajouter un item</a>
                       <a class='button' href='$url_modif'>Modifier la liste</a>
                       <a class='button red' href='$url_suppr'>Supprimer la liste</a>";
         } else {
-            //si elle est expirer
-            //definie le chemin de suppression de liste
             $url_suppr = $this -> container -> router -> pathFor ( 'supprimerliste', ['tokenModif' => $this -> tab['tokenModif']] );
-            //place le bouton dans l'html
             $html .= "<a class='button' href='$url_suppr'>Supprimer la liste</a>";
         }
-        //retourn l'html
+
         return $html;
     }
 
     private function afficherItems(): string
     {
-        //initialise le tableau
         $html = "<table class='styled-table' ><thead><tr><td>Image</td><td>Item</td><td>Description</td><td>Url</td><td>Tarif</td><td>Réservation</td><td>Action</td></tr></thead><tbody>";
-        //si il y a des items
         if (count ( $this -> tab['item'] ) != 0) {
-            //pour chaque item
             foreach ($this -> tab['item'] as $item) {
-                //creation des chemins
-                $url_modif = $this->container->router->pathFor('modifitem', ['tokenModif' => $this->tab['tokenModif'], 'no' => $item['id']]);
-                $url_suppr = $this->container->router->pathFor('supprimeritem', ['tokenModif' => $this->tab['tokenModif'], 'no' => $item['id']]);
-                //si il y a une image
-                if (file_exists("../uploads/{$item['img']}")) {
-                    //on l'ajoute au module de l'item
-                    $img = "../uploads/{$item['img']}";
+                $url_modif = $this -> container -> router -> pathFor ( 'modifitem', ['tokenModif' => $this -> tab['tokenModif'], 'no' => $item['id']] );
+                $url_suppr = $this -> container -> router -> pathFor ( 'supprimeritem', ['tokenModif' => $this -> tab['tokenModif'], 'no' => $item['id']] );
+
+                if ($item['img'] != null) {
+                    $img = "{$this->container->router->pathFor('racine')}uploads/{$item['img']}";
                 } else {
-                    //sinon
-                    //on met l'image de base
-                    $img = "../uploads/base.png";
+                    $img = "{$this->container->router->pathFor('racine')}uploads/base.png";
                 }
-                //si la liste est expirer et que l'item est reserver
-                if (Liste::where("no", "=", $item['liste_id'])->first()->expiration < date("Y-m-d") && $item['etat'] == 1) {
-                    //on recupere le participant
-                    $p = Participation::where("id_item", "=", $item["id"])->first();
-                    //on affiche les detailles dans l'html
-                    $etat = "<pre>Réserver par : " . $p->nom . " <br>Commentaire : " . $p->commentaire . "</pre>";
+                if (Liste ::where ( "no", "=", $item['liste_id'] ) -> first () -> expiration < date ( "Y-m-d" ) && $item['etat'] == 1) {
+                    $p = Participation ::where ( "id_item", "=", $item["id"] ) -> first ();
+                    $etat = "<pre>Réserver par : " . $p -> nom . " <br>Commentaire : " . $p -> commentaire . "</pre>";
                 } else {
-                    //sinon
-                    //si l'etat vos 1
                     if ($item['etat'] == 1) {
-                        //on met l'etat a reservé
                         $etat = "Réservé";
                     } else {
-                        //sinon
-                        //on met l'etat a disponible
                         $etat = "Disponible";
                     }
                 }
-                //on creer l'html
+
                 $html .= "<tr><td><img style='height:80px; width: 80px;' src='$img'></td>
                           <td>{$item['nom']}</td> <td>{$item['descr']}</td> <td>{$item['url']}</td><td>{$item['tarif']}</td><td>{$etat}</td>
                           <td><a href='$url_modif'><i class='fa fa-edit'></i></a>
                           <a href='$url_suppr'><i class='fa fa-trash'></i></a></td></tr>";
             }
-        //si il n'y a pas d'item
         } else {
-            //on affiche aucun item
             $html .= "<tr><td>Aucun item</td> <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>";
         }
-        //ferme les baises
         $html .= "</tbody></table>";
-        //return le resultat
         return $html;
     }
-    //methode de rendu
+
     public function render(int $select): string
     {
         switch ($select) {
-            //dans le cas 0
             case 0 :
             {
-                //affiche les listes publiques
                 $menu = $this -> menulistesPubliques ();
                 VuePrincipale ::$content = $this -> lesListes ();
                 break;
             }
-            //dans le cas 1
             case 1 :
             {
-                //affiche la creation de liste
                 $menu = "";
                 VuePrincipale ::$content = $this -> creerliste ();
                 break;
             }
-            //dans le cas 2
             case 2 :
             {
-                //affiche les listes publiques expirer
                 $menu = $this -> menulistesPubliques ();
                 VuePrincipale ::$content = $this -> lesListesexpire ();
                 break;
             }
-            //dans le cas 3
             case 3 :
             {
-                //affiche la liste courante
                 $menu = $this -> menulistesPubliques ();
                 VuePrincipale ::$content = $this -> uneListe ();
                 break;
             }
-            //dans le cas 4
             case 4 :
             {
-                //affiche la modification de liste
                 $menu = $this -> menulistesPubliques ();
                 VuePrincipale ::$content = $this -> modifliste ();
                 break;
             }
-            //dans le cas 6
             case 6 :
             {
-                //affiche l'ajout de liste
                 $menu = $this -> menuMeslistes ();
                 VuePrincipale ::$content = $this -> ajouterUneListe ();
                 break;
             }
-            //dans le cas 7
             case 7 :
             {
-                //affiche le token de modification
                 $menu = $this -> menulistesPubliques ();
                 VuePrincipale ::$content = $this -> donnerTokenModif ();
                 break;
             }
-            //dans le cas 8
             case 8 :
             {
-                //affiche la modification de liste
                 $menu = $this -> menulistesPubliques ();
                 VuePrincipale ::$content = $this -> uneListeModif ();
                 break;
             }
-            //dans le cas 9
             case 9 :
             {
-                //affiche les listes privees
                 $menu = $this -> menuMeslistes ();
                 VuePrincipale ::$content = $this -> meslistes ();
                 break;
             }
-            //dans le cas 10
             case 10 :
             {
-                //affiche les listes privees expirees
                 $menu = $this -> menuMeslistes ();
                 VuePrincipale ::$content = $this -> meslistesexpires ();
                 break;
@@ -604,10 +506,6 @@ FIN;
         }
 
         VuePrincipale ::$inMenu = $menu;
-
-
-
-
 
         return substr ( include ("html/index.php"), 1, -1 );
     }
