@@ -24,6 +24,7 @@ class VueSession extends VuePrincipale
         $url_nouveaulogin = $this -> container -> router -> pathFor ( 'nouvelEnregistrement' );
         //definition du formulaire html qui recupere les informations d'enregistremnts
         $html = <<<FIN
+<h1>Créer un compte</h1>
 <form method="POST" action="$url_nouveaulogin">
     <br><label>Nom : <br><input type="text" name="nom"/></label><br>
     <label>Prenom : <br><input type="text" name="prenom"/></label><br>
@@ -43,6 +44,7 @@ FIN;
         $url_testpass = $this -> container -> router -> pathFor ( 'testerConnexion' );
         //definition du formulaire html qui recupere les informations de connexion
         $html = <<<FIN
+<h1>Se connecter</h1>
 <form method="POST" action="$url_testpass">
 	<br><label>Identifiant :<br> <input type="text" name="login"/></label><br>
 	<label>Mot de passe : <br><input type="password" name="pass"/></label><br><br>
