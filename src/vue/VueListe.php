@@ -444,7 +444,7 @@ FIN;
         $html .= $this -> afficherItems ();
         //si elle n'est pas expirer
         if ($this -> tab['date'] >= date ( "Y-m-d" )) {
-            //on definie les routes des diferentes fonction
+            //on definie les routes des diferentes fonctions
             $url_additem = $this -> container -> router -> pathFor ( 'additem', ['tokenModif' => $this -> tab['tokenModif'], "no" => $this -> tab['no']] );
             $url_modif = $this -> container -> router -> pathFor ( 'listemodif', ['tokenModif' => $this -> tab['tokenModif']] );
             $url_suppr = $this -> container -> router -> pathFor ( 'supprimerliste', ['tokenModif' => $this -> tab['tokenModif']] );
@@ -613,42 +613,3 @@ FIN;
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -22,7 +22,7 @@ class ControleurItem
     {
         $this -> container = $container;
     }
-
+    //Donne tout les item de la liste
     public function afficherItems(Request $rq, Response $rs, $args): Response
     {
         $particpation = Participation ::all ();
@@ -40,7 +40,7 @@ class ControleurItem
         $rs -> getBody () -> write ( $vue -> render ( 0 ) );
         return $rs;
     }
-
+    //Permet de trouver les items expirer
     public function afficherItemsexpire(Request $rq, Response $rs, $args): Response
     {
         $particpation = Participation ::all ();
@@ -58,7 +58,7 @@ class ControleurItem
         $rs -> getBody () -> write ( $vue -> render ( 1 ) );
         return $rs;
     }
-
+    //Donne tout les item de la liste
     public static function retournerItemsListe($no): array
     {
         $item = Item ::all ();
@@ -78,7 +78,7 @@ class ControleurItem
         $rs -> getBody () -> write ( $vue -> render ( 2 ) );
         return $rs;
     }
-
+    //gere les modifications d'items
     public function modifitem(Request $rq, Response $rs, $args): Response
     {
         $i = Item ::where ( "id", "=", $args['no'] ) -> first ();
@@ -93,7 +93,7 @@ class ControleurItem
 
         return $rs;
     }
-
+    //gere les donnees recu lors de la modification d'items
     public function modifieritem(Request $rq, Response $rs, $args): Response
     {
         $post = $rq -> getParsedBody ();
@@ -154,7 +154,7 @@ class ControleurItem
         $url = $this -> container -> router -> pathFor ( 'afficherUneListeWithModif', ['tokenModif' => $args['tokenModif']] );
         return $rs -> withRedirect ( $url );
     }
-
+    //gere les ajouts d'items a une liste
     public function ajouteritem(Request $rq, Response $rs, $args): Response
     {
         $post = $rq -> getParsedBody ();
@@ -175,7 +175,7 @@ class ControleurItem
         $url = $this -> container -> router -> pathFor ( 'afficherUneListeWithModif', ['tokenModif' => $args['tokenModif']] );
         return $rs -> withRedirect ( $url );
     }
-
+    //gere les suppressions d'item
     public function supprimeritem(Request $rq, Response $rs, $args): Response
     {
         $i = Item ::where ( "id", "=", $args['no'] ) -> first ();
@@ -187,7 +187,7 @@ class ControleurItem
         }
         return $rs -> withRedirect ( $url );
     }
-
+    //gere les reservation d'item
     public function reserver(Request $rq, Response $rs, $args): Response
     {
         $i = Item ::where ( "id", "=", $args['id'] ) -> first ();
@@ -201,7 +201,7 @@ class ControleurItem
         }
         return $rs;
     }
-
+    //gere les donnees recu du formulaire de reservation d'item
     public function reserverform(Request $rq, Response $rs, $args): Response
     {
         $post = $rq -> getParsedBody ();
@@ -229,3 +229,55 @@ class ControleurItem
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
