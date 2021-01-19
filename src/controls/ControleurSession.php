@@ -45,6 +45,8 @@ class ControleurSession
         //nom pass le mot de passe entré par l'utisateur
         $pass = filter_var ( $post['pass'], FILTER_SANITIZE_STRING );
 
+        //On instancie une nouvelle vu session
+        $vue = new VueSession( ['login' => $login], $this -> container );
         //Virifie qu'il n'exite pas un utilisateur avec ce login dans la base de donnée
         $nb = User ::where ( 'login', '=', $login ) -> count ();
         if ($nb == 0) {
@@ -59,14 +61,12 @@ class ControleurSession
             $u -> pass = password_hash ( $pass, PASSWORD_DEFAULT );
             //enfin on envoie l'utilsateur dans la db
             $u -> save ();
+            //on implement le body venant d'une vueSession dans le cas 1
+            $rs -> getBody () -> write ( $vue -> render ( 1 ) );
         } else {
             //Si il existe deja on remplce le login par ce message
-            $login = 'existe déjà';
+            $rs -> getBody () -> write ( $vue -> render ( 7) );;
         }
-        //On instancie une nouvelle vu session
-        $vue = new VueSession( ['login' => $login], $this -> container );
-        //on implement le body venant d'une vueSession dans le cas 1
-        $rs -> getBody () -> write ( $vue -> render ( 1 ) );
         //On envoie la reponse
         return $rs;
     }
@@ -152,7 +152,7 @@ class ControleurSession
                 'prenom' => $user -> prenom
             ], $this -> container );
         }else{
-            //si personnes n'est conétcet
+            //si personne n'est connecte
             //on renvoie une sessions vide
             $vue = new VueSession([], $this->container);
         }
@@ -239,3 +239,68 @@ class ControleurSession
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -158,6 +158,13 @@ FIN;
                 VuePrincipale ::$content = $this -> modifierCompte ();
                 break;
             }
+            //Si select vaut 7
+            case 7 :
+            {
+                //Le contenue est le formulaire de modification de compte
+                VuePrincipale ::$content = "<h1>Ce login est déjà pris</h1>";
+                break;
+            }
         }
         //on vide la variable inMenu
         VuePrincipale::$inMenu = "";
